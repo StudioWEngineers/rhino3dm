@@ -2,11 +2,7 @@
 
 #pragma once
 
-#if defined(ON_PYTHON_COMPILE)
 void initLayerBindings(rh3dmpymodule& m);
-#else
-void initLayerBindings(void* m);
-#endif
 
 class BND_Layer : public BND_CommonObject
 {

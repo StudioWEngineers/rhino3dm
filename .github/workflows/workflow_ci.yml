@@ -119,7 +119,6 @@ jobs:
         with:
           path: dist
           name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
-          retention-days: ${{ env.RETENTION_DAYS }}
 
   test_python_bdist:
     name: test py ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist

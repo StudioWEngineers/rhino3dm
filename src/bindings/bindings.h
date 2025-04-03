@@ -3,9 +3,6 @@
 // no need to export RH_C_FUNCTION in these libraries
 #define RH_C_FUNCTION
 
-#if defined(__EMSCRIPTEN__)
-#define ON_WASM_COMPILE
-#else
 #define ON_PYTHON_COMPILE
 #if defined(NANOBIND)
   #include <nanobind/nanobind.h>
@@ -44,42 +41,22 @@ std::string ToStdString(const py::str& str);
 
 #include "../lib/opennurbs/opennurbs.h"
 
-#if defined(ON_WASM_COMPILE)
-#include <emscripten/bind.h>
-#include <emscripten/emscripten.h>
-#endif
-
-#if defined(ON_PYTHON_COMPILE)
 typedef py::dict BND_DICT;
 typedef py::tuple BND_Color;
 typedef py::tuple BND_Color4f;
 typedef py::tuple BND_TUPLE;
 typedef py::handle BND_DateTime;
 typedef py::list BND_LIST;
-#endif
-
-#if defined(ON_WASM_COMPILE)
-typedef emscripten::val BND_DICT;
-typedef emscripten::val BND_Color;
-typedef emscripten::val BND_Color4f;
-typedef emscripten::val BND_TUPLE;
-typedef emscripten::val BND_DateTime;
-typedef emscripten::val BND_LIST;
-#endif
 
 BND_TUPLE CreateTuple(int count);
 BND_TUPLE NullTuple();
 template<typename T>
 void SetTuple(BND_TUPLE& tuple, int index, const T& value)
 {
-#if defined(ON_PYTHON_COMPILE)
 #if defined(NANOBIND)
   UNIMPLEMENTED_EXCEPTION;
 #else
   tuple[index] = value;
-#endif
-#else
-  tuple.set(index, value);
 #endif
 }
 
@@ -122,22 +99,13 @@ BND_LIST NullList();
 template<typename T>
 void Insert(BND_LIST& list, int index, const T& value)
 {
-#if defined(ON_PYTHON_COMPILE)
   list.insert(index, value);
-#else
-  list.set(index, value);
-#endif
 }
 
 template<typename T>
 void Append(BND_LIST& list, const T& value)
 {
-#if defined(ON_PYTHON_COMPILE)
   list.append(value);
-#else
-  int count = list["length"].as<int>();
-  list.set(count++, value);
-#endif
 }
 
 BND_DateTime CreateDateTime(struct tm t);

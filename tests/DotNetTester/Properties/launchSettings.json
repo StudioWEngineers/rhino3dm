@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "DotNetTester": {
-      "commandName": "Project",
-      "nativeDebugging": true
-    }
-  }
-}

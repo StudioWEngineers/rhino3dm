@@ -37,7 +37,6 @@ std::string ToStdString(const py::str& str);
   #include "datetime.h"
   #pragma comment(lib, "rpcrt4.lib")
   #pragma comment(lib, "shlwapi.lib")
-#endif
 
 #include "../lib/opennurbs/opennurbs.h"
 

@@ -12,14 +12,10 @@ import sys
 import os
 import argparse
 from sys import platform as _platform
-from subprocess import Popen, PIPE
 import shlex
 import shutil
 import fileinput
-if sys.version_info[0] < 3:
-    import imp
-else:
-    from importlib.machinery import SourceFileLoader
+from importlib.machinery import SourceFileLoader
 import time
 
 # ---------------------------------------------------- Globals ---------------------------------------------------------
@@ -28,17 +24,14 @@ xcode_logging = False
 verbose = False
 overwrite = False
 popen_shell_mode = False
-valid_platform_args = ["windows", "linux", "macos", "ios", "android", "js", "python", "nodejs"]
-platform_full_names = {'windows':'Windows', 'linux':'Linux', 'macos': 'macOS', 'ios': 'iOS', 'android': 'Android', 'js': 'JavaScript', 'nodejs':'NodeJS' }
+valid_platform_args = ["windows", "python"]
+platform_full_names = {'windows':'Windows'}
 script_folder = os.path.abspath(os.path.dirname(os.path.realpath(__file__)))
 src_folder = os.path.abspath(os.path.join(script_folder, "..", "src"))
 build_folder = os.path.abspath(os.path.join(src_folder, "build"))
 librhino3dm_native_folder = os.path.abspath(os.path.join(src_folder, "librhino3dm_native"))
 
-if sys.version_info[0] < 3:
-    bootstrap = imp.load_source('bootstrap', os.path.join(script_folder, "bootstrap.py"))
-else:
-    bootstrap = SourceFileLoader('bootstrap', os.path.join(script_folder, "bootstrap.py")).load_module()
+bootstrap = SourceFileLoader('bootstrap', os.path.join(script_folder, "bootstrap.py")).load_module()
 
 # ---------------------------------------------------- Logging ---------------------------------------------------------
 # colors for terminal reporting
@@ -85,7 +78,7 @@ def print_ok_message(ok_message):
 def run_command(command, suppress_errors=False):
     print(command)
     verbose = True #we don't yet have a command-line switch for this, if we ever need one.
-    if suppress_errors:                
+    if suppress_errors:
         dev_null = open(os.devnull, 'w')
         stderr = dev_null
     else:
@@ -95,31 +88,22 @@ def run_command(command, suppress_errors=False):
             process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=stderr)
     else:
             process = subprocess.Popen(shlex.split(command), stdout=subprocess.PIPE, stderr=stderr)
-    
+
     while True:
-        line = process.stdout.readline()             
+        line = process.stdout.readline()
         if process.poll() is not None and not line:
-            break   
+            break
         if line:
-            if sys.version_info[0] < 3:
-                if verbose:
-                    print(line.strip())
-            else:
-                if verbose:
-                    line = line.decode('utf-8').strip()
-                    print(line)
+            if verbose:
+                line = line.decode('utf-8').strip()
+                print(line)
         elif not suppress_errors:
-            error = process.stderr.readline()                
+            error = process.stderr.readline()
             if error:
-                if sys.version_info[0] < 3:
-                    print_error_message(error.strip())
-                    delete_cache_file()
-                    sys.exit(1)
-                else:
-                    error = error.decode('utf-8').strip()
-                    print_error_message(error)
-                    delete_cache_file()
-                    sys.exit(1)
+                error = error.decode('utf-8').strip()
+                print_error_message(error)
+                delete_cache_file()
+                sys.exit(1)
             else:
                 continue
 
@@ -142,14 +126,14 @@ def check_or_create_path(target_path):
             os.mkdir(target_path)
     except:
         return ''
-    
+
     return target_path
 
 
 def overwrite_check(item_to_check):
     if os.path.exists(item_to_check):
         if not overwrite:
-            print_warning_message("A configuration already appears in " + item_to_check + 
+            print_warning_message("A configuration already appears in " + item_to_check +
                                   ". Use --overwrite to replace.")
             return False
         if overwrite:
@@ -201,14 +185,14 @@ def build_methodgen():
             build_tools = bootstrap.read_required_versions()
             msbuild_path = bootstrap.check_msbuild(build_tools["msbuild"]).replace('\\', '//')
             path_to_methodgen_csproj = path_to_methodgen_csproj.replace('\\', '//')
-        
+
         command = msbuild_path + ' ' + path_to_methodgen_csproj +' /t:restore,build /p:RestorePackagesConfig=true /p:Configuration=Release'
         #print(command)
         run_command(command)
-        
+
         # Check to see if the MethodGen.exe was written...
         item_to_check = os.path.abspath(os.path.join(src_folder, 'MethodGen.exe'))
-        
+
     if os.path.exists(item_to_check):
         print_ok_message("successfully built: " + item_to_check)
     else:
@@ -228,7 +212,7 @@ def run_methodgen():
     # On Windows, we need to flip the path separators to appease run_command()
     if _platform == "win32" or _platform == "win64":
         path_to_cpp = path_to_cpp.replace('\\', '//')
-        path_to_cs = path_to_cs.replace('\\', '//')     
+        path_to_cs = path_to_cs.replace('\\', '//')
     path_to_replace = '../lib/opennurbs'
     item_to_check = os.path.abspath(os.path.join(path_to_cs, 'AutoNativeMethods.cs'))
 
@@ -239,7 +223,7 @@ def run_methodgen():
         if not os.path.exists(path_to_methodgen_executable):
             print_error_message(path_to_methodgen_executable + " not found.")
             return False
-        
+
         command = 'dotnet run --no-build --project '
     else:
         path_to_methodgen_executable = os.path.abspath(os.path.join(src_folder, "MethodGen.exe"))
@@ -278,9 +262,9 @@ def setup_windows():
     if _platform != "win32" and _platform != "win64":
         print_error_message("Generating project file for Windows requires that you run this script on Windows")
         return False
-    
+
     global librhino3dm_native_folder
-    
+
     # 32 bit version...
     target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("windows").lower()))
     target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("windows").lower(), "win32"))
@@ -291,7 +275,7 @@ def setup_windows():
         return False
 
     os.chdir(target_path)
- 
+
     # generate the project files
     print("")
     if xcode_logging:
@@ -311,7 +295,7 @@ def setup_windows():
         return False
 
     os.chdir(target_path)
- 
+
     # generate the project files
     print("")
     if xcode_logging:
@@ -337,232 +321,6 @@ def setup_windows():
 
     return setup_did_succeed(item_to_check)
 
-
-def setup_linux():
-    if _platform != "linux" and _platform != "linux2":
-        print_error_message("Generating project file for Linux requires that you run this script on Linux")
-        return False
-
-    global librhino3dm_native_folder
-
-    target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("linux").lower()))
-    target_file_name = "Makefile"
-    
-    item_to_check = os.path.abspath(os.path.join(target_path, target_file_name))
-    if not overwrite_check(item_to_check):
-        return False
-
-    os.chdir(target_path)
-
-    print("")
-    if xcode_logging:
-        print("Generating Makefile for Linux native build...")
-    else:
-        print(bcolors.BOLD + "Generating Makefile for Linux native build..." + bcolors.ENDC)
-    command = ("cmake " + librhino3dm_native_folder)
-    run_command(command)
-    
-    # methogen
-    if not lib:
-        build_methodgen()
-        run_methodgen()
-
-    return setup_did_succeed(item_to_check)
-
-
-def setup_macos():
-    if _platform != "darwin":
-        print_error_message("Generating project file for macOS requires that you run this script on macOS")
-        return False
-
-    target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("macos").lower()))
-    target_file_name = "librhino3dm_native.xcodeproj"
-
-    item_to_check = os.path.abspath(os.path.join(target_path, target_file_name))
-    if not overwrite_check(item_to_check):
-        return False
-    
-    os.chdir(target_path)
-
-    # generate the project files
-    print("")
-    if xcode_logging:
-        print("Generating xcodeproj files for macOS...")
-    else:
-        print(bcolors.BOLD + "Generating xcodeproj files for macOS..." + bcolors.ENDC)
-
-    command = "cmake -G \"Xcode\" -DMACOS_BUILD=1 " + librhino3dm_native_folder
-    run_command(command)
-    
-    #print(command)
-    # methogen
-    if not lib:
-        build_methodgen()
-        run_methodgen()
-
-    return setup_did_succeed(item_to_check)
-
-
-def setup_ios():
-    if _platform != "darwin":
-        print_error_message("Generating project file for iOS requires that you run this script on macOS")
-        return False
-
-    target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("ios").lower()))
-    target_file_name = "librhino3dm_native.xcodeproj"
-
-    item_to_check = os.path.abspath(os.path.join(target_path, target_file_name))
-    if not overwrite_check(item_to_check):
-        return False
-
-    os.chdir(target_path)
-
-    # generate the project files
-    print("")
-    if xcode_logging:
-        print("Generating xcodeproj files for iOS...")
-    else:
-        print(bcolors.BOLD + "Generating xcodeproj files for iOS..." + bcolors.ENDC)
-    command = ("cmake -G \"Xcode\" -DCMAKE_TOOLCHAIN_FILE=../../src/ios.toolchain.cmake -DPLATFORM=OS64COMBINED " + 
-               "-DDEPLOYMENT_TARGET=9.3 " + librhino3dm_native_folder)
-    run_command(command)
-
-    # methogen
-    if not lib:
-        build_methodgen()
-        run_methodgen()
-
-    return setup_did_succeed(item_to_check)
-
-
-def setup_android():
-    # https://developer.android.com/ndk/guides/cmake.html
-    # The Android toolchain file is in: <NDK>/build/cmake/android.toolchain.cmake
-    # We need to call the bootstrap script to figure out which ndk is currently in use, in order
-    # to set the ndk path
-    build_tools = bootstrap.read_required_versions()
-    android_ndk_path = bootstrap.check_ndk(build_tools["ndk"])
-    android_toolchain_path = os.path.join(android_ndk_path, "build", "cmake", "android.toolchain.cmake")
-
-    # construct the android build folder if we don't already have it.  since we'll be generating CMake projects to 
-    # subfolders for each app_abi, this is different the other platforms we support...
-    target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("android").lower()))
-
-    # CMake builds for a single target per build. To target more than one Android ABI, you must build once per ABI. 
-    # It is recommended to use different build directories for each ABI to avoid collisions between builds.
-    app_abis = ['armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86']
-    for app_abi in app_abis:
-        # setup the build folders and clean previous builds if necessary...
-        abi_target_path = check_or_create_path(os.path.join(target_path, app_abi))
-        item_to_check = os.path.abspath(os.path.join(abi_target_path, "Makefile"))
-
-        if not overwrite_check(item_to_check):
-            return False
-
-        os.chdir(abi_target_path)
-
-        print("")
-        if xcode_logging:
-            print("Generating Makefile for Android (" + app_abi + ")...")
-        else:
-            print(bcolors.BOLD + "Generating Makefile Android (" + app_abi + ")..." + bcolors.ENDC)
-    
-        command = ("cmake -DCMAKE_TOOLCHAIN_FILE=" + android_toolchain_path + " -DANDROID_ABI=" + app_abi + 
-                   " -DANDROID_PLATFORM=android-24 -DCMAKE_ANDROID_STL_TYPE=c++_shared " + librhino3dm_native_folder)
-        run_command(command)
-
-        time.sleep(2) # there can be a race-condition when generating the files on Android
-        
-        if not setup_did_succeed(item_to_check):
-            break
-
-    rv = True
-    # methogen
-    rv = build_methodgen()
-    rv = run_methodgen()
-
-    return rv
-
-
-def setup_js():
-    target_path = check_or_create_path(os.path.join(build_folder, platform_full_names.get("js").lower()))
-    item_to_check = os.path.abspath(os.path.join(target_path, "Makefile"))
-    print(item_to_check)
-
-    if not overwrite_check(item_to_check):
-        return False
-    
-    # setup draco static lib makefiles
-    draco_path = check_or_create_path(os.path.join(target_path, "draco_wasm"))
-    os.chdir(draco_path)
-    try:
-        command = "emcmake cmake " + os.path.join(src_folder, "lib/draco")
-        environment = os.environ
-        emcmake_path = shutil.which("emcmake")
-        emscripten_path = emcmake_path[:-len("emcmake")]
-        environment["EMSCRIPTEN"] = emscripten_path
-        p = subprocess.Popen(shlex.split(command), stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=popen_shell_mode, env=environment)
-        output, err = p.communicate()
-        output = output.decode('utf-8')
-        err = err.decode('utf-8')
-        if output:
-            if verbose: print(output)
-        elif err:
-            print_error_message(err)
-    except OSError:
-        print_error_message("could not find emcmake command.  Run the bootstrap.py --check emscripten")
-        return False
-
-
-    os.chdir(target_path)
-    cmakecommand = "emcmake cmake "
-
-    if module:
-        print("ES6 module build")
-        cmakecommand = cmakecommand + "-D MODULE=TRUE "
-    else:
-        cmakecommand = cmakecommand + "-D MODULE=FALSE "
-
-    if node:
-        print("generating node build")
-        cmakecommand = cmakecommand + "-D NODE=TRUE "
-    try:
-        if debug:
-            print("generating debug build")
-            command = cmakecommand + "-D CMAKE_BUILD_TYPE=Debug " + src_folder
-        else:
-            print("generating release build")
-            command = cmakecommand + src_folder
-        if _platform == "win32" or _platform == "win64":
-            p = subprocess.Popen(command, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=popen_shell_mode)
-        else:
-            p = subprocess.Popen(shlex.split(command), stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=popen_shell_mode)
-    except OSError:
-        print_error_message("could not find emcmake command.  Run the bootstrap.py --check emscripten")
-        return False
-
-    if sys.version_info[0] < 3:
-        output = p.communicate()[0]
-        if output:
-            if verbose:
-                print(output)
-        else:
-            print_error_message("failed to run emcmake cmake.")
-    else:
-        output, err = p.communicate()
-        output = output.decode('utf-8')
-        err = err.decode('utf-8')
-        if output:
-            if verbose:
-                print(output)
-        elif err:
-            print_error_message(err)
-
-    return setup_did_succeed(item_to_check)
-
-def setup_nodejs():
-    return setup_js()
-
 def setup_handler(platform_target):
     if not os.path.exists(build_folder):
         os.mkdir(build_folder)
@@ -573,14 +331,14 @@ def setup_handler(platform_target):
         for target in valid_platform_args:
             print_platform_preamble(platform_full_names.get(target))
             rv = getattr(sys.modules[__name__], 'setup_' + target)()
-            did_succeed.append(rv)            
+            did_succeed.append(rv)
     else:
         print_platform_preamble(platform_full_names.get(platform_target))
         rv = getattr(sys.modules[__name__], 'setup_' + platform_target)()
         did_succeed.append(rv)
 
     return all(item == True for (item) in did_succeed)
-   
+
 
 def delete_cache_file():
     # delete the bootstrapc cache file
@@ -614,7 +372,7 @@ def main():
                         help="generate a ES6 module build (wasm only)")
     parser.add_argument('--library', '-l', action='store_true',
                         help="skip building and running .net projects (methodgen). Useful for generating librhino3dm_native in release workflow")
-    
+
     args = parser.parse_args()
 
     # User has not entered any arguments...
@@ -668,9 +426,7 @@ def main():
     delete_cache_file()
 
     sys.exit(0) if all(item == True for (item) in did_succeed) else sys.exit(1)
-    
+
 
 if __name__ == "__main__":
     main()
-
-

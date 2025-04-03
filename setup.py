@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import subprocess as sp
 import glob
@@ -6,6 +7,7 @@ import shutil
 import struct
 from typing import List
 from pathlib import Path
+import packaging.version
 from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext
 
@@ -26,6 +28,7 @@ def system(cmd : List, **kwargs):
     print(cmd_out.stdout)
 
 
+
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
         Extension.__init__(self, name, sources=[])
@@ -40,6 +43,10 @@ class CMakeBuild(build_ext):
             raise RuntimeError(
                 "CMake must be installed to build the following extensions: " +
                 ", ".join(e.name for e in self.extensions))
+
+        cmake_version = str(packaging.version.Version(re.search(r'version\s*([\d.]+)', out.decode()).group(1)))
+        if cmake_version < '3.21.0':
+            raise RuntimeError("CMake >= 3.21.0 is required on Windows")
 
         for ext in self.extensions:
             self.build_extension(ext)

@@ -501,23 +501,6 @@ BND_UUID BND_ONXModel_ObjectTable::AddPolyline2(const std::vector<ON_3dPoint>& p
   return AddPolyline1(list, attributes);
 }
 
-#if defined(ON_WASM_COMPILE)
-
-BND_UUID BND_ONXModel_ObjectTable::AddPolyline3(emscripten::val points, const class BND_3dmObjectAttributes* attributes)
-{
-  bool isArray = points.hasOwnProperty("length");
-  if( isArray )
-  {
-    const std::vector<ON_3dPoint> array = emscripten::vecFromJSArray<ON_3dPoint>(points);
-    return AddPolyline2( array, attributes );
-  }
-  else
-    return AddPolyline1( points.as<const BND_Point3dList&>(), attributes );
-}
-
-#endif
-
-
 BND_UUID BND_ONXModel_ObjectTable::AddArc(const BND_Arc& arc, const BND_3dmObjectAttributes* attributes)
 {
   ON_NurbsCurve nc;
@@ -638,37 +621,6 @@ BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject2(const class BND_InstanceRe
   ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
   return ON_UUID_to_Binding(rc);
 }
-
-/*
-BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject3(int idefIndex, const class BND_Transform& transform)
-{
-  ON_UUID rc = ON_nil_uuid;
-  const ON_ModelComponentReference& idef_component_ref = m_model->ComponentFromIndex(ON_ModelComponent::Type::InstanceDefinition, idefIndex);
-
-  if (!idef_component_ref.IsEmpty())
-    {
-      const ON_InstanceDefinition* idef = ON_InstanceDefinition::Cast(idef_component_ref.ModelComponent());
-      if (nullptr != idef)
-      {
-        ON_InstanceRef iref;
-        iref.m_instance_definition_uuid = idef->Id();
-        const ON_Xform* xform = transform ? &(transform->m_xform) : nullptr;
-        iref.m_xform = *xform;
-        // Internal_ONX_Model_AddModelGeometry makes a copy
-        rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &iref, nullptr);
-      }
-    }
-  }
-
-  return rc;
-
-}
-
-BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject4(int idefIndex, const class BND_Transform& transform, const class BND_3dmObjectAttributes* attributes)
-{
-  return ON_nil_uuid;
-}
-*/
 
 void BND_ONXModel_ObjectTable::Delete(BND_UUID id)
 {
@@ -859,7 +811,6 @@ BND_Material* BND_File3dmMaterialTable::FromAttributes(const BND_3dmObjectAttrib
   return nullptr;
 }
 
-
 void BND_File3dmLinetypeTable::Add(const BND_Linetype& linetype)
 {
   const ON_Linetype* l = linetype.m_linetype;
@@ -968,7 +919,6 @@ void BND_File3dmLinetypeTable::SetCurrent(BND_Linetype* linetype)
     m_model->m_settings.SetCurrentLinePatternId(_id);
   }
 }
-
 
 void BND_File3dmBitmapTable::Add(const BND_Bitmap& bitmap)
 {
@@ -1205,7 +1155,6 @@ std::vector<BND_FileObject*> BND_File3dmGroupTable::GroupMembers2(int groupIndex
   return rc;
 }
 
-
 int BND_File3dmViewTable::Count() const
 {
   return m_named_views ? m_model->m_settings.m_named_views.Count() : m_model->m_settings.m_views.Count();
@@ -1299,7 +1248,6 @@ BND_DimensionStyle* BND_File3dmDimStyleTable::FindId(BND_UUID id) const
     return new BND_DimensionStyle(modeldimstyle, &compref);
   return nullptr;
 }
-
 
 void BND_File3dmInstanceDefinitionTable::AddInstanceDefinition(const BND_InstanceDefinitionGeometry& idef)
 {
@@ -1425,10 +1373,12 @@ BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindIndex(in
   return nullptr;
 #endif
 }
+
 BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::IterIndex(int index) const
 {
   return FindIndex(index);
 }
+
 BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindId(BND_UUID id) const
 {
   ON_UUID _id = Binding_to_ON_UUID(id);
@@ -1442,7 +1392,6 @@ BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindId(BND_U
     return new BND_InstanceDefinitionGeometry(modelidef, &compref);
   return nullptr;
 }
-
 
 std::wstring BND_RDKPlugInData::RdkDocumentData() const
 {
@@ -1459,7 +1408,6 @@ std::wstring BND_RDKPlugInData::RdkDocumentData() const
   }
   return rc;
 }
-
 
 BND_File3dmPlugInData* BND_File3dmPlugInDataTable::GetPlugInData(int index)
 {
@@ -1556,33 +1504,6 @@ void BND_File3dmStringTable::Delete(std::wstring key)
   m_model->SetDocumentUserString(key.c_str(), nullptr);
 }
 
-#if defined(ON_WASM_COMPILE)
-BND_ONXModel* BND_ONXModel::WasmFromByteArray(std::string sbuffer)
-{
-/*
-old code used for debugging
-const void* buffer = sbuffer.c_str();
-ON_Read3dmBufferArchive archive(length, buffer, true, 0, 0);
-ON_ErrorLog errorlog;
-errorlog.EnableLogging();
-
-ONX_Model* model = new ONX_Model();
-ON_wString log;
-ON_TextLog textlog(log);
-if(!model->Read(archive)) {
-  delete model;
-  errorlog.Dump(textlog);
-  return std::wstring(log);
-}
-return std::wstring(L"success");
-*/
-
-  int length = sbuffer.length();
-  const void* buffer = sbuffer.c_str();
-  return FromByteArray(length, buffer);
-}
-
-#endif
 std::string BND_ONXModel::Encode()
 {
   return Encode2(nullptr);
@@ -1604,33 +1525,6 @@ std::string BND_ONXModel::Encode2(const BND_File3dmWriteOptions* options)
   std::string rc = base64_encode(buffer, (unsigned int)length);
   return rc;
 }
-
-
-#if defined(ON_WASM_COMPILE)
-emscripten::val BND_ONXModel::ToByteArray() const
-{
-  return ToByteArray2(nullptr);
-}
-
-emscripten::val BND_ONXModel::ToByteArray2(const BND_File3dmWriteOptions* options) const
-{
-  BND_File3dmWriteOptions defaults;
-  if (nullptr == options)
-    options = &defaults;
-
-  ON_Write3dmBufferArchive archive(0, 0, options->VersionForWriting(), ON::Version());
-  archive.SetShouldSerializeUserDataDefault(options->SaveUserData());
-
-  m_model->Write(archive, options->VersionForWriting());
-  const unsigned char* buffer = (const unsigned char*)archive.Buffer();
-  size_t length = archive.SizeOfArchive();
-
-  emscripten::val Uint8Array = emscripten::val::global("Uint8Array");
-  emscripten::val rc = Uint8Array.new_(emscripten::typed_memory_view(length, buffer));
-  return rc;
-}
-
-#endif
 
 BND_ONXModel* BND_ONXModel::FromByteArray(int length, const void* buffer)
 {
@@ -1731,8 +1625,6 @@ BND_TUPLE BND_FileObject::GetTextureMapping( const class BND_File3dm* file3dm, i
 */
 
 // --------------------- Iterator helpers ------- //
-#if defined(ON_PYTHON_COMPILE)
-
 template <typename IT, typename ET>
 struct PyBNDIterator {
   PyBNDIterator(const IT table, py::object ref)
@@ -2114,5 +2006,3 @@ void initExtensionsBindings(rh3dmpymodule& m)
     .def("RdkXml", &BND_ONXModel::RdkXml)
     ;
 }
-
-#endif

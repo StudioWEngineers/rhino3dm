@@ -1031,11 +1031,7 @@ BND_Layer* BND_File3dmLayerTable::FindIndex(int index)
   if (modellayer)
     return new BND_Layer(modellayer, &compref, m_model);
 
-#if defined(ON_PYTHON_COMPILE)
   throw py::index_error();
-#else
-  return nullptr;
-#endif
 }
 
 BND_Layer* BND_File3dmLayerTable::FindId(BND_UUID id)

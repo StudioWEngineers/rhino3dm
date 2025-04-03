@@ -994,6 +994,17 @@ BND_Layer* BND_File3dmLayerTable::FindName(std::wstring name, BND_UUID parentId)
   return nullptr;
 }
 
+bool BND_File3dmLayerTable::Has(std::wstring full_name){
+  const int num_layers = BND_File3dmLayerTable::Count();
+  for (int i = 0; i <= num_layers; ++i){
+    const std::wstring name = BND_File3dmLayerTable::FindIndex(i)->GetFullPath();
+    if (full_name == name){
+      return true;
+    }
+  }
+  return false;
+}
+
 BND_Layer* BND_File3dmLayerTable::IterIndex(int index)
 {
   return FindIndex(index);
@@ -1778,6 +1789,7 @@ void initExtensionsBindings(rh3dmpymodule& m)
     .def("FindName", &BND_File3dmLayerTable::FindName, py::arg("name"), py::arg("parentId"))
     .def("FindIndex", &BND_File3dmLayerTable::FindIndex, py::arg("index"))
     .def("FindId", &BND_File3dmLayerTable::FindId, py::arg("id"))
+    .def("has", &BND_File3dmLayerTable::Has, "Return True if the layer is found, False otherwise.", py::arg("full_name"))
     ;
 
   py::class_<PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> >(m, "__GroupIterator")

@@ -156,6 +156,7 @@ public:
   int Add(const class BND_Layer& layer);
   int AddLayer(std::wstring name, BND_Color color);
   bool Delete(BND_UUID id);
+  bool Has(std::wstring full_name);
   class BND_Layer* FindName(std::wstring name, BND_UUID parentId);
   //BND_Layer* FindNameHash(NameHash nameHash)
   class BND_Layer* FindIndex(int index);

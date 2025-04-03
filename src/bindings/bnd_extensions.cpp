@@ -994,6 +994,19 @@ BND_Layer* BND_File3dmLayerTable::FindName(std::wstring name, BND_UUID parentId)
   return nullptr;
 }
 
+const BND_Layer* BND_File3dmLayerTable::Get(std::wstring full_name){
+  const int num_layers = BND_File3dmLayerTable::Count();
+  for (int i = 0; i <= num_layers; ++i){
+    const std::wstring name = BND_File3dmLayerTable::FindIndex(i)->GetFullPath();
+    if (full_name == name){
+      ON_ModelComponentReference cr = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
+      ON_Layer* modellayer = const_cast<ON_Layer*>(ON_Layer::Cast(cr.ModelComponent()));
+      return new BND_Layer(modellayer, &cr, m_model);
+    }
+  }
+  throw py::index_error();
+}
+
 bool BND_File3dmLayerTable::Has(std::wstring full_name){
   const int num_layers = BND_File3dmLayerTable::Count();
   for (int i = 0; i <= num_layers; ++i){
@@ -1790,6 +1803,7 @@ void initExtensionsBindings(rh3dmpymodule& m)
     .def("FindIndex", &BND_File3dmLayerTable::FindIndex, py::arg("index"))
     .def("FindId", &BND_File3dmLayerTable::FindId, py::arg("id"))
     .def("has", &BND_File3dmLayerTable::Has, "Return True if the layer is found, False otherwise.", py::arg("full_name"))
+    .def("get", &BND_File3dmLayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"))
     ;
 
   py::class_<PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> >(m, "__GroupIterator")

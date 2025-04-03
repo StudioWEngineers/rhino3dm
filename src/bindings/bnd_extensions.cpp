@@ -1,5 +1,5 @@
-#include "bindings.h"
 #include "base64.h"
+#include "bnd_extensions.h"
 
 // TODO: Move some of this functionality into core opennurbs
 static bool SeekPastCompressedBuffer(ON_BinaryArchive& archive)

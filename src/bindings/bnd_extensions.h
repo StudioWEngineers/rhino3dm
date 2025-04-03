@@ -1,13 +1,8 @@
-
 #include "bindings.h"
 
 #pragma once
 
-#if defined(ON_PYTHON_COMPILE)
 void initExtensionsBindings(rh3dmpymodule& m);
-#else
-void initExtensionsBindings(void* m);
-#endif
 
 class BND_FileObject
 {

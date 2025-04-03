@@ -6,11 +6,7 @@ set (CMAKE_CXX_STANDARD 17)
 message("Python Compile")
 message("Using nanobind")
 add_compile_definitions( NANOBIND )
-if (CMAKE_VERSION VERSION_LESS 3.18)
-  set(DEV_MODULE Development)
-else()
-  set(DEV_MODULE Development.Module)
-endif()
+set(DEV_MODULE Development.Module)
 find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
 
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -49,16 +45,12 @@ add_definitions(-DON_INCLUDE_DRACO)
 
 add_library(zlib_static STATIC ${zlib_SRC})
 add_library(opennurbs_static STATIC ${opennurbs_SRC})
-#if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
-#need to build nanobind to link it?
+
+# need to build nanobind to link it?
 nanobind_build_library(nanobind)
 nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
-target_link_libraries(_rhino3dm PRIVATE nanobind-static)
-#else()
-#  pybind11_add_module(_rhino3dm ${bindings_SRC})
-#  target_link_libraries(_rhino3dm PRIVATE pybind11::module)
-#endif()
 
+target_link_libraries(_rhino3dm PRIVATE nanobind-static)
 target_link_libraries(_rhino3dm PRIVATE zlib_static)
 target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
 

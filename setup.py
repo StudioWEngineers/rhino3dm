@@ -55,6 +55,24 @@ class CMakeBuild(build_ext):
             self.copy_extensions_to_source()
 
     def build_extension(self, ext):
+        extdir = os.path.abspath(
+            os.path.dirname(self.get_ext_fullpath(ext.name)))
+        print("extdir = " + extdir)
+        print("sourcedir" + ext.sourcedir)
+
+        cmake_args = ['cmake', f'-DPYTHON_EXECUTABLE:FILEPATH={pyexec}', f'-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON']
+        #cmake_args = ['cmake', f'-DPYTHON_EXECUTABLE:FILEPATH={pyexec}', f'-DPYTHON_BINDING_LIB=NANOBIND', f'-DCMAKE_VERBOSE_MAKEFILE:BOOL=ON']
+
+        cfg = 'Debug' if self.debug else 'Release'
+        build_args = ['--config', cfg]
+
+        cmake_args += ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY_{}={}'.format(
+            cfg.upper(),
+            extdir)]
+        if sys.maxsize > 2**32:
+            cmake_args += ['-A', 'x64']
+        build_args += ['--', '/m']
+
         env = os.environ.copy()
         env['CXXFLAGS'] = '{} -DVERSION_INFO=\\"{}\\"'.format(
             env.get('CXXFLAGS', ''),
@@ -72,14 +90,13 @@ class CMakeBuild(build_ext):
         osplatform = "win32" if bitness == 32 else "x64"
 
 
-        command = ['cmake', '-A', osplatform, "-DPYTHON_BINDING_LIB=NANOBIND", f"{draco_src_dir}"]
+        command = ['cmake', '-A', osplatform, f"{draco_src_dir}"]
         system(command, cwd=draco_static_dir)
         system(["cmake", "--build", ".", "--config", "Release"], cwd=draco_static_dir)
 
         command = ['cmake', '-A',
                     f"{osplatform}",
                     f'-DPYTHON_EXECUTABLE:FILEPATH={pyexec}',
-                    "-DPYTHON_BINDING_LIB=NANOBIND",
                     ext.sourcedir+"/src"]
         system(command, cwd=build_temp_dir)
 

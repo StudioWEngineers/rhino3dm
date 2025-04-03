@@ -89,7 +89,7 @@ jobs:
     if: ${{ needs.check_bindings.outputs.any_changed == 'true' || needs.check_build_scripts.outputs.any_changed == 'true' || needs.check_tests_py.outputs.any_changed == 'true' }}
     strategy:
       matrix:
-        os: [windows-2019, windows-2022]
+        os: [windows-2022]
         python-version: ["3.12", "3.13"]
         include:
           - os: windows-2019
@@ -126,7 +126,7 @@ jobs:
     needs: [build_py_all_bdist]
     strategy:
       matrix:
-        os: [windows-2019, windows-2022]
+        os: [windows-2022]
         python-version: ["3.12", "3.13"]
         include:
           - os: windows-2019

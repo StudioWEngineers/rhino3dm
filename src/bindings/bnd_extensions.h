@@ -286,12 +286,6 @@ public:
   //public static bool ReadRevisionHistory(string path, out string createdBy, out string lastEditedBy, out int revision, out DateTime createdOn, out DateTime lastEditedOn)
   //public static void ReadApplicationData(string path, out string applicationName, out string applicationUrl, out string applicationDetails)
 
-#if defined(ON_WASM_COMPILE)
-  // from https://sean.voisen.org/blog/2018/03/rendering-images-emscripten-wasm/
-  static BND_ONXModel* WasmFromByteArray(std::string buffer);
-  emscripten::val ToByteArray() const;
-  emscripten::val ToByteArray2(const class BND_File3dmWriteOptions* options) const;
-#endif
   std::string Encode();
   std::string Encode2(const class BND_File3dmWriteOptions* options);
 

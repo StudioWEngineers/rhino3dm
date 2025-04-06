@@ -78,6 +78,8 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   initDracoBindings(m);
   initRTreeBindings(m);
   initLinetypeBindings(m);
+  // sw additions
+  initLayerTableBindings(m);
 }
 
 std::string ToStdString(const py::str& str)

@@ -183,3 +183,6 @@ BND_DateTime CreateDateTime(struct tm t);
 #include "bnd_draco.h"
 #include "bnd_rtree.h"
 #include "bnd_linetype.h"
+
+// sw additions
+#include "bnd_layer_table.h"

@@ -1,0 +1,39 @@
+[build-system]
+requires = ["scikit-build-core >=0.10", "pybind11 == 2.10.1"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "rhino3dm"
+version = "8.17.2"
+description = "CGAL wrapper for COMPAS."
+#readme = "README.md"
+requires-python = ">=3.9"
+authors = [
+    { name = "ee", email = "ffff@gmail.com" },
+    { name = "dd", email = "ffff@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Development Status :: 4 - Beta",
+]
+
+#dependencies = [
+#    "draco"
+#]
+
+[tool.scikit-build]
+minimum-version = "build-system.requires"
+build-dir = "build/{wheel_tag}"
+#wheel.py-api = "cp312" # Build all Python currently support versions
+cmake.version = ">=3.15"
+cmake.build-type = "Release"
+
+#[tool.scikit-build.cmake.define]
+#CMAKE_POLICY_DEFAULT_CMP0135 = "NEW"
+
+#[tool.cibuildwheel]
+# build = ["cp38-*", "cp39-*", "cp31?-*"] # Build for specific Python versions
+#build-verbosity = 3
+#build-frontend = "pip"

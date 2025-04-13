@@ -2,11 +2,9 @@ name: workflow ci
 on: [push]
 
 jobs:
-
   build_py_all_bdist:
     name: build python ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist
     runs-on: ${{ matrix.os }}
-    needs: [check_bindings, check_build_scripts, check_tests_py]
     strategy:
       matrix:
         os: [windows-2022]

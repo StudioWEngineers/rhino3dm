@@ -77,3 +77,8 @@ if (MSVC)
 else()
   target_link_libraries(_rhino3dm PRIVATE ${CMAKE_BINARY_DIR}/draco_static/libdraco.a)
 endif()
+
+install(TARGETS _rhino3dm
+        LIBRARY DESTINATION rhino3dm
+        RUNTIME DESTINATION rhino3dm
+        ARCHIVE DESTINATION rhino3dm)  # For Windows .lib or .pyd

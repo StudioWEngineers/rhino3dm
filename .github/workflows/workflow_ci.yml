@@ -47,7 +47,7 @@ jobs:
     - name: install package
       run: |
         cd dist
-        pip install dist/*.whl
+        pip install *.whl
 
     - name: test ${{ matrix.python }} ${{ matrix.os }}
       run: |

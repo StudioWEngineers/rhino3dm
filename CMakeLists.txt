@@ -66,11 +66,14 @@ else()
   target_link_libraries(_rhino3dm PRIVATE pybind11::module)
 endif()
 
-target_link_libraries(_rhino3dm PRIVATE zlib_static)
-target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
+add_library(zlib_static STATIC ${zlib_SRC})
+set_target_properties(zlib_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+add_library(opennurbs_static STATIC ${opennurbs_SRC})
+set_target_properties(opennurbs_static PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 add_subdirectory(lib/draco)
-target_link_libraries(_rhino3dm PRIVATE draco::draco)
+set_target_properties(draco::draco PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 install(TARGETS _rhino3dm
         LIBRARY DESTINATION rhino3dm

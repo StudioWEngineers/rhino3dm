@@ -29,8 +29,8 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    - name: info
-      run: python --version && cmake --version
+    - name: Install the latest CMake
+      uses: lukka/get-cmake@latest
 
     - name: install dependencies
       run: python -m pip install --upgrade pip setuptools wheel build
@@ -48,7 +48,7 @@ jobs:
       run: |
         pip install dist/*.whl
 
-    - name: test python ${{ matrix.python }} ${{ matrix.os }}
+    - name: test ${{ matrix.python }} ${{ matrix.os }}
       run: |
         cd tests/python
         python -m unittest discover

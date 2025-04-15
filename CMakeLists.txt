@@ -70,13 +70,13 @@ target_link_libraries(_rhino3dm PRIVATE zlib_static)
 target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
 
 add_subdirectory(lib/draco)
-if (MSVC)
+#if (MSVC)
   target_link_libraries(_rhino3dm PRIVATE draco::draco)
   #target_link_libraries(_rhino3dm PRIVATE debug lib/draco/Debug/draco)
   #target_link_libraries(_rhino3dm PRIVATE optimized ${CMAKE_BINARY_DIR}/draco_static/Release/draco.lib)
-else()
-  target_link_libraries(_rhino3dm PRIVATE ${CMAKE_BINARY_DIR}/draco_static/libdraco.a)
-endif()
+#else()
+#  target_link_libraries(_rhino3dm PRIVATE ${CMAKE_BINARY_DIR}/draco_static/libdraco.a)
+#endif()
 
 install(TARGETS _rhino3dm
         LIBRARY DESTINATION rhino3dm

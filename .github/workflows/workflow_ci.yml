@@ -24,10 +24,10 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: set up python ${{ matrix.python-version }}
+      - name: set up python ${{ matrix.python }}
         uses: actions/setup-python@v5.4.0
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: ${{ matrix.python }}
           cache: 'pip'
 
       - name: info
@@ -45,10 +45,10 @@ jobs:
       - name: update submodules
         run: git submodule update --init --recursive
 
-      - name: build python ${{ matrix.python-version }} ${{ matrix.os }}
+      - name: build python ${{ matrix.python }} ${{ matrix.os }}
         run: python -m build
 
-      - name: test python bdist ${{ matrix.python-version }} ${{ matrix.os }}
+      - name: test python bdist ${{ matrix.python }} ${{ matrix.os }}
       run: |
         cd tests/python
         python -m unittest discover

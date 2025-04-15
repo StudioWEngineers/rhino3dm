@@ -24,31 +24,31 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: set up python ${{ matrix.python }}
-        uses: actions/setup-python@v5.4.0
-        with:
-          python-version: ${{ matrix.python }}
-          cache: 'pip'
+    - name: set up python ${{ matrix.python }}
+      uses: actions/setup-python@v5.4.0
+      with:
+        python-version: ${{ matrix.python }}
+        cache: 'pip'
 
-      - name: info
-        run: python --version && cmake --version
+    - name: info
+      run: python --version && cmake --version
 
-      - name: install dependencies
-        run: python -m pip install --upgrade pip setuptools wheel build
+    - name: install dependencies
+      run: python -m pip install --upgrade pip setuptools wheel build
 
-      - name: install dependencies 2
-        run: python -m pip install packaging
+    - name: install dependencies 2
+      run: python -m pip install packaging
 
-      - name: checkout
-        uses: actions/checkout@v4.1.1
+    - name: checkout
+      uses: actions/checkout@v4.1.1
 
-      - name: update submodules
-        run: git submodule update --init --recursive
+    - name: update submodules
+      run: git submodule update --init --recursive
 
-      - name: build python ${{ matrix.python }} ${{ matrix.os }}
-        run: python -m build
+    - name: build python ${{ matrix.python }} ${{ matrix.os }}
+      run: python -m build
 
-      - name: test python bdist ${{ matrix.python }} ${{ matrix.os }}
-      run: |
-        cd tests/python
-        python -m unittest discover
+    - name: test python bdist ${{ matrix.python }} ${{ matrix.os }}
+    run: |
+      cd tests/python
+      python -m unittest discover

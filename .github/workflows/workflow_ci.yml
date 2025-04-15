@@ -29,7 +29,7 @@ jobs:
       with:
         python-version: ${{ matrix.python }}
 
-    - name: Install the latest CMake
+    - name: install the latest CMake
       uses: lukka/get-cmake@latest
 
     - name: install dependencies

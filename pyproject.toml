@@ -24,3 +24,12 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 cmake.version = ">=3.15"
 cmake.build-type = "Release"
+#cmake.build-type = "RelWithDebInfo"  # Faster debug builds
+
+[tool.scikit-build.editable]
+mode = "redirect"
+verbose = true
+rebuild = true
+
+
+# pip install -e . --config-settings editable=true

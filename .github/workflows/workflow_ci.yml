@@ -48,47 +48,7 @@ jobs:
       - name: build python ${{ matrix.python-version }} ${{ matrix.os }}
         run: python -m build
 
-      #- name: artifacts
-      #  uses: actions/upload-artifact@v4.3.1
-      #  with:
-      #    path: dist
-      #    name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
-
       - name: test python bdist ${{ matrix.python-version }} ${{ matrix.os }}
       run: |
         cd tests/python
         python -m unittest discover
-
-  #test_python_bdist:
-  #  name: test py ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist
-  #  runs-on: ${{ matrix.os }}
-  #  needs: [build_py_all_bdist]
-  #  strategy:
-  #    matrix:
-  #      os: ["windows-2022", "macos-latest"]
-  #      python-version: ["3.10", "3.11", "3.12", "3.13"]
-  #      include:
-  #        - os: windows-2022
-  #          target: windows
-  #    fail-fast: false
-  #  steps:
-  #  - name: set up python ${{ matrix.python-version }}
-  #    uses: actions/setup-python@v5.4.0
-  #    with:
-  #      python-version: ${{ matrix.python-version }}
-  #  - name: info
-  #    run: python --version && cmake --version
-  #  - name: checkout
-  #    uses: actions/checkout@v4.1.1
-  #  - name: download artifact
-  #    uses: actions/download-artifact@v4.1.7
-  #    with:
-  #      name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
-  #      path: tests/python/lib
-  #  - name: install whl
-  #    shell: bash
-  #    run: pip install --no-index tests/python/lib/*.whl --force-reinstall
-  #  - name: test python bdist
-  #    run: |
-  #      cd tests/python
-  #      python -m unittest discover .

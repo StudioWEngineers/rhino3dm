@@ -49,7 +49,7 @@ jobs:
       #    path: dist
       #    name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
 
-      - name: test python bdist
+      - name: test python bdist ${{ matrix.python-version }} ${{ matrix.os }}
       run: |
         cd tests/python
         python -m unittest discover

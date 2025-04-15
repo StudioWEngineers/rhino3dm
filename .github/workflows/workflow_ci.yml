@@ -1,71 +1,89 @@
-name: workflow ci
-on: [push]
+name: Tests
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches:
+      - master
+      - dev
+
 
 jobs:
-  build_py_all_bdist:
-    name: build python ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist
-    runs-on: ${{ matrix.os }}
+  standard:
     strategy:
-      matrix:
-        os: ["windows-2022", "macos-latest"]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
-        include:
-          - os: windows-2022
-            target: windows
       fail-fast: false
+      matrix:
+        os: ['windows-2022', 'macos-13']
+        python: ['3.10', '3.11', '3.12', '3.13', '3.14.0-alpha.6', 'pypy3.9-v7.3.16', 'pypy3.10-v7.3.17']
+
+    name: "Python ${{ matrix.python }} / ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
     steps:
       - name: set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v5.4.0
         with:
           python-version: ${{ matrix.python-version }}
+          cache: 'pip'
+
       - name: info
         run: python --version && cmake --version
+
       - name: install dependencies
         run: python -m pip install --upgrade pip setuptools wheel build
+
       - name: install dependencies 2
         run: python -m pip install packaging
+
       - name: checkout
         uses: actions/checkout@v4.1.1
+
       - name: update submodules
         run: git submodule update --init --recursive
+
       - name: build python ${{ matrix.python-version }} ${{ matrix.os }}
         run: python -m build
-      - name: artifacts
-        uses: actions/upload-artifact@v4.3.1
-        with:
-          path: dist
-          name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
 
-  test_python_bdist:
-    name: test py ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist
-    runs-on: ${{ matrix.os }}
-    needs: [build_py_all_bdist]
-    strategy:
-      matrix:
-        os: ["windows-2022", "macos-latest"]
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
-        include:
-          - os: windows-2022
-            target: windows
-      fail-fast: false
-    steps:
-    - name: set up python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5.4.0
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: info
-      run: python --version && cmake --version
-    - name: checkout
-      uses: actions/checkout@v4.1.1
-    - name: download artifact
-      uses: actions/download-artifact@v4.1.7
-      with:
-        name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
-        path: tests/python/lib
-    - name: install whl
-      shell: bash
-      run: pip install --no-index tests/python/lib/*.whl --force-reinstall
-    - name: test python bdist
+      #- name: artifacts
+      #  uses: actions/upload-artifact@v4.3.1
+      #  with:
+      #    path: dist
+      #    name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
+
+      - name: test python bdist
       run: |
         cd tests/python
-        python -m unittest discover .
+        python -m unittest discover
+
+  #test_python_bdist:
+  #  name: test py ${{ matrix.python-version }} ${{ matrix.target }} ${{ matrix.os }} bdist
+  #  runs-on: ${{ matrix.os }}
+  #  needs: [build_py_all_bdist]
+  #  strategy:
+  #    matrix:
+  #      os: ["windows-2022", "macos-latest"]
+  #      python-version: ["3.10", "3.11", "3.12", "3.13"]
+  #      include:
+  #        - os: windows-2022
+  #          target: windows
+  #    fail-fast: false
+  #  steps:
+  #  - name: set up python ${{ matrix.python-version }}
+  #    uses: actions/setup-python@v5.4.0
+  #    with:
+  #      python-version: ${{ matrix.python-version }}
+  #  - name: info
+  #    run: python --version && cmake --version
+  #  - name: checkout
+  #    uses: actions/checkout@v4.1.1
+  #  - name: download artifact
+  #    uses: actions/download-artifact@v4.1.7
+  #    with:
+  #      name: rhino3dm.py ${{ matrix.python-version }} ${{ matrix.os }}
+  #      path: tests/python/lib
+  #  - name: install whl
+  #    shell: bash
+  #    run: pip install --no-index tests/python/lib/*.whl --force-reinstall
+  #  - name: test python bdist
+  #    run: |
+  #      cd tests/python
+  #      python -m unittest discover .

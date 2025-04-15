@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.18)
 project(rhino3dm)
 
 set (CMAKE_CXX_STANDARD 17)
@@ -8,11 +8,7 @@ message("Python Compile")
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   message("Using nanobind")
   add_compile_definitions( NANOBIND )
-  if (CMAKE_VERSION VERSION_LESS 3.18)
-    set(DEV_MODULE Development)
-  else()
-    set(DEV_MODULE Development.Module)
-  endif()
+  set(DEV_MODULE Development.Module)
   find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
 
   if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)

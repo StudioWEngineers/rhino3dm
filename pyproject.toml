@@ -1,5 +1,6 @@
 [build-system]
 requires = ["scikit-build-core >=0.10", "pybind11 == 2.10.1"]
+#requires = ["scikit-build-core >=0.10", "nanobind >= 2.0.0"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -24,7 +25,7 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 cmake.version = ">=3.15"
 cmake.build-type = "Release"
-#cmake.build-type = "RelWithDebInfo"  # Faster debug builds
+#cmake.args = ["-DPYTHON_BINDING_LIB=NANOBIND"]
 
 [tool.scikit-build.editable]
 mode = "redirect"

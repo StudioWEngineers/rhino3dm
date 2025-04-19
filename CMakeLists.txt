@@ -22,22 +22,19 @@ else()
   add_subdirectory(lib/pybind11)
 endif()
 
-# Add draco add_library
 include_directories(${PROJECT_NAME} PUBLIC lib/draco/src ${CMAKE_BINARY_DIR})
 
 file(GLOB bindings_SRC "src/*.h" "src/*.cpp")
+
 file(GLOB zlib_SRC "lib/opennurbs/zlib/*.h" "lib/opennurbs/zlib/*.c")
 
-# temporarily rename the 4 cpp files that we don't want to compile on OSX
-file(RENAME "lib/opennurbs/opennurbs_gl.cpp" "lib/opennurbs/opennurbs_gl.skip")
-file(RENAME "lib/opennurbs/opennurbs_unicode_cp932.cpp" "lib/opennurbs/opennurbs_unicode_cp932.skip")
-file(RENAME "lib/opennurbs/opennurbs_unicode_cp949.cpp" "lib/opennurbs/opennurbs_unicode_cp949.skip")
-file(RENAME "lib/opennurbs/opennurbs_precompiledheader.cpp" "lib/opennurbs/opennurbs_precompiledheader.skip")
 file(GLOB opennurbs_SRC "lib/opennurbs/*.h" "lib/opennurbs/*.cpp")
-file(RENAME "lib/opennurbs/opennurbs_gl.skip" "lib/opennurbs/opennurbs_gl.cpp")
-file(RENAME "lib/opennurbs/opennurbs_unicode_cp932.skip" "lib/opennurbs/opennurbs_unicode_cp932.cpp")
-file(RENAME "lib/opennurbs/opennurbs_unicode_cp949.skip" "lib/opennurbs/opennurbs_unicode_cp949.cpp")
-file(RENAME "lib/opennurbs/opennurbs_precompiledheader.skip" "lib/opennurbs/opennurbs_precompiledheader.cpp")
+list(REMOVE_ITEM opennurbs_SRC
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs/opennurbs_gl.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs/opennurbs_precompiledheader.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs/opennurbs_unicode_cp932.cpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs/opennurbs_unicode_cp949.cpp"
+)
 
 add_definitions(-D_GNU_SOURCE)
 add_definitions(-DON_COMPILING_OPENNURBS)

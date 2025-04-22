@@ -62,6 +62,13 @@ target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
 add_subdirectory(lib/draco)
 target_link_libraries(_rhino3dm PRIVATE draco::draco)
 
+install(FILES
+    ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.py
+    ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.pyi
+    ${CMAKE_SOURCE_DIR}/rhino3dm/py.typed
+    DESTINATION rhino3dm
+)
+
 install(TARGETS _rhino3dm
         LIBRARY DESTINATION rhino3dm
         RUNTIME DESTINATION rhino3dm

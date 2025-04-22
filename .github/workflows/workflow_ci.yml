@@ -46,7 +46,7 @@ jobs:
 
     - name: install package
       run: |
-        cd build
+        cd dist
         python -m pip install *.whl
       shell: bash
 

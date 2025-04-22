@@ -54,3 +54,8 @@ jobs:
       run: |
         cd tests/python/
         python -m unittest discover
+      shell: bash
+
+
+    # TODO: clean-up: try to remove update submodules
+    # check which are required python -m pip install --upgrade pip setuptools wheel build

@@ -424,543 +424,527 @@ void BND_ONXModel::SetRevision(int r)
   ONX_Model_SetRevision(m_model.get(), r);
 }
 
-static ON_UUID Internal_ONX_Model_AddModelGeometry(
-  ONX_Model* model,
-  const ON_Geometry* geometry,
-  const BND_3dmObjectAttributes* attributes
-)
-{
-  if (nullptr == model)
-    return ON_nil_uuid;
-  if (nullptr == geometry)
-    return ON_nil_uuid;
-  const ON_3dmObjectAttributes* attr = attributes ? attributes->m_attributes : nullptr;
+//static ON_UUID Internal_ONX_Model_AddModelGeometry(
+//  ONX_Model* model,
+//  const ON_Geometry* geometry,
+//  const BND_3dmObjectAttributes* attributes
+//)
+//{
+//  if (nullptr == model)
+//    return ON_nil_uuid;
+//  if (nullptr == geometry)
+//    return ON_nil_uuid;
+//  const ON_3dmObjectAttributes* attr = attributes ? attributes->m_attributes : nullptr;
+//
+//  ON_ModelComponentReference model_component_reference = model->AddModelGeometryComponent(geometry, attr);
+//  return ON_ModelGeometryComponent::FromModelComponentRef(model_component_reference, &ON_ModelGeometryComponent::Unset)->Id();
+//}
 
-  ON_ModelComponentReference model_component_reference = model->AddModelGeometryComponent(geometry, attr);
-  return ON_ModelGeometryComponent::FromModelComponentRef(model_component_reference, &ON_ModelGeometryComponent::Unset)->Id();
-}
+//static bool DeleteModelComponent(BND_UUID id, ON_ModelComponent::Type objectType, std::shared_ptr<ONX_Model> m_model)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->RemoveModelComponent(objectType, _id);
+//  return !compref.IsEmpty();
+//}
 
-static bool DeleteModelComponent(BND_UUID id, ON_ModelComponent::Type objectType, std::shared_ptr<ONX_Model> m_model)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->RemoveModelComponent(objectType, _id);
-  return !compref.IsEmpty();
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddPoint1(double x, double y, double z)
+//{
+//  ON_Point point_geometry(x,y,z);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &point_geometry, nullptr);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddPoint1(double x, double y, double z)
-{
-  ON_Point point_geometry(x,y,z);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &point_geometry, nullptr);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddPoint6(double x, double y, double z, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_Point point_geometry(x,y,z);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &point_geometry, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddPoint6(double x, double y, double z, const BND_3dmObjectAttributes* attributes)
-{
-  ON_Point point_geometry(x,y,z);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &point_geometry, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddPointCloud(const BND_PointCloud& cloud, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = cloud.GeometryPointer();
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddPointCloud(const BND_PointCloud& cloud, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = cloud.GeometryPointer();
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddLine1(const ON_3dPoint& from, const ON_3dPoint& to)
+//{
+//  ON_LineCurve lc(from, to);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &lc, nullptr);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddLine1(const ON_3dPoint& from, const ON_3dPoint& to)
-{
-  ON_LineCurve lc(from, to);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &lc, nullptr);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddLine2(const ON_3dPoint& from, const ON_3dPoint& to, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_LineCurve lc(from, to);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &lc, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddLine2(const ON_3dPoint& from, const ON_3dPoint& to, const BND_3dmObjectAttributes* attributes)
-{
-  ON_LineCurve lc(from, to);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &lc, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddPolyline1(const BND_Point3dList& points, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_PolylineCurve plc(points.m_polyline);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &plc, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddPolyline1(const BND_Point3dList& points, const BND_3dmObjectAttributes* attributes)
-{
-  ON_PolylineCurve plc(points.m_polyline);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &plc, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddPolyline2(const std::vector<ON_3dPoint>& points, const class BND_3dmObjectAttributes* attributes)
+//{
+//  BND_Point3dList list;
+//
+//  for (int i = 0; i < points.size(); i++)
+//  {
+//    list.Add(points[i].x, points[i].y, points[i].z);
+//  }
+//
+//  return AddPolyline1(list, attributes);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddPolyline2(const std::vector<ON_3dPoint>& points, const class BND_3dmObjectAttributes* attributes)
-{
-  BND_Point3dList list;
+//BND_UUID BND_ONXModel_ObjectTable::AddArc(const BND_Arc& arc, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_NurbsCurve nc;
+//  if (arc.m_arc.GetNurbForm(nc) != 0)
+//  {
+//    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
+//    return ON_UUID_to_Binding(rc);
+//  }
+//  return ON_UUID_to_Binding(ON_nil_uuid);
+//}
 
-  for (int i = 0; i < points.size(); i++)
-  {
-    list.Add(points[i].x, points[i].y, points[i].z);
-  }
+//BND_UUID BND_ONXModel_ObjectTable::AddCircle(const BND_Circle& circle, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_NurbsCurve nc;
+//  if (circle.m_circle.GetNurbForm(nc) != 0)
+//  {
+//    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
+//    return ON_UUID_to_Binding(rc);
+//  }
+//  return ON_UUID_to_Binding(ON_nil_uuid);
+//}
 
-  return AddPolyline1(list, attributes);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddEllipse(const BND_Ellipse& ellipse, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_NurbsCurve nc;
+//  if (ellipse.m_ellipse.GetNurbForm(nc) != 0)
+//  {
+//    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
+//    return ON_UUID_to_Binding(rc);
+//  }
+//  return ON_UUID_to_Binding(ON_nil_uuid);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddArc(const BND_Arc& arc, const BND_3dmObjectAttributes* attributes)
-{
-  ON_NurbsCurve nc;
-  if (arc.m_arc.GetNurbForm(nc) != 0)
-  {
-    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
-    return ON_UUID_to_Binding(rc);
-  }
-  return ON_UUID_to_Binding(ON_nil_uuid);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddSphere(const BND_Sphere& sphere, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_NurbsSurface ns;
+//  if (sphere.m_sphere.GetNurbForm(ns) != 0)
+//  {
+//    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &ns, attributes);
+//    return ON_UUID_to_Binding(rc);
+//  }
+//  return ON_UUID_to_Binding(ON_nil_uuid);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddCircle(const BND_Circle& circle, const BND_3dmObjectAttributes* attributes)
-{
-  ON_NurbsCurve nc;
-  if (circle.m_circle.GetNurbForm(nc) != 0)
-  {
-    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
-    return ON_UUID_to_Binding(rc);
-  }
-  return ON_UUID_to_Binding(ON_nil_uuid);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddCurve(const BND_Curve* curve, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = curve ? curve->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddEllipse(const BND_Ellipse& ellipse, const BND_3dmObjectAttributes* attributes)
-{
-  ON_NurbsCurve nc;
-  if (ellipse.m_ellipse.GetNurbForm(nc) != 0)
-  {
-    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &nc, attributes);
-    return ON_UUID_to_Binding(rc);
-  }
-  return ON_UUID_to_Binding(ON_nil_uuid);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddTextDot(std::wstring text, const ON_3dPoint& location, const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_TextDot dot(location, text.c_str(), nullptr);
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &dot, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddSphere(const BND_Sphere& sphere, const BND_3dmObjectAttributes* attributes)
-{
-  ON_NurbsSurface ns;
-  if (sphere.m_sphere.GetNurbForm(ns) != 0)
-  {
-    ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &ns, attributes);
-    return ON_UUID_to_Binding(rc);
-  }
-  return ON_UUID_to_Binding(ON_nil_uuid);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddSurface(const BND_Surface* surface, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = surface ? surface->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddCurve(const BND_Curve* curve, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = curve ? curve->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddExtrusion(const BND_Extrusion* extrusion, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = extrusion ? extrusion->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddTextDot(std::wstring text, const ON_3dPoint& location, const BND_3dmObjectAttributes* attributes)
-{
-  ON_TextDot dot(location, text.c_str(), nullptr);
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), &dot, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddMesh(const BND_Mesh* mesh, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = mesh ? mesh->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddSurface(const BND_Surface* surface, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = surface ? surface->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddBrep(const BND_Brep* brep, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = brep ? brep->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddExtrusion(const BND_Extrusion* extrusion, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = extrusion ? extrusion->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddHatch(const BND_Hatch* hatch, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = hatch ? hatch->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddMesh(const BND_Mesh* mesh, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = mesh ? mesh->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::Add(const BND_GeometryBase* geometry, const BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = geometry ? geometry->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddBrep(const BND_Brep* brep, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = brep ? brep->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddObject(const class BND_FileObject* object)
+//{
+//  const ON_Geometry* g = object ? object->m_geometry->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, object->m_attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddHatch(const BND_Hatch* hatch, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = hatch ? hatch->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject1(const class BND_InstanceReferenceGeometry* instanceReference)
+//{
+//  const ON_Geometry* g = instanceReference ? instanceReference->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, nullptr);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::Add(const BND_GeometryBase* geometry, const BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = geometry ? geometry->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject2(const class BND_InstanceReferenceGeometry* instanceReference, const class BND_3dmObjectAttributes* attributes)
+//{
+//  const ON_Geometry* g = instanceReference ? instanceReference->GeometryPointer() : nullptr;
+//  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
+//  return ON_UUID_to_Binding(rc);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddObject(const class BND_FileObject* object)
-{
-  const ON_Geometry* g = object ? object->m_geometry->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, object->m_attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//void BND_ONXModel_ObjectTable::Delete(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  m_model->RemoveModelComponent(ON_ModelComponent::Type::ModelGeometry, _id);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject1(const class BND_InstanceReferenceGeometry* instanceReference)
-{
-  const ON_Geometry* g = instanceReference ? instanceReference->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, nullptr);
-  return ON_UUID_to_Binding(rc);
-}
+//void BND_ONXModel_ObjectTable::Delete2(std::string id)
+//{
+//  ON_UUID _id = ON_UuidFromString(id.c_str());
+//  m_model->RemoveModelComponent(ON_ModelComponent::Type::ModelGeometry, _id);
+//}
 
-BND_UUID BND_ONXModel_ObjectTable::AddInstanceObject2(const class BND_InstanceReferenceGeometry* instanceReference, const class BND_3dmObjectAttributes* attributes)
-{
-  const ON_Geometry* g = instanceReference ? instanceReference->GeometryPointer() : nullptr;
-  ON_UUID rc = Internal_ONX_Model_AddModelGeometry(m_model.get(), g, attributes);
-  return ON_UUID_to_Binding(rc);
-}
+//int BND_ONXModel_ObjectTable::Count() const
+//{
+//  int count = m_model->ActiveComponentCount(ON_ModelComponent::Type::ModelGeometry) +
+//    m_model->ActiveAndDeletedComponentCount(ON_ModelComponent::Type::RenderLight);
+//  return count;
+//}
 
-void BND_ONXModel_ObjectTable::Delete(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  m_model->RemoveModelComponent(ON_ModelComponent::Type::ModelGeometry, _id);
-}
+//static BND_FileObject* FileObjectFromCompRef(ON_ModelComponentReference& compref)
+//{
+//  BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
+//  if (nullptr == geometry)
+//    return nullptr;
+//
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
+//  if (nullptr == geometryComponent)
+//  {
+//    delete geometry;
+//    return nullptr;
+//  }
+//
+//  ON_3dmObjectAttributes* attrs = const_cast<ON_3dmObjectAttributes*>(geometryComponent->Attributes(nullptr));
+//  if (nullptr == attrs)
+//  {
+//    delete geometry;
+//    return nullptr;
+//  }
+//  BND_FileObject* rc = new BND_FileObject();
+//  rc->m_attributes = new BND_3dmObjectAttributes(attrs, &compref);
+//  rc->m_geometry = geometry;
+//  return rc;
+//}
 
-void BND_ONXModel_ObjectTable::Delete2(std::string id)
-{
-  ON_UUID _id = ON_UuidFromString(id.c_str());
-  m_model->RemoveModelComponent(ON_ModelComponent::Type::ModelGeometry, _id);
-}
-
-int BND_ONXModel_ObjectTable::Count() const
-{
-  int count = m_model->ActiveComponentCount(ON_ModelComponent::Type::ModelGeometry) +
-    m_model->ActiveAndDeletedComponentCount(ON_ModelComponent::Type::RenderLight);
-  return count;
-}
-
-static BND_FileObject* FileObjectFromCompRef(ON_ModelComponentReference& compref)
-{
-  BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
-  if (nullptr == geometry)
-    return nullptr;
-
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
-  if (nullptr == geometryComponent)
-  {
-    delete geometry;
-    return nullptr;
-  }
-
-  ON_3dmObjectAttributes* attrs = const_cast<ON_3dmObjectAttributes*>(geometryComponent->Attributes(nullptr));
-  if (nullptr == attrs)
-  {
-    delete geometry;
-    return nullptr;
-  }
-  BND_FileObject* rc = new BND_FileObject();
-  rc->m_attributes = new BND_3dmObjectAttributes(attrs, &compref);
-  rc->m_geometry = geometry;
-  return rc;
-}
-
-BND_FileObject* BND_ONXModel_ObjectTable::ModelObjectAt(int index)
-{
-#if !defined(ON_PYTHON_COMPILE)
-  if (index < 0)
-    return nullptr;
-#endif
-
-  if (0 == index)
-    m_compref_cache.Empty(); // clear cache every time we restart counting
-
-  if (m_compref_cache.Count() == 0)
-  {
-    m_compref_cache.Reserve(Count());
-    ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
-    ON_ModelComponentReference compref = iterator.FirstComponentReference();
-    while (!compref.IsEmpty())
-    {
-      m_compref_cache.Append(compref);
-      compref = iterator.NextComponentReference();
-    }
-
-    ONX_ModelComponentIterator iterator2(*m_model.get(), ON_ModelComponent::Type::RenderLight);
-    compref = iterator2.FirstComponentReference();
-    while (!compref.IsEmpty())
-    {
-      m_compref_cache.Append(compref);
-      compref = iterator2.NextComponentReference();
-    }
-  }
-
-#if defined(ON_PYTHON_COMPILE)
-  if (index < 0)
-    index = m_compref_cache.Count() + index < 0 ? std::abs(index) : m_compref_cache.Count() + index;
-#endif
-
-  if (index < m_compref_cache.Count())
-  {
-    return FileObjectFromCompRef(m_compref_cache[index]);
-  }
-
-#if defined(ON_PYTHON_COMPILE)
-  throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
+//BND_FileObject* BND_ONXModel_ObjectTable::ModelObjectAt(int index)
+//{
+//  if (index < 0)
+//    return nullptr;
+//
+//  if (0 == index)
+//    m_compref_cache.Empty(); // clear cache every time we restart counting
+//
+//  if (m_compref_cache.Count() == 0)
+//  {
+//    m_compref_cache.Reserve(Count());
+//    ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
+//    ON_ModelComponentReference compref = iterator.FirstComponentReference();
+//    while (!compref.IsEmpty())
+//    {
+//      m_compref_cache.Append(compref);
+//      compref = iterator.NextComponentReference();
+//    }
+//
+//    ONX_ModelComponentIterator iterator2(*m_model.get(), ON_ModelComponent::Type::RenderLight);
+//    compref = iterator2.FirstComponentReference();
+//    while (!compref.IsEmpty())
+//    {
+//      m_compref_cache.Append(compref);
+//      compref = iterator2.NextComponentReference();
+//    }
+//  }
+//
+//  if (index < 0)
+//    index = m_compref_cache.Count() + index < 0 ? std::abs(index) : m_compref_cache.Count() + index;
+//
+//  if (index < m_compref_cache.Count())
+//  {
+//    return FileObjectFromCompRef(m_compref_cache[index]);
+//  }
+//
+//  throw py::index_error();
+//}
 
 // helper function for iterator
-BND_FileObject* BND_ONXModel_ObjectTable::IterIndex(int index)
-{
-  return ModelObjectAt(index);
-}
+//BND_FileObject* BND_ONXModel_ObjectTable::IterIndex(int index)
+//{
+//  return ModelObjectAt(index);
+//}
 
-BND_BoundingBox BND_ONXModel_ObjectTable::GetBoundingBox() const
-{
-  return BND_BoundingBox(m_model->ModelGeometryBoundingBox());
-}
+//BND_BoundingBox BND_ONXModel_ObjectTable::GetBoundingBox() const
+//{
+//  return BND_BoundingBox(m_model->ModelGeometryBoundingBox());
+//}
 
-BND_FileObject* BND_ONXModel_ObjectTable::FindId(BND_UUID id) const
-{
-	ON_UUID _id = Binding_to_ON_UUID(id);
-	ON_ModelComponentReference compref = m_model->ComponentFromId(ON_ModelComponent::Type::ModelGeometry, _id);
-	if (compref.IsEmpty())
-		return nullptr;
+//BND_FileObject* BND_ONXModel_ObjectTable::FindId(BND_UUID id) const
+//{
+//	ON_UUID _id = Binding_to_ON_UUID(id);
+//	ON_ModelComponentReference compref = m_model->ComponentFromId(ON_ModelComponent::Type::ModelGeometry, _id);
+//	if (compref.IsEmpty())
+//		return nullptr;
+//
+//	const ON_ModelComponent* model_component = compref.ModelComponent();
+//	const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
+//	if (nullptr == geometryComponent)
+//		return nullptr;
+//
+//	BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
+//	if (nullptr == geometry)
+//		return nullptr;
+//	ON_3dmObjectAttributes* attrs = const_cast<ON_3dmObjectAttributes*>(geometryComponent->Attributes(nullptr));
+//	if (nullptr == attrs)
+//		return nullptr;
+//
+//	BND_FileObject* rc = new BND_FileObject();
+//	rc->m_attributes = new BND_3dmObjectAttributes(attrs, &compref);
+//	rc->m_geometry = geometry;
+//	return rc;
+//}
 
-	const ON_ModelComponent* model_component = compref.ModelComponent();
-	const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
-	if (nullptr == geometryComponent)
-		return nullptr;
+//int BND_File3dmMaterialTable::Add(const BND_Material& material)
+//{
+//  const ON_Material* m = material.m_material;
+//  ON_ModelComponentReference mr = m_model->AddModelComponent(*m);
+//  const ON_Material* managed_material = ON_Material::FromModelComponentRef(mr, nullptr);
+//  int material_index = (nullptr != managed_material) ? managed_material->Index() : ON_UNSET_INT_INDEX;
+//  if ( material_index < 0 )
+//  {
+//    ON_ERROR("failed to add material.");
+//  }
+//  return material_index;
+//}
 
-	BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
-	if (nullptr == geometry)
-		return nullptr;
-	ON_3dmObjectAttributes* attrs = const_cast<ON_3dmObjectAttributes*>(geometryComponent->Attributes(nullptr));
-	if (nullptr == attrs)
-		return nullptr;
+//bool BND_File3dmMaterialTable::Delete(BND_UUID id)
+//{
+//  return DeleteModelComponent(id, ON_ModelComponent::Type::Material, m_model);
+//}
 
-	BND_FileObject* rc = new BND_FileObject();
-	rc->m_attributes = new BND_3dmObjectAttributes(attrs, &compref);
-	rc->m_geometry = geometry;
-	return rc;
-}
+//BND_Material* BND_File3dmMaterialTable::IterIndex(int index)
+//{
+//  return FindIndex(index);
+//}
 
-int BND_File3dmMaterialTable::Add(const BND_Material& material)
-{
-  const ON_Material* m = material.m_material;
-  ON_ModelComponentReference mr = m_model->AddModelComponent(*m);
-  const ON_Material* managed_material = ON_Material::FromModelComponentRef(mr, nullptr);
-  int material_index = (nullptr != managed_material) ? managed_material->Index() : ON_UNSET_INT_INDEX;
-  if ( material_index < 0 )
-  {
-    ON_ERROR("failed to add material.");
-  }
-  return material_index;
-}
+//BND_Material* BND_File3dmMaterialTable::FindIndex(int index)
+//{
+//  ON_ModelComponentReference compref = m_model->MaterialFromIndex(index);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
+//  if (modelmaterial)
+//    return new BND_Material(modelmaterial, &compref);
+//
+//    throw py::index_error();
+//}
 
-bool BND_File3dmMaterialTable::Delete(BND_UUID id)
-{
-  return DeleteModelComponent(id, ON_ModelComponent::Type::Material, m_model);
-}
+//BND_Material* BND_File3dmMaterialTable::FindId(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->MaterialFromId(_id);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
+//  if (modelmaterial)
+//    return new BND_Material(modelmaterial, &compref);
+//  return nullptr;
+//}
 
-BND_Material* BND_File3dmMaterialTable::IterIndex(int index)
-{
-  return FindIndex(index);
-}
+//BND_Material* BND_File3dmMaterialTable::FromAttributes(const BND_3dmObjectAttributes* attributes)
+//{
+//  if (nullptr == attributes)
+//    return nullptr;
+//  ON_ModelComponentReference compref = m_model->MaterialFromAttributes(*attributes->m_attributes);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
+//  if (modelmaterial)
+//    return new BND_Material(modelmaterial, &compref);
+//  return nullptr;
+//}
 
-BND_Material* BND_File3dmMaterialTable::FindIndex(int index)
-{
-  ON_ModelComponentReference compref = m_model->MaterialFromIndex(index);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
-  if (modelmaterial)
-    return new BND_Material(modelmaterial, &compref);
+//void BND_File3dmLinetypeTable::Add(const BND_Linetype& linetype)
+//{
+//  const ON_Linetype* l = linetype.m_linetype;
+//  m_model->AddModelComponent(*l);
+//}
 
-#if defined(ON_PYTHON_COMPILE)
-    throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
+//void BND_File3dmLinetypeTable::Delete(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  m_model->RemoveModelComponent(ON_ModelComponent::Type::LinePattern, _id);
+//}
 
-BND_Material* BND_File3dmMaterialTable::FindId(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->MaterialFromId(_id);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
-  if (modelmaterial)
-    return new BND_Material(modelmaterial, &compref);
-  return nullptr;
-}
+//BND_Linetype* BND_File3dmLinetypeTable::IterIndex(int index)
+//{
+//  return FindIndex(index);
+//}
 
-BND_Material* BND_File3dmMaterialTable::FromAttributes(const BND_3dmObjectAttributes* attributes)
-{
-  if (nullptr == attributes)
-    return nullptr;
-  ON_ModelComponentReference compref = m_model->MaterialFromAttributes(*attributes->m_attributes);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Material* modelmaterial = const_cast<ON_Material*>(ON_Material::Cast(model_component));
-  if (modelmaterial)
-    return new BND_Material(modelmaterial, &compref);
-  return nullptr;
-}
+//template<typename ON_Type, typename BND_Type>
+//BND_Type* bindingFromCompRef(ON_ModelComponentReference compref)
+//{
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  if (compref.IsEmpty())
+//    return nullptr;
+//  ON_Type* model_object = const_cast<ON_Type*>(ON_Type::Cast(model_component));
+//  if (model_object)
+//    return new BND_Type(model_object, &compref);
+//  return nullptr;
+//}
 
-void BND_File3dmLinetypeTable::Add(const BND_Linetype& linetype)
-{
-  const ON_Linetype* l = linetype.m_linetype;
-  m_model->AddModelComponent(*l);
-}
+//BND_Linetype* BND_File3dmLinetypeTable::FindIndex(int index)
+//{
+//  if (index >= 0)
+//  {
+//    ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::LinePattern, index); //no specific method in ON Extensions, therefore getting component here
+//    return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//  }
+//  if (index == ON_Linetype::Continuous.Index()) // -1
+//    return new BND_Linetype(ON_Linetype::Continuous);
+//  if (index == ON_Linetype::ByLayer.Index()) // -2
+//    return new BND_Linetype(ON_Linetype::ByLayer);
+//  if (index == ON_Linetype::ByParent.Index()) // -3
+//    return new BND_Linetype(ON_Linetype::ByParent);
+//  if (index == ON_Linetype::Hidden.Index()) // -4
+//    return new BND_Linetype(ON_Linetype::Hidden);
+//  if (index == ON_Linetype::Dashed.Index()) // -5
+//    return new BND_Linetype(ON_Linetype::Dashed);
+//  if (index == ON_Linetype::DashDot.Index()) // -6
+//    return new BND_Linetype(ON_Linetype::DashDot);
+//  if (index == ON_Linetype::Center.Index()) // -7
+//    return new BND_Linetype(ON_Linetype::Center);
+//  if (index == ON_Linetype::Border.Index()) // -8
+//    return new BND_Linetype(ON_Linetype::Border);
+//  if (index == ON_Linetype::Dots.Index()) // -9
+//    return new BND_Linetype(ON_Linetype::Dots);
+//  return nullptr;
+//}
 
-void BND_File3dmLinetypeTable::Delete(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  m_model->RemoveModelComponent(ON_ModelComponent::Type::LinePattern, _id);
-}
+//BND_Linetype* BND_File3dmLinetypeTable::FindId(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->LinePatternFromId(_id);
+//  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::IterIndex(int index)
-{
-  return FindIndex(index);
-}
+//BND_Linetype* BND_File3dmLinetypeTable::FindName(std::wstring name)
+//{
+//  ON_ModelComponentReference compref = m_model->LinePatternFromName(name.c_str());
+//  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//}
 
-template<typename ON_Type, typename BND_Type>
-BND_Type* bindingFromCompRef(ON_ModelComponentReference compref)
-{
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  if (compref.IsEmpty())
-    return nullptr;
-  ON_Type* model_object = const_cast<ON_Type*>(ON_Type::Cast(model_component));
-  if (model_object)
-    return new BND_Type(model_object, &compref);
-  return nullptr;
-}
+//BND_Linetype* BND_File3dmLinetypeTable::FromAttributes(const BND_3dmObjectAttributes* attributes)
+//{
+//  ON_ModelComponentReference compref = m_model->LinePatternFromAttributes(*attributes->m_attributes);
+//  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::FindIndex(int index)
-{
-  if (index >= 0)
-  {
-    ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::LinePattern, index); //no specific method in ON Extensions, therefore getting component here
-    return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-  }
-  if (index == ON_Linetype::Continuous.Index()) // -1
-    return new BND_Linetype(ON_Linetype::Continuous);
-  if (index == ON_Linetype::ByLayer.Index()) // -2
-    return new BND_Linetype(ON_Linetype::ByLayer);
-  if (index == ON_Linetype::ByParent.Index()) // -3
-    return new BND_Linetype(ON_Linetype::ByParent);
-  if (index == ON_Linetype::Hidden.Index()) // -4
-    return new BND_Linetype(ON_Linetype::Hidden);
-  if (index == ON_Linetype::Dashed.Index()) // -5
-    return new BND_Linetype(ON_Linetype::Dashed);
-  if (index == ON_Linetype::DashDot.Index()) // -6
-    return new BND_Linetype(ON_Linetype::DashDot);
-  if (index == ON_Linetype::Center.Index()) // -7
-    return new BND_Linetype(ON_Linetype::Center);
-  if (index == ON_Linetype::Border.Index()) // -8
-    return new BND_Linetype(ON_Linetype::Border);
-  if (index == ON_Linetype::Dots.Index()) // -9
-    return new BND_Linetype(ON_Linetype::Dots);
-  return nullptr;
-}
+//BND_Linetype* BND_File3dmLinetypeTable::FromLayerIndex(int index)
+//{
+//  ON_ModelComponentReference compref = m_model->LinePatternFromLayerIndex(index);
+//  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::FindId(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->LinePatternFromId(_id);
-  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-}
+//BND_Linetype* BND_File3dmLinetypeTable::GetCurrent()
+//{
+//  // V6 and later stores the ID of the current linetype
+//  ON_UUID _id = m_model->m_settings.CurrentLinePatternId();
+//  if (_id != ON_nil_uuid)
+//  {
+//    ON_ModelComponentReference compref = m_model->LinePatternFromId(_id);
+//    return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
+//  }
+//  // V5 and earlier store the index of the current linetype
+//  int _index = m_model->m_settings.CurrentLinePatternIndex();
+//  if (_index != ON_UNSET_INT_INDEX)
+//  {
+//    return FindIndex(_index);
+//  }
+//  return nullptr;
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::FindName(std::wstring name)
-{
-  ON_ModelComponentReference compref = m_model->LinePatternFromName(name.c_str());
-  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-}
+//void BND_File3dmLinetypeTable::SetCurrent(BND_Linetype* linetype)
+//{
+//  if (linetype->IsValid() && linetype->GetIndex() >= 0)
+//  {
+//    ON_UUID _id = linetype->m_linetype->Id();
+//    m_model->m_settings.SetCurrentLinePatternId(_id);
+//  }
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::FromAttributes(const BND_3dmObjectAttributes* attributes)
-{
-  ON_ModelComponentReference compref = m_model->LinePatternFromAttributes(*attributes->m_attributes);
-  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-}
+//void BND_File3dmBitmapTable::Add(const BND_Bitmap& bitmap)
+//{
+//  const ON_Bitmap* b = bitmap.m_bitmap;
+//  m_model->AddModelComponent(*b);
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::FromLayerIndex(int index)
-{
-  ON_ModelComponentReference compref = m_model->LinePatternFromLayerIndex(index);
-  return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-}
+//bool BND_File3dmBitmapTable::Delete(BND_UUID id)
+//{
+//  return DeleteModelComponent(id, ON_ModelComponent::Type::Image, m_model);
+//}
 
-BND_Linetype* BND_File3dmLinetypeTable::GetCurrent()
-{
-  // V6 and later stores the ID of the current linetype
-  ON_UUID _id = m_model->m_settings.CurrentLinePatternId();
-  if (_id != ON_nil_uuid)
-  {
-    ON_ModelComponentReference compref = m_model->LinePatternFromId(_id);
-    return bindingFromCompRef<ON_Linetype, BND_Linetype>(compref);
-  }
-  // V5 and earlier store the index of the current linetype
-  int _index = m_model->m_settings.CurrentLinePatternIndex();
-  if (_index != ON_UNSET_INT_INDEX)
-  {
-    return FindIndex(_index);
-  }
-  return nullptr;
-}
+//BND_Bitmap* BND_File3dmBitmapTable::FindIndex(int index)
+//{
+//  ON_ModelComponentReference compref = m_model->ImageFromIndex(index);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Bitmap* modelbitmap = const_cast<ON_Bitmap*>(ON_Bitmap::Cast(model_component));
+//  if (modelbitmap)
+//    return new BND_Bitmap(modelbitmap, &compref);
+//
+//  throw py::index_error();
+//}
 
-void BND_File3dmLinetypeTable::SetCurrent(BND_Linetype* linetype)
-{
-  if (linetype->IsValid() && linetype->GetIndex() >= 0)
-  {
-    ON_UUID _id = linetype->m_linetype->Id();
-    m_model->m_settings.SetCurrentLinePatternId(_id);
-  }
-}
+//BND_Bitmap* BND_File3dmBitmapTable::IterIndex(int index)
+//{
+//  return FindIndex(index);
+//}
 
-void BND_File3dmBitmapTable::Add(const BND_Bitmap& bitmap)
-{
-  const ON_Bitmap* b = bitmap.m_bitmap;
-  m_model->AddModelComponent(*b);
-}
-
-bool BND_File3dmBitmapTable::Delete(BND_UUID id)
-{
-  return DeleteModelComponent(id, ON_ModelComponent::Type::Image, m_model);
-}
-
-BND_Bitmap* BND_File3dmBitmapTable::FindIndex(int index)
-{
-  ON_ModelComponentReference compref = m_model->ImageFromIndex(index);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Bitmap* modelbitmap = const_cast<ON_Bitmap*>(ON_Bitmap::Cast(model_component));
-  if (modelbitmap)
-    return new BND_Bitmap(modelbitmap, &compref);
-
-#if defined(ON_PYTHON_COMPILE)
-  throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
-
-BND_Bitmap* BND_File3dmBitmapTable::IterIndex(int index)
-{
-  return FindIndex(index);
-}
-
-BND_Bitmap* BND_File3dmBitmapTable::FindId(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->MaterialFromId(_id);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Bitmap* modelbitmap = const_cast<ON_Bitmap*>(ON_Bitmap::Cast(model_component));
-  if (modelbitmap)
-    return new BND_Bitmap(modelbitmap, &compref);
-  return nullptr;
-}
+//BND_Bitmap* BND_File3dmBitmapTable::FindId(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->MaterialFromId(_id);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Bitmap* modelbitmap = const_cast<ON_Bitmap*>(ON_Bitmap::Cast(model_component));
+//  if (modelbitmap)
+//    return new BND_Bitmap(modelbitmap, &compref);
+//  return nullptr;
+//}
 
 //int BND_File3dmLayerTable::Add(const BND_Layer& layer)
 //{
@@ -1045,562 +1029,527 @@ BND_Bitmap* BND_File3dmBitmapTable::FindId(BND_UUID id)
 //  return nullptr;
 //}
 
-void BND_File3dmGroupTable::Add(const BND_Group& group)
-{
-  const ON_Group* l = group.m_group;
-  m_model->AddModelComponent(*l);
-}
-
-bool BND_File3dmGroupTable::Delete(const BND_Group& group)
-{
-  ON_UUID _id = Binding_to_ON_UUID(group.GetId());
-  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, _id);
-  return !compref.IsEmpty();
-}
-
-bool BND_File3dmGroupTable::DeleteId(BND_UUID id)
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, _id);
-  return !compref.IsEmpty();
-}
-
-bool BND_File3dmGroupTable::DeleteIndex(int index)
-{
-  ON_ComponentManifestItem item = m_model->Manifest().ItemFromIndex(ON_ModelComponent::Type::Group, index);
-  if (!item.IsValid()) return false;
-  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, item.Id());
-  return !compref.IsEmpty();
-}
-
-BND_Group* BND_File3dmGroupTable::IterIndex(int index)
-{
-  return FindIndex(index);
-}
-
-BND_Group* BND_File3dmGroupTable::FindIndex(int index)
-{
-  ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::Group, index); //no specific method in ON Extensions, therefore getting component here
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  if (!compref.IsEmpty())
-  {
-    ON_Group* modelgroup = const_cast<ON_Group*>(ON_Group::Cast(model_component));
-    if (modelgroup)
-      return new BND_Group(modelgroup, &compref);
-  }
-
-#if defined(ON_PYTHON_COMPILE)
-  throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
-
-BND_Group* BND_File3dmGroupTable::FindName(std::wstring name)
-{
-  ON_ModelComponentReference compref = m_model->ComponentFromName(ON_ModelComponent::Type::Group, ON_nil_uuid, name.c_str());
-  if (compref.IsEmpty())
-    return nullptr;
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_Group* modelgroup = const_cast<ON_Group*>(ON_Group::Cast(model_component));
-  if (modelgroup)
-    return new BND_Group(modelgroup, &compref);
-  return nullptr;
-}
-
-BND_TUPLE BND_File3dmGroupTable::GroupMembers(int groupIndex)
-{
-  ON_SimpleArray<BND_FileObject*> fileObjects;
-  ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
-  ON_ModelComponentReference compref = iterator.FirstComponentReference();
-  while (!compref.IsEmpty())
-  {
-    const ON_ModelComponent* model_component = compref.ModelComponent();
-    const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
-    if (geometryComponent)
-    {
-      const ON_3dmObjectAttributes* attrs = geometryComponent->Attributes(nullptr);
-      if (attrs && attrs->IsInGroup(groupIndex))
-      {
-        BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
-        if (geometry)
-        {
-          BND_FileObject* rc = FileObjectFromCompRef(compref);
-          if (rc)
-            fileObjects.Append(rc);
-        }
-      }
-    }
-    compref = iterator.NextComponentReference();
-  }
-
-  BND_TUPLE rc = CreateTuple(fileObjects.Count());
-  for (int i = 0; i < fileObjects.Count(); i++)
-  {
-    SetTuple<BND_FileObject*>(rc, i, fileObjects[i]);
-  }
-  return rc;
-}
-
-std::vector<BND_FileObject*> BND_File3dmGroupTable::GroupMembers2(int groupIndex)
-{
-  ON_SimpleArray<BND_FileObject*> fileObjects;
-  ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
-  ON_ModelComponentReference compref = iterator.FirstComponentReference();
-  while (!compref.IsEmpty())
-  {
-    const ON_ModelComponent* model_component = compref.ModelComponent();
-    const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
-    if (geometryComponent)
-    {
-      const ON_3dmObjectAttributes* attrs = geometryComponent->Attributes(nullptr);
-      if (attrs && attrs->IsInGroup(groupIndex))
-      {
-        BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
-        if (geometry)
-        {
-          BND_FileObject* rc = FileObjectFromCompRef(compref);
-          if (rc)
-            fileObjects.Append(rc);
-        }
-      }
-    }
-    compref = iterator.NextComponentReference();
-  }
-
-  std::vector<BND_FileObject*> rc;
-  for (int i = 0; i < fileObjects.Count(); i++)
-    rc.push_back(fileObjects[i]);
-
-  return rc;
-}
-
-int BND_File3dmViewTable::Count() const
-{
-  return m_named_views ? m_model->m_settings.m_named_views.Count() : m_model->m_settings.m_views.Count();
-}
-
-void BND_File3dmViewTable::Add(const BND_ViewInfo& view)
-{
-  if (m_named_views)
-    m_model->m_settings.m_named_views.Append(view.m_view);
-  else
-    m_model->m_settings.m_views.Append(view.m_view);
-}
-
-BND_ViewInfo* BND_File3dmViewTable::GetItem(int index) const
-{
-  int count = m_named_views ? m_model->m_settings.m_named_views.Count()
-    : m_model->m_settings.m_views.Count();
-
-#if defined(ON_PYTHON_COMPILE)
-  if (index < 0 || index >= count)
-    throw py::index_error();
-#else
-  if (index < 0 || index >= count)
-    return nullptr;
-#endif
-
-  BND_ViewInfo* rc = new BND_ViewInfo();
-  if (m_named_views)
-    rc->m_view = m_model->m_settings.m_named_views[index];
-  else
-    rc->m_view = m_model->m_settings.m_views[index];
-  return rc;
-}
-
-BND_ViewInfo* BND_File3dmViewTable::IterIndex(int index) const
-{
-  return GetItem(index);
-}
-
-void BND_File3dmViewTable::SetItem(int index, const BND_ViewInfo& view)
-{
-  int count = m_named_views ? m_model->m_settings.m_named_views.Count()
-    : m_model->m_settings.m_views.Count();
-  if (index < 0 || index >= count)
-    return;
-
-  if (m_named_views)
-    m_model->m_settings.m_named_views[index] = view.m_view;
-  else
-    m_model->m_settings.m_views[index] = view.m_view;
-}
-
-void BND_File3dmDimStyleTable::Add(const BND_DimensionStyle& dimstyle)
-{
-  const ON_DimStyle* ds = dimstyle.m_dimstyle;
-  m_model->AddModelComponent(*ds);
-}
-
-bool BND_File3dmDimStyleTable::Delete(BND_UUID id)
-{
-  return DeleteModelComponent(id, ON_ModelComponent::Type::DimStyle, m_model);
-}
-
-BND_DimensionStyle* BND_File3dmDimStyleTable::FindIndex(int index) const
-{
-  ON_ModelComponentReference compref = m_model->DimensionStyleFromIndex(index);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_DimStyle* modeldimstyle = const_cast<ON_DimStyle*>(ON_DimStyle::Cast(model_component));
-  if (modeldimstyle)
-    return new BND_DimensionStyle(modeldimstyle, &compref);
-
-#if defined(ON_PYTHON_COMPILE)
-  throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
-
-BND_DimensionStyle* BND_File3dmDimStyleTable::IterIndex(int index) const
-{
-  return FindIndex(index);
-}
-
-BND_DimensionStyle* BND_File3dmDimStyleTable::FindId(BND_UUID id) const
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->DimensionStyleFromId(_id);
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_DimStyle* modeldimstyle = const_cast<ON_DimStyle*>(ON_DimStyle::Cast(model_component));
-  if (modeldimstyle)
-    return new BND_DimensionStyle(modeldimstyle, &compref);
-  return nullptr;
-}
-
-void BND_File3dmInstanceDefinitionTable::AddInstanceDefinition(const BND_InstanceDefinitionGeometry& idef)
-{
-  const ON_InstanceDefinition* _idef = idef.m_idef;
-  m_model->AddModelComponent(*_idef);
-}
-
-int BND_File3dmInstanceDefinitionTable::Add(std::wstring name, std::wstring description, std::wstring url, std::wstring url_tag, ON_3dPoint basePoint, BND_TUPLE geometry, BND_TUPLE attributes)
-{
-
-  int index = -1;
-#if defined(ON_PYTHON_COMPILE)
-  const int count_g = geometry.size();
-  const int count_a = attributes.size();
-#else
-  const int count_g = geometry["length"].as<int>();
-  const int count_a = attributes["length"].as<int>();
-#endif
-
-  if(m_model && count_g > 0)
-  {
-    // Determine if we need to transform geometry to world origin
-    ON_Xform xf;
-    ON_Xform* pXform = nullptr;
-    if (basePoint.IsValid() && basePoint != ON_3dPoint::Origin)
-    {
-      xf = ON_Xform::TranslationTransformation(ON_3dPoint::Origin - basePoint);
-      pXform = &xf;
-    }
-
-    ON_SimpleArray<ON_UUID> object_uuids;
-
-    for ( int i = 0; i < count_g; i ++ )
-    {
-
-#if defined(ON_PYTHON_COMPILE)
-      BND_GeometryBase g = py::cast<BND_GeometryBase>(geometry[i]);
-      BND_3dmObjectAttributes oa = py::cast<BND_3dmObjectAttributes>(attributes[i]);
-#else
-      BND_GeometryBase g = geometry[i].as<BND_GeometryBase>();
-      BND_3dmObjectAttributes oa = attributes[i].as<BND_3dmObjectAttributes>();
-#endif
-
-      const ON_Geometry* pConstGeom = g.GeometryPointer();
-      const ON_3dmObjectAttributes* pConstAtts = i < count_a ? oa.m_attributes : &ON_3dmObjectAttributes::DefaultAttributes;
-
-      if (pConstGeom && pConstAtts)
-      {
-        ON_Geometry* pGeom = pConstGeom->Duplicate(); // Copy so we can transform
-
-        if (pGeom)
-        {
-
-          // Make certain that proper flags are set for instance definiton geometry
-          ON_3dmObjectAttributes atts(*pConstAtts);
-          atts.m_uuid = ON_nil_uuid;
-          atts.SetMode(ON::object_mode::idef_object);
-          atts.RemoveFromAllGroups();
-          atts.m_space = ON::model_space;
-          atts.m_viewport_id = ON_nil_uuid;
-
-          // Transform if needed
-          if (pXform)
-          {
-            atts.Transform(pGeom, *pXform);
-            pGeom->Transform(*pXform);
-          }
-
-          //have to pass in BND_3dmObjectAttributes to Internal_ONX_Model_AddModelGeometry
-          BND_3dmObjectAttributes _atts;
-          _atts.m_attributes = &atts;
-          ON_UUID uuid = Internal_ONX_Model_AddModelGeometry(m_model.get(), pGeom, &_atts);
-          if (ON_UuidIsNotNil(uuid))
-            object_uuids.Append(uuid);
-
-          delete pGeom; // Don't leak...
-
-        }
-
-      }
-
-    }
-
-    if (object_uuids.Count())
-    {
-      ON_InstanceDefinition* idef = new ON_InstanceDefinition();
-      if (nullptr != idef)
-      {
-        idef->SetInstanceGeometryIdList(object_uuids);
-        idef->SetInstanceDefinitionType(ON_InstanceDefinition::IDEF_UPDATE_TYPE::Static);
-        idef->SetName(name.c_str());
-        idef->SetDescription(description.c_str());
-        idef->SetURL(url.c_str());
-        idef->SetURL_Tag(url_tag.c_str());
-        ON_ModelComponentReference model_component_reference = m_model->AddManagedModelComponent(idef, true);
-        if (!model_component_reference.IsEmpty())
-        {
-          const ON_ModelComponent* model_component = model_component_reference.ModelComponent();
-          if (nullptr != model_component)
-            index = model_component->Index();
-        }
-      }
-    }
-  }
-
-  return index;
-}
-
-BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindIndex(int index) const
-{
-  ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::InstanceDefinition, index);
-  if (!compref.IsEmpty())
-  {
-    const ON_ModelComponent* model_component = compref.ModelComponent();
-    ON_InstanceDefinition* modelidef = const_cast<ON_InstanceDefinition*>(ON_InstanceDefinition::Cast(model_component));
-    if (modelidef)
-      return new BND_InstanceDefinitionGeometry(modelidef, &compref);
-  }
-
-#if defined(ON_PYTHON_COMPILE)
-  throw py::index_error();
-#else
-  return nullptr;
-#endif
-}
-
-BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::IterIndex(int index) const
-{
-  return FindIndex(index);
-}
-
-BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindId(BND_UUID id) const
-{
-  ON_UUID _id = Binding_to_ON_UUID(id);
-  ON_ModelComponentReference compref = m_model->ComponentFromId(ON_ModelComponent::Type::InstanceDefinition, _id);
-  if (compref.IsEmpty())
-    return nullptr;
-
-  const ON_ModelComponent* model_component = compref.ModelComponent();
-  ON_InstanceDefinition* modelidef = const_cast<ON_InstanceDefinition*>(ON_InstanceDefinition::Cast(model_component));
-  if (modelidef)
-    return new BND_InstanceDefinitionGeometry(modelidef, &compref);
-  return nullptr;
-}
-
-std::wstring BND_RDKPlugInData::RdkDocumentData() const
-{
-  std::wstring rc;
-  if (m_index >= 0 && m_index < m_model->m_userdata_table.Count())
-  {
-    ONX_Model_UserData* ud = m_model->m_userdata_table[m_index];
-    if (ud)
-    {
-      ON_wString docdata;
-      if( ONX_Model::GetRDKDocumentInformation(*ud, docdata) )
-        rc = docdata.Array();
-    }
-  }
-  return rc;
-}
-
-BND_File3dmPlugInData* BND_File3dmPlugInDataTable::GetPlugInData(int index)
-{
-#if defined(ON_PYTHON_COMPILE)
-  if (index < 0 || index >= m_model->m_userdata_table.Count())
-    throw py::index_error();
-#else
-  if (index < 0 || index >= m_model->m_userdata_table.Count())
-    return nullptr;
-#endif
-  ONX_Model_UserData* ud = m_model->m_userdata_table[index];
-  if (nullptr == ud)
-    return nullptr;
-  if (ONX_Model::IsRDKDocumentInformation(*ud))
-    return new BND_RDKPlugInData(m_model, index);
-  return new BND_File3dmPlugInData(m_model, index);
-}
-
-int BND_File3dmStringTable::Count() const
-{
-  ON_ClassArray<ON_UserString> str;
-  return m_model->GetDocumentUserStrings(str);
-}
-
-int BND_File3dmStringTable::DocumentUserTextCount() const
-{
-  ON_ClassArray<ON_UserString> strings;
-  m_model->GetDocumentUserStrings(strings);
-  int cnt = 0;
-  for (int i = 0; i < strings.Count(); i++)
-    if (strings[i].m_key.Find(L"\\")>=0) cnt++;
-  return cnt;
-}
-
-std::wstring BND_File3dmStringTable::GetKey(int i) const
-{
-  ON_ClassArray<ON_UserString> strings;
-  m_model->GetDocumentUserStrings(strings);
-  const ON_UserString& us = strings[i];
-  return std::wstring(us.m_key.Array());
-}
-
-std::wstring BND_File3dmStringTable::GetValue(int i) const
-{
-  ON_ClassArray<ON_UserString> strings;
-  m_model->GetDocumentUserStrings(strings);
-  const ON_UserString& us = strings[i];
-  return std::wstring(us.m_string_value.Array());
-}
-
-BND_TUPLE BND_File3dmStringTable::GetKeyValue(int i) const
-{
-  ON_ClassArray<ON_UserString> strings;
-  m_model->GetDocumentUserStrings(strings);
-
-#if defined(ON_PYTHON_COMPILE)
-  if (i < 0 || i >= strings.Count())
-    throw py::index_error();
-#endif
-
-  const ON_UserString& us = strings[i];
-  std::wstring key(us.m_key.Array());
-  std::wstring sval(us.m_string_value.Array());
-#if defined(ON_PYTHON_COMPILE) && defined(NANOBIND)
-  BND_TUPLE rc = py::make_tuple(key, sval);
-#else
-  BND_TUPLE rc = CreateTuple(2);
-  SetTuple(rc, 0, key);
-  SetTuple(rc, 1, sval);
-#endif
-  return rc;
-}
-
-std::wstring BND_File3dmStringTable::GetValueFromKey(std::wstring key) const
-{
-  ON_ClassArray<ON_UserString> strings;
-  m_model->GetDocumentUserStrings(strings);
-  ON_wString _key(key.c_str());
-  for (int i = 0; i < strings.Count(); i++)
-  {
-    if (strings[i].m_key.EqualOrdinal(_key, false))
-      return std::wstring(strings[i].m_string_value.Array());
-  }
-  return std::wstring(L"");
-}
-
-void BND_File3dmStringTable::SetString(std::wstring key, std::wstring value)
-{
-  m_model->SetDocumentUserString(key.c_str(), value.c_str());
-}
-
-void BND_File3dmStringTable::Delete(std::wstring key)
-{
-  m_model->SetDocumentUserString(key.c_str(), nullptr);
-}
-
-std::string BND_ONXModel::Encode()
-{
-  return Encode2(nullptr);
-}
-
-std::string BND_ONXModel::Encode2(const BND_File3dmWriteOptions* options)
-{
-  BND_File3dmWriteOptions defaults;
-  if (nullptr == options)
-    options = &defaults;
-
-  ON_Write3dmBufferArchive archive(0, 0, options->VersionForWriting(), ON::Version());
-  archive.SetShouldSerializeUserDataDefault(options->SaveUserData());
-
-  m_model->Write(archive, options->VersionForWriting());
-  const unsigned char* buffer = (const unsigned char*)archive.Buffer();
-  size_t length = archive.SizeOfArchive();
-
-  std::string rc = base64_encode(buffer, (unsigned int)length);
-  return rc;
-}
-
-BND_ONXModel* BND_ONXModel::FromByteArray(int length, const void* buffer)
-{
-  ON_Read3dmBufferArchive archive(length, buffer, true, 0, 0);
-
-  ONX_Model* model = new ONX_Model();
-  if (!model->Read(archive)) {
-    delete model;
-    return nullptr;
-  }
-  return new BND_ONXModel(model);
-}
-
-BND_ONXModel* BND_ONXModel::Decode(std::string buffer)
-{
-  std::string decoded = base64_decode(buffer);
-  int length = (int)decoded.length();
-  const unsigned char* c = (const unsigned char*)&decoded.at(0);
-  return FromByteArray(length, c);
-}
-
-std::wstring BND_ONXModel::RdkXml() const
-{
-  std::wstring rc;
-  ON_wString s;
-  int count = m_model->m_userdata_table.Count();
-  for (int i = 0; i < count; i++)
-  {
-    ONX_Model_UserData* ud = m_model->m_userdata_table[i];
-    if (ud && ONX_Model::GetRDKDocumentInformation(*ud, s))
-    {
-      rc = s.Array();
-      break;
-    }
-  }
-  return rc;
-}
-
-bool BND_ONXModel::ReadTest(std::wstring path)
-{
-  ONX_ModelTest modeltest;
-  bool rc = modeltest.ReadTest(path.c_str(), ONX_ModelTest::Type::Read, false, nullptr, nullptr);
-  return rc;
-}
-
-BND_File3dmWriteOptions::BND_File3dmWriteOptions()
-{
-  m_version = ON_BinaryArchive::CurrentArchiveVersion() / 10;
-}
-
-int BND_File3dmWriteOptions::VersionForWriting() const
-{
-  if (m_version < 5)
-    return m_version;
-  return m_version * 10;
-}
+//void BND_File3dmGroupTable::Add(const BND_Group& group)
+//{
+//  const ON_Group* l = group.m_group;
+//  m_model->AddModelComponent(*l);
+//}
+
+//bool BND_File3dmGroupTable::Delete(const BND_Group& group)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(group.GetId());
+//  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, _id);
+//  return !compref.IsEmpty();
+//}
+
+//bool BND_File3dmGroupTable::DeleteId(BND_UUID id)
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, _id);
+//  return !compref.IsEmpty();
+//}
+
+//bool BND_File3dmGroupTable::DeleteIndex(int index)
+//{
+//  ON_ComponentManifestItem item = m_model->Manifest().ItemFromIndex(ON_ModelComponent::Type::Group, index);
+//  if (!item.IsValid()) return false;
+//  ON_ModelComponentReference compref = m_model->RemoveModelComponent(ON_ModelComponent::Type::Group, item.Id());
+//  return !compref.IsEmpty();
+//}
+
+//BND_Group* BND_File3dmGroupTable::IterIndex(int index)
+//{
+//  return FindIndex(index);
+//}
+
+//BND_Group* BND_File3dmGroupTable::FindIndex(int index)
+//{
+//  ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::Group, index); //no specific method in ON Extensions, therefore getting component here
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  if (!compref.IsEmpty())
+//  {
+//    ON_Group* modelgroup = const_cast<ON_Group*>(ON_Group::Cast(model_component));
+//    if (modelgroup)
+//      return new BND_Group(modelgroup, &compref);
+//  }
+//  throw py::index_error();
+//}
+
+//BND_Group* BND_File3dmGroupTable::FindName(std::wstring name)
+//{
+//  ON_ModelComponentReference compref = m_model->ComponentFromName(ON_ModelComponent::Type::Group, ON_nil_uuid, name.c_str());
+//  if (compref.IsEmpty())
+//    return nullptr;
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_Group* modelgroup = const_cast<ON_Group*>(ON_Group::Cast(model_component));
+//  if (modelgroup)
+//    return new BND_Group(modelgroup, &compref);
+//  return nullptr;
+//}
+
+//BND_TUPLE BND_File3dmGroupTable::GroupMembers(int groupIndex)
+//{
+//  ON_SimpleArray<BND_FileObject*> fileObjects;
+//  ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
+//  ON_ModelComponentReference compref = iterator.FirstComponentReference();
+//  while (!compref.IsEmpty())
+//  {
+//    const ON_ModelComponent* model_component = compref.ModelComponent();
+//    const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
+//    if (geometryComponent)
+//    {
+//      const ON_3dmObjectAttributes* attrs = geometryComponent->Attributes(nullptr);
+//      if (attrs && attrs->IsInGroup(groupIndex))
+//      {
+//        BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
+//        if (geometry)
+//        {
+//          BND_FileObject* rc = FileObjectFromCompRef(compref);
+//          if (rc)
+//            fileObjects.Append(rc);
+//        }
+//      }
+//    }
+//    compref = iterator.NextComponentReference();
+//  }
+//
+//  BND_TUPLE rc = CreateTuple(fileObjects.Count());
+//  for (int i = 0; i < fileObjects.Count(); i++)
+//  {
+//    SetTuple<BND_FileObject*>(rc, i, fileObjects[i]);
+//  }
+//  return rc;
+//}
+
+//std::vector<BND_FileObject*> BND_File3dmGroupTable::GroupMembers2(int groupIndex)
+//{
+//  ON_SimpleArray<BND_FileObject*> fileObjects;
+//  ONX_ModelComponentIterator iterator(*m_model.get(), ON_ModelComponent::Type::ModelGeometry);
+//  ON_ModelComponentReference compref = iterator.FirstComponentReference();
+//  while (!compref.IsEmpty())
+//  {
+//    const ON_ModelComponent* model_component = compref.ModelComponent();
+//    const ON_ModelGeometryComponent* geometryComponent = ON_ModelGeometryComponent::Cast(model_component);
+//    if (geometryComponent)
+//    {
+//      const ON_3dmObjectAttributes* attrs = geometryComponent->Attributes(nullptr);
+//      if (attrs && attrs->IsInGroup(groupIndex))
+//      {
+//        BND_GeometryBase* geometry = dynamic_cast<BND_GeometryBase*>(BND_CommonObject::CreateWrapper(compref));
+//        if (geometry)
+//        {
+//          BND_FileObject* rc = FileObjectFromCompRef(compref);
+//          if (rc)
+//            fileObjects.Append(rc);
+//        }
+//      }
+//    }
+//    compref = iterator.NextComponentReference();
+//  }
+//
+//  std::vector<BND_FileObject*> rc;
+//  for (int i = 0; i < fileObjects.Count(); i++)
+//    rc.push_back(fileObjects[i]);
+//
+//  return rc;
+//}
+
+//int BND_File3dmViewTable::Count() const
+//{
+//  return m_named_views ? m_model->m_settings.m_named_views.Count() : m_model->m_settings.m_views.Count();
+//}
+
+//void BND_File3dmViewTable::Add(const BND_ViewInfo& view)
+//{
+//  if (m_named_views)
+//    m_model->m_settings.m_named_views.Append(view.m_view);
+//  else
+//    m_model->m_settings.m_views.Append(view.m_view);
+//}
+
+//BND_ViewInfo* BND_File3dmViewTable::GetItem(int index) const
+//{
+//  int count = m_named_views ? m_model->m_settings.m_named_views.Count()
+//    : m_model->m_settings.m_views.Count();
+//
+//  if (index < 0 || index >= count)
+//    throw py::index_error();
+//
+//  BND_ViewInfo* rc = new BND_ViewInfo();
+//  if (m_named_views)
+//    rc->m_view = m_model->m_settings.m_named_views[index];
+//  else
+//    rc->m_view = m_model->m_settings.m_views[index];
+//  return rc;
+//}
+
+//BND_ViewInfo* BND_File3dmViewTable::IterIndex(int index) const
+//{
+//  return GetItem(index);
+//}
+
+//void BND_File3dmViewTable::SetItem(int index, const BND_ViewInfo& view)
+//{
+//  int count = m_named_views ? m_model->m_settings.m_named_views.Count()
+//    : m_model->m_settings.m_views.Count();
+//  if (index < 0 || index >= count)
+//    return;
+//
+//  if (m_named_views)
+//    m_model->m_settings.m_named_views[index] = view.m_view;
+//  else
+//    m_model->m_settings.m_views[index] = view.m_view;
+//}
+
+//void BND_File3dmDimStyleTable::Add(const BND_DimensionStyle& dimstyle)
+//{
+//  const ON_DimStyle* ds = dimstyle.m_dimstyle;
+//  m_model->AddModelComponent(*ds);
+//}
+
+//bool BND_File3dmDimStyleTable::Delete(BND_UUID id)
+//{
+//  return DeleteModelComponent(id, ON_ModelComponent::Type::DimStyle, m_model);
+//}
+
+//BND_DimensionStyle* BND_File3dmDimStyleTable::FindIndex(int index) const
+//{
+//  ON_ModelComponentReference compref = m_model->DimensionStyleFromIndex(index);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_DimStyle* modeldimstyle = const_cast<ON_DimStyle*>(ON_DimStyle::Cast(model_component));
+//  if (modeldimstyle)
+//    return new BND_DimensionStyle(modeldimstyle, &compref);
+//
+//  throw py::index_error();
+//}
+
+//BND_DimensionStyle* BND_File3dmDimStyleTable::IterIndex(int index) const
+//{
+//  return FindIndex(index);
+//}
+
+//BND_DimensionStyle* BND_File3dmDimStyleTable::FindId(BND_UUID id) const
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->DimensionStyleFromId(_id);
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_DimStyle* modeldimstyle = const_cast<ON_DimStyle*>(ON_DimStyle::Cast(model_component));
+//  if (modeldimstyle)
+//    return new BND_DimensionStyle(modeldimstyle, &compref);
+//  return nullptr;
+//}
+
+//void BND_File3dmInstanceDefinitionTable::AddInstanceDefinition(const BND_InstanceDefinitionGeometry& idef)
+//{
+//  const ON_InstanceDefinition* _idef = idef.m_idef;
+//  m_model->AddModelComponent(*_idef);
+//}
+
+//int BND_File3dmInstanceDefinitionTable::Add(std::wstring name, std::wstring description, std::wstring url, std::wstring url_tag, ON_3dPoint basePoint, BND_TUPLE geometry, BND_TUPLE attributes)
+//{
+//
+//  int index = -1;
+//  const int count_g = geometry.size();
+//  const int count_a = attributes.size();
+//
+//  if(m_model && count_g > 0)
+//  {
+//    // Determine if we need to transform geometry to world origin
+//    ON_Xform xf;
+//    ON_Xform* pXform = nullptr;
+//    if (basePoint.IsValid() && basePoint != ON_3dPoint::Origin)
+//    {
+//      xf = ON_Xform::TranslationTransformation(ON_3dPoint::Origin - basePoint);
+//      pXform = &xf;
+//    }
+//
+//    ON_SimpleArray<ON_UUID> object_uuids;
+//
+//    for ( int i = 0; i < count_g; i ++ )
+//    {
+//
+//      BND_GeometryBase g = py::cast<BND_GeometryBase>(geometry[i]);
+//      BND_3dmObjectAttributes oa = py::cast<BND_3dmObjectAttributes>(attributes[i]);
+//
+//      const ON_Geometry* pConstGeom = g.GeometryPointer();
+//      const ON_3dmObjectAttributes* pConstAtts = i < count_a ? oa.m_attributes : &ON_3dmObjectAttributes::DefaultAttributes;
+//
+//      if (pConstGeom && pConstAtts)
+//      {
+//        ON_Geometry* pGeom = pConstGeom->Duplicate(); // Copy so we can transform
+//
+//        if (pGeom)
+//        {
+//
+//          // Make certain that proper flags are set for instance definiton geometry
+//          ON_3dmObjectAttributes atts(*pConstAtts);
+//          atts.m_uuid = ON_nil_uuid;
+//          atts.SetMode(ON::object_mode::idef_object);
+//          atts.RemoveFromAllGroups();
+//          atts.m_space = ON::model_space;
+//          atts.m_viewport_id = ON_nil_uuid;
+//
+//          // Transform if needed
+//          if (pXform)
+//          {
+//            atts.Transform(pGeom, *pXform);
+//            pGeom->Transform(*pXform);
+//          }
+//
+//          //have to pass in BND_3dmObjectAttributes to Internal_ONX_Model_AddModelGeometry
+//          BND_3dmObjectAttributes _atts;
+//          _atts.m_attributes = &atts;
+//          ON_UUID uuid = Internal_ONX_Model_AddModelGeometry(m_model.get(), pGeom, &_atts);
+//          if (ON_UuidIsNotNil(uuid))
+//            object_uuids.Append(uuid);
+//
+//          delete pGeom; // Don't leak...
+//
+//        }
+//
+//      }
+//
+//    }
+//
+//    if (object_uuids.Count())
+//    {
+//      ON_InstanceDefinition* idef = new ON_InstanceDefinition();
+//      if (nullptr != idef)
+//      {
+//        idef->SetInstanceGeometryIdList(object_uuids);
+//        idef->SetInstanceDefinitionType(ON_InstanceDefinition::IDEF_UPDATE_TYPE::Static);
+//        idef->SetName(name.c_str());
+//        idef->SetDescription(description.c_str());
+//        idef->SetURL(url.c_str());
+//        idef->SetURL_Tag(url_tag.c_str());
+//        ON_ModelComponentReference model_component_reference = m_model->AddManagedModelComponent(idef, true);
+//        if (!model_component_reference.IsEmpty())
+//        {
+//          const ON_ModelComponent* model_component = model_component_reference.ModelComponent();
+//          if (nullptr != model_component)
+//            index = model_component->Index();
+//        }
+//      }
+//    }
+//  }
+//
+//  return index;
+//}
+
+//BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindIndex(int index) const
+//{
+//  ON_ModelComponentReference compref = m_model->ComponentFromIndex(ON_ModelComponent::Type::InstanceDefinition, index);
+//  if (!compref.IsEmpty())
+//  {
+//    const ON_ModelComponent* model_component = compref.ModelComponent();
+//    ON_InstanceDefinition* modelidef = const_cast<ON_InstanceDefinition*>(ON_InstanceDefinition::Cast(model_component));
+//    if (modelidef)
+//      return new BND_InstanceDefinitionGeometry(modelidef, &compref);
+//  }
+//
+//  throw py::index_error();
+//}
+
+//BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::IterIndex(int index) const
+//{
+//  return FindIndex(index);
+//}
+
+//BND_InstanceDefinitionGeometry* BND_File3dmInstanceDefinitionTable::FindId(BND_UUID id) const
+//{
+//  ON_UUID _id = Binding_to_ON_UUID(id);
+//  ON_ModelComponentReference compref = m_model->ComponentFromId(ON_ModelComponent::Type::InstanceDefinition, _id);
+//  if (compref.IsEmpty())
+//    return nullptr;
+//
+//  const ON_ModelComponent* model_component = compref.ModelComponent();
+//  ON_InstanceDefinition* modelidef = const_cast<ON_InstanceDefinition*>(ON_InstanceDefinition::Cast(model_component));
+//  if (modelidef)
+//    return new BND_InstanceDefinitionGeometry(modelidef, &compref);
+//  return nullptr;
+//}
+
+//std::wstring BND_RDKPlugInData::RdkDocumentData() const
+//{
+//  std::wstring rc;
+//  if (m_index >= 0 && m_index < m_model->m_userdata_table.Count())
+//  {
+//    ONX_Model_UserData* ud = m_model->m_userdata_table[m_index];
+//    if (ud)
+//    {
+//      ON_wString docdata;
+//      if( ONX_Model::GetRDKDocumentInformation(*ud, docdata) )
+//        rc = docdata.Array();
+//    }
+//  }
+//  return rc;
+//}
+
+//BND_File3dmPlugInData* BND_File3dmPlugInDataTable::GetPlugInData(int index)
+//{
+//  if (index < 0 || index >= m_model->m_userdata_table.Count())
+//    throw py::index_error();
+//  ONX_Model_UserData* ud = m_model->m_userdata_table[index];
+//  if (nullptr == ud)
+//    return nullptr;
+//  if (ONX_Model::IsRDKDocumentInformation(*ud))
+//    return new BND_RDKPlugInData(m_model, index);
+//  return new BND_File3dmPlugInData(m_model, index);
+//}
+
+//int BND_File3dmStringTable::Count() const
+//{
+//  ON_ClassArray<ON_UserString> str;
+//  return m_model->GetDocumentUserStrings(str);
+//}
+
+//int BND_File3dmStringTable::DocumentUserTextCount() const
+//{
+//  ON_ClassArray<ON_UserString> strings;
+//  m_model->GetDocumentUserStrings(strings);
+//  int cnt = 0;
+//  for (int i = 0; i < strings.Count(); i++)
+//    if (strings[i].m_key.Find(L"\\")>=0) cnt++;
+//  return cnt;
+//}
+
+//std::wstring BND_File3dmStringTable::GetKey(int i) const
+//{
+//  ON_ClassArray<ON_UserString> strings;
+//  m_model->GetDocumentUserStrings(strings);
+//  const ON_UserString& us = strings[i];
+//  return std::wstring(us.m_key.Array());
+//}
+
+//std::wstring BND_File3dmStringTable::GetValue(int i) const
+//{
+//  ON_ClassArray<ON_UserString> strings;
+//  m_model->GetDocumentUserStrings(strings);
+//  const ON_UserString& us = strings[i];
+//  return std::wstring(us.m_string_value.Array());
+//}
+
+//BND_TUPLE BND_File3dmStringTable::GetKeyValue(int i) const
+//{
+//  ON_ClassArray<ON_UserString> strings;
+//  m_model->GetDocumentUserStrings(strings);
+//
+//  if (i < 0 || i >= strings.Count())
+//    throw py::index_error();
+//
+//  const ON_UserString& us = strings[i];
+//  std::wstring key(us.m_key.Array());
+//  std::wstring sval(us.m_string_value.Array());
+//#if defined(ON_PYTHON_COMPILE) && defined(NANOBIND)
+//  BND_TUPLE rc = py::make_tuple(key, sval);
+//#else
+//  BND_TUPLE rc = CreateTuple(2);
+//  SetTuple(rc, 0, key);
+//  SetTuple(rc, 1, sval);
+//#endif
+//  return rc;
+//}
+
+//std::wstring BND_File3dmStringTable::GetValueFromKey(std::wstring key) const
+//{
+//  ON_ClassArray<ON_UserString> strings;
+//  m_model->GetDocumentUserStrings(strings);
+//  ON_wString _key(key.c_str());
+//  for (int i = 0; i < strings.Count(); i++)
+//  {
+//    if (strings[i].m_key.EqualOrdinal(_key, false))
+//      return std::wstring(strings[i].m_string_value.Array());
+//  }
+//  return std::wstring(L"");
+//}
+
+//void BND_File3dmStringTable::SetString(std::wstring key, std::wstring value)
+//{
+//  m_model->SetDocumentUserString(key.c_str(), value.c_str());
+//}
+
+//void BND_File3dmStringTable::Delete(std::wstring key)
+//{
+//  m_model->SetDocumentUserString(key.c_str(), nullptr);
+//}
+
+//std::string BND_ONXModel::Encode()
+//{
+//  return Encode2(nullptr);
+//}
+
+//std::string BND_ONXModel::Encode2(const BND_File3dmWriteOptions* options)
+//{
+//  BND_File3dmWriteOptions defaults;
+//  if (nullptr == options)
+//    options = &defaults;
+//
+//  ON_Write3dmBufferArchive archive(0, 0, options->VersionForWriting(), ON::Version());
+//  archive.SetShouldSerializeUserDataDefault(options->SaveUserData());
+//
+//  m_model->Write(archive, options->VersionForWriting());
+//  const unsigned char* buffer = (const unsigned char*)archive.Buffer();
+//  size_t length = archive.SizeOfArchive();
+//
+//  std::string rc = base64_encode(buffer, (unsigned int)length);
+//  return rc;
+//}
+
+//BND_ONXModel* BND_ONXModel::FromByteArray(int length, const void* buffer)
+//{
+//  ON_Read3dmBufferArchive archive(length, buffer, true, 0, 0);
+//
+//  ONX_Model* model = new ONX_Model();
+//  if (!model->Read(archive)) {
+//    delete model;
+//    return nullptr;
+//  }
+//  return new BND_ONXModel(model);
+//}
+
+//BND_ONXModel* BND_ONXModel::Decode(std::string buffer)
+//{
+//  std::string decoded = base64_decode(buffer);
+//  int length = (int)decoded.length();
+//  const unsigned char* c = (const unsigned char*)&decoded.at(0);
+//  return FromByteArray(length, c);
+//}
+
+//std::wstring BND_ONXModel::RdkXml() const
+//{
+//  std::wstring rc;
+//  ON_wString s;
+//  int count = m_model->m_userdata_table.Count();
+//  for (int i = 0; i < count; i++)
+//  {
+//    ONX_Model_UserData* ud = m_model->m_userdata_table[i];
+//    if (ud && ONX_Model::GetRDKDocumentInformation(*ud, s))
+//    {
+//      rc = s.Array();
+//      break;
+//    }
+//  }
+//  return rc;
+//}
+
+//bool BND_ONXModel::ReadTest(std::wstring path)
+//{
+//  ONX_ModelTest modeltest;
+//  bool rc = modeltest.ReadTest(path.c_str(), ONX_ModelTest::Type::Read, false, nullptr, nullptr);
+//  return rc;
+//}
+
+//BND_File3dmWriteOptions::BND_File3dmWriteOptions()
+//{
+//  m_version = ON_BinaryArchive::CurrentArchiveVersion() / 10;
+//}
+
+//int BND_File3dmWriteOptions::VersionForWriting() const
+//{
+//  if (m_version < 5)
+//    return m_version;
+//  return m_version * 10;
+//}
 
 /*
 BND_TUPLE BND_FileObject::GetTextureMapping( const class BND_File3dm* file3dm, int mappingId )
@@ -1662,124 +1611,124 @@ struct PyBNDIterator {
 
 void initExtensionsBindings(rh3dmpymodule& m)
 {
-  py::class_<BND_File3dmPlugInData>(m, "File3dmPlugInData")
-    ;
+  //py::class_<BND_File3dmPlugInData>(m, "File3dmPlugInData")
+  //  ;
 
-  py::class_<BND_RDKPlugInData, BND_File3dmPlugInData>(m, "File3dmRdkDocumentData")
-    .def("RdkXml", &BND_RDKPlugInData::RdkDocumentData)
-    ;
+  //py::class_<BND_RDKPlugInData, BND_File3dmPlugInData>(m, "File3dmRdkDocumentData")
+  //  .def("RdkXml", &BND_RDKPlugInData::RdkDocumentData)
+  //  ;
 
-  py::class_<BND_File3dmPlugInDataTable>(m, "File3dmPlugInDataTable")
-    .def("__len__", &BND_File3dmPlugInDataTable::Count)
-    .def("__getitem__", &BND_File3dmPlugInDataTable::GetPlugInData)
-    ;
+  //py::class_<BND_File3dmPlugInDataTable>(m, "File3dmPlugInDataTable")
+  //  .def("__len__", &BND_File3dmPlugInDataTable::Count)
+  //  .def("__getitem__", &BND_File3dmPlugInDataTable::GetPlugInData)
+  //  ;
 
-  py::class_<BND_FileObject>(m, "File3dmObject")
-    .def_property_readonly("Attributes", &BND_FileObject::GetAttributes)
-    .def_property_readonly("Geometry", &BND_FileObject::GetGeometry)
-    ;
+  //py::class_<BND_FileObject>(m, "File3dmObject")
+  //  .def_property_readonly("Attributes", &BND_FileObject::GetAttributes)
+  //  .def_property_readonly("Geometry", &BND_FileObject::GetGeometry)
+  //  ;
 
-  py::class_<PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*> >(m, "__ObjectIterator")
-    .def("__iter__", [](PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*> &it) -> PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>::next)
-    ;
+  //py::class_<PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*> >(m, "__ObjectIterator")
+  //  .def("__iter__", [](PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*> &it) -> PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>& { return it; })
+  //  .def("__next__", &PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>::next)
+  //  ;
 
-  py::class_<BND_ONXModel_ObjectTable>(m, "File3dmObjectTable")
-    .def("__len__", &BND_ONXModel_ObjectTable::Count)
-    .def("__getitem__", &BND_ONXModel_ObjectTable::ModelObjectAt)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>(s.cast<BND_ONXModel_ObjectTable &>(), s); })
-#endif
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint1, py::arg("x"), py::arg("y"), py::arg("z"))
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint6, py::arg("x"), py::arg("y"), py::arg("z"), py::arg("attributes"))
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint2, py::arg("point"))
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint3, py::arg("point"), py::arg("attributes"))
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint4, py::arg("point"))
-    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint5, py::arg("point"), py::arg("attributes"))
-    .def("AddPointCloud", &BND_ONXModel_ObjectTable::AddPointCloud, py::arg("cloud"), py::arg("attributes")=nullptr)
-    .def("AddLine", &BND_ONXModel_ObjectTable::AddLine1, py::arg("from"), py::arg("to"))
-    .def("AddLine", &BND_ONXModel_ObjectTable::AddLine2, py::arg("from"), py::arg("to"), py::arg("attributes"))
-    .def("AddPolyline", &BND_ONXModel_ObjectTable::AddPolyline1, py::arg("polyline"), py::arg("attributes")=nullptr)
-    .def("AddPolyline", &BND_ONXModel_ObjectTable::AddPolyline2, py::arg("polyline"), py::arg("attributes")=nullptr)
-    .def("AddArc", &BND_ONXModel_ObjectTable::AddArc, py::arg("arc"), py::arg("attributes")=nullptr)
-    .def("AddCircle", &BND_ONXModel_ObjectTable::AddCircle, py::arg("circle"), py::arg("attributes") = nullptr)
-    .def("AddEllipse", &BND_ONXModel_ObjectTable::AddEllipse, py::arg("ellipse"), py::arg("attributes") = nullptr)
-    .def("AddSphere", &BND_ONXModel_ObjectTable::AddSphere, py::arg("sphere"), py::arg("attributes") = nullptr)
-    .def("AddCurve", &BND_ONXModel_ObjectTable::AddCurve, py::arg("curve"), py::arg("attributes")=nullptr)
-    .def("AddTextDot", &BND_ONXModel_ObjectTable::AddTextDot, py::arg("text"), py::arg("location"), py::arg("attributes")=nullptr)
-    .def("AddSurface", &BND_ONXModel_ObjectTable::AddSurface, py::arg("surface"), py::arg("attributes")=nullptr)
-    .def("AddExtrusion", &BND_ONXModel_ObjectTable::AddExtrusion, py::arg("extrusion"), py::arg("attributes")=nullptr)
-    .def("AddMesh", &BND_ONXModel_ObjectTable::AddMesh, py::arg("mesh"), py::arg("attributes")=nullptr)
-    .def("AddBrep", &BND_ONXModel_ObjectTable::AddBrep, py::arg("brep"), py::arg("attributes")=nullptr)
-    .def("AddHatch", &BND_ONXModel_ObjectTable::AddHatch, py::arg("hatch"), py::arg("attributes")=nullptr)
-    .def("Add", &BND_ONXModel_ObjectTable::Add, py::arg("geometry"), py::arg("attributes")=nullptr)
-    .def("AddInstanceObject", &BND_ONXModel_ObjectTable::AddInstanceObject1, py::arg("idef") )
-    .def("AddInstanceObject", &BND_ONXModel_ObjectTable::AddInstanceObject2, py::arg("idef"), py::arg("attributes")=nullptr)
-    .def("AddObject", &BND_ONXModel_ObjectTable::AddObject, py::arg("object"))
-    .def("GetBoundingBox", &BND_ONXModel_ObjectTable::GetBoundingBox)
-    .def("Delete", &BND_ONXModel_ObjectTable::Delete, py::arg("id"))
-    .def("Delete", &BND_ONXModel_ObjectTable::Delete2, py::arg("id"))
-    .def("FindId", &BND_ONXModel_ObjectTable::FindId, py::arg("id"))
-    ;
+//  py::class_<BND_ONXModel_ObjectTable>(m, "File3dmObjectTable")
+//    .def("__len__", &BND_ONXModel_ObjectTable::Count)
+//    .def("__getitem__", &BND_ONXModel_ObjectTable::ModelObjectAt)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_ONXModel_ObjectTable&, BND_FileObject*>(s.cast<BND_ONXModel_ObjectTable &>(), s); })
+//#endif
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint1, py::arg("x"), py::arg("y"), py::arg("z"))
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint6, py::arg("x"), py::arg("y"), py::arg("z"), py::arg("attributes"))
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint2, py::arg("point"))
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint3, py::arg("point"), py::arg("attributes"))
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint4, py::arg("point"))
+//    .def("AddPoint", &BND_ONXModel_ObjectTable::AddPoint5, py::arg("point"), py::arg("attributes"))
+//    .def("AddPointCloud", &BND_ONXModel_ObjectTable::AddPointCloud, py::arg("cloud"), py::arg("attributes")=nullptr)
+//    .def("AddLine", &BND_ONXModel_ObjectTable::AddLine1, py::arg("from"), py::arg("to"))
+//    .def("AddLine", &BND_ONXModel_ObjectTable::AddLine2, py::arg("from"), py::arg("to"), py::arg("attributes"))
+//    .def("AddPolyline", &BND_ONXModel_ObjectTable::AddPolyline1, py::arg("polyline"), py::arg("attributes")=nullptr)
+//    .def("AddPolyline", &BND_ONXModel_ObjectTable::AddPolyline2, py::arg("polyline"), py::arg("attributes")=nullptr)
+//    .def("AddArc", &BND_ONXModel_ObjectTable::AddArc, py::arg("arc"), py::arg("attributes")=nullptr)
+//    .def("AddCircle", &BND_ONXModel_ObjectTable::AddCircle, py::arg("circle"), py::arg("attributes") = nullptr)
+//    .def("AddEllipse", &BND_ONXModel_ObjectTable::AddEllipse, py::arg("ellipse"), py::arg("attributes") = nullptr)
+//    .def("AddSphere", &BND_ONXModel_ObjectTable::AddSphere, py::arg("sphere"), py::arg("attributes") = nullptr)
+//    .def("AddCurve", &BND_ONXModel_ObjectTable::AddCurve, py::arg("curve"), py::arg("attributes")=nullptr)
+//    .def("AddTextDot", &BND_ONXModel_ObjectTable::AddTextDot, py::arg("text"), py::arg("location"), py::arg("attributes")=nullptr)
+//    .def("AddSurface", &BND_ONXModel_ObjectTable::AddSurface, py::arg("surface"), py::arg("attributes")=nullptr)
+//    .def("AddExtrusion", &BND_ONXModel_ObjectTable::AddExtrusion, py::arg("extrusion"), py::arg("attributes")=nullptr)
+//    .def("AddMesh", &BND_ONXModel_ObjectTable::AddMesh, py::arg("mesh"), py::arg("attributes")=nullptr)
+//    .def("AddBrep", &BND_ONXModel_ObjectTable::AddBrep, py::arg("brep"), py::arg("attributes")=nullptr)
+//    .def("AddHatch", &BND_ONXModel_ObjectTable::AddHatch, py::arg("hatch"), py::arg("attributes")=nullptr)
+//    .def("Add", &BND_ONXModel_ObjectTable::Add, py::arg("geometry"), py::arg("attributes")=nullptr)
+//    .def("AddInstanceObject", &BND_ONXModel_ObjectTable::AddInstanceObject1, py::arg("idef") )
+//    .def("AddInstanceObject", &BND_ONXModel_ObjectTable::AddInstanceObject2, py::arg("idef"), py::arg("attributes")=nullptr)
+//    .def("AddObject", &BND_ONXModel_ObjectTable::AddObject, py::arg("object"))
+//    .def("GetBoundingBox", &BND_ONXModel_ObjectTable::GetBoundingBox)
+//    .def("Delete", &BND_ONXModel_ObjectTable::Delete, py::arg("id"))
+//    .def("Delete", &BND_ONXModel_ObjectTable::Delete2, py::arg("id"))
+//    .def("FindId", &BND_ONXModel_ObjectTable::FindId, py::arg("id"))
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> >(m, "__MaterialIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*>  &it) -> PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> & { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> ::next)
-    ;
+  //py::class_<PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> >(m, "__MaterialIterator")
+  //  .def("__iter__", [](PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*>  &it) -> PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> & { return it; })
+  //  .def("__next__", &PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*> ::next)
+  //  ;
 
-  py::class_<BND_File3dmMaterialTable>(m, "File3dmMaterialTable")
-    .def("__len__", &BND_File3dmMaterialTable::Count)
-    .def("__getitem__", &BND_File3dmMaterialTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*>(s.cast<BND_File3dmMaterialTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmMaterialTable::Add, py::arg("material"))
-    .def("Delete", &BND_File3dmMaterialTable::Delete, py::arg("id"))
-    .def("FindIndex", &BND_File3dmMaterialTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmMaterialTable::FindId, py::arg("id"))
-    .def("FindFromAttributes", &BND_File3dmMaterialTable::FromAttributes)
-    ;
+//  py::class_<BND_File3dmMaterialTable>(m, "File3dmMaterialTable")
+//    .def("__len__", &BND_File3dmMaterialTable::Count)
+//    .def("__getitem__", &BND_File3dmMaterialTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmMaterialTable&, BND_Material*>(s.cast<BND_File3dmMaterialTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmMaterialTable::Add, py::arg("material"))
+//    .def("Delete", &BND_File3dmMaterialTable::Delete, py::arg("id"))
+//    .def("FindIndex", &BND_File3dmMaterialTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmMaterialTable::FindId, py::arg("id"))
+//    .def("FindFromAttributes", &BND_File3dmMaterialTable::FromAttributes)
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*> >(m, "__LinetypeIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*> &it) -> PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>::next)
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*> >(m, "__LinetypeIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*> &it) -> PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>::next)
+//    ;
 
-  py::class_<BND_File3dmLinetypeTable>(m, "File3dmLinetypeTable")
-    .def("__len__", &BND_File3dmLinetypeTable::Count)
-    .def("__getitem__", static_cast<BND_Linetype* (BND_File3dmLinetypeTable::*)(int)>(&BND_File3dmLinetypeTable::FindIndex))
-    .def("__getitem__", static_cast<BND_Linetype* (BND_File3dmLinetypeTable::*)(BND_UUID)>(&BND_File3dmLinetypeTable::FindId))
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>(s.cast<BND_File3dmLinetypeTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmLinetypeTable::Add, py::arg("linetype"))
-    .def("Delete", &BND_File3dmLinetypeTable::Delete, py::arg("id"))
-    .def("FindIndex", &BND_File3dmLinetypeTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmLinetypeTable::FindId, py::arg("id"))
-    .def("FindName", &BND_File3dmLinetypeTable::FindName, py::arg("name"))
-    .def("FromAttributes", &BND_File3dmLinetypeTable::FromAttributes, py::arg("attributes"))
-    .def("FromLayerIndex", &BND_File3dmLinetypeTable::FromLayerIndex, py::arg("index"))
-    .def_property("Current", &BND_File3dmLinetypeTable::GetCurrent, &BND_File3dmLinetypeTable::SetCurrent)
-    .def_property("CurrentSource", &BND_File3dmLinetypeTable::GetCurrentSource, &BND_File3dmLinetypeTable::SetCurrentSource)
-    .def_property("Scale", &BND_File3dmLinetypeTable::GetScale, &BND_File3dmLinetypeTable::SetScale)
-    ;
+//  py::class_<BND_File3dmLinetypeTable>(m, "File3dmLinetypeTable")
+//    .def("__len__", &BND_File3dmLinetypeTable::Count)
+//    .def("__getitem__", static_cast<BND_Linetype* (BND_File3dmLinetypeTable::*)(int)>(&BND_File3dmLinetypeTable::FindIndex))
+//    .def("__getitem__", static_cast<BND_Linetype* (BND_File3dmLinetypeTable::*)(BND_UUID)>(&BND_File3dmLinetypeTable::FindId))
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLinetypeTable&, BND_Linetype*>(s.cast<BND_File3dmLinetypeTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmLinetypeTable::Add, py::arg("linetype"))
+//    .def("Delete", &BND_File3dmLinetypeTable::Delete, py::arg("id"))
+//    .def("FindIndex", &BND_File3dmLinetypeTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmLinetypeTable::FindId, py::arg("id"))
+//    .def("FindName", &BND_File3dmLinetypeTable::FindName, py::arg("name"))
+//    .def("FromAttributes", &BND_File3dmLinetypeTable::FromAttributes, py::arg("attributes"))
+//    .def("FromLayerIndex", &BND_File3dmLinetypeTable::FromLayerIndex, py::arg("index"))
+//    .def_property("Current", &BND_File3dmLinetypeTable::GetCurrent, &BND_File3dmLinetypeTable::SetCurrent)
+//    .def_property("CurrentSource", &BND_File3dmLinetypeTable::GetCurrentSource, &BND_File3dmLinetypeTable::SetCurrentSource)
+//    .def_property("Scale", &BND_File3dmLinetypeTable::GetScale, &BND_File3dmLinetypeTable::SetScale)
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> >(m, "__ImageIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*>  &it) -> PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> & { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> ::next)
-    ;
-
-  py::class_<BND_File3dmBitmapTable>(m, "File3dmBitmapTable")
-    .def("__len__", &BND_File3dmBitmapTable::Count)
-    .def("__getitem__", &BND_File3dmBitmapTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*>(s.cast<BND_File3dmBitmapTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmBitmapTable::Add, py::arg("bitmap"))
-    .def("Delete", &BND_File3dmBitmapTable::Delete, py::arg("id"))
-    .def("FindIndex", &BND_File3dmBitmapTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmBitmapTable::FindId, py::arg("id"))
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> >(m, "__ImageIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*>  &it) -> PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> & { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*> ::next)
+//    ;
+//
+//  py::class_<BND_File3dmBitmapTable>(m, "File3dmBitmapTable")
+//    .def("__len__", &BND_File3dmBitmapTable::Count)
+//    .def("__getitem__", &BND_File3dmBitmapTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmBitmapTable&, BND_Bitmap*>(s.cast<BND_File3dmBitmapTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmBitmapTable::Add, py::arg("bitmap"))
+//    .def("Delete", &BND_File3dmBitmapTable::Delete, py::arg("id"))
+//    .def("FindIndex", &BND_File3dmBitmapTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmBitmapTable::FindId, py::arg("id"))
+//    ;
 
   //py::class_<PyBNDIterator<BND_File3dmLayerTable&, BND_Layer*> >(m, "__LayerIterator")
   //  .def("__iter__", [](PyBNDIterator<BND_File3dmLayerTable&, BND_Layer*> &it) -> PyBNDIterator<BND_File3dmLayerTable&, BND_Layer*>& { return it; })
@@ -1802,229 +1751,229 @@ void initExtensionsBindings(rh3dmpymodule& m)
 //    .def("get", &BND_File3dmLayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"))
 //    ;
 
-  py::class_<PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> >(m, "__GroupIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> &it) -> PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>::next)
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> >(m, "__GroupIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmGroupTable&, BND_Group*> &it) -> PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>::next)
+//    ;
+//
+//  py::class_<BND_File3dmGroupTable>(m, "File3dmGroupTable")
+//    .def("__len__", &BND_File3dmGroupTable::Count)
+//    .def("__getitem__", &BND_File3dmGroupTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>(s.cast<BND_File3dmGroupTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmGroupTable::Add, py::arg("group"))
+//    .def("Delete", &BND_File3dmGroupTable::Delete, py::arg("group"))
+//    .def("Delete", &BND_File3dmGroupTable::DeleteIndex, py::arg("index"))
+//    .def("Delete", &BND_File3dmGroupTable::DeleteId, py::arg("id")) // This overload must come last because ON_UUID is a pybind11::object and accepts anything given to it
+//    .def("FindIndex", &BND_File3dmGroupTable::FindIndex, py::arg("index"))
+//    .def("FindName", &BND_File3dmGroupTable::FindName, py::arg("name"))
+//    .def("GroupMembers", &BND_File3dmGroupTable::GroupMembers, py::arg("groupIndex"))
+//    .def("GroupMembers2", &BND_File3dmGroupTable::GroupMembers2, py::arg("groupIndex"))
+//    ;
 
-  py::class_<BND_File3dmGroupTable>(m, "File3dmGroupTable")
-    .def("__len__", &BND_File3dmGroupTable::Count)
-    .def("__getitem__", &BND_File3dmGroupTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmGroupTable&, BND_Group*>(s.cast<BND_File3dmGroupTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmGroupTable::Add, py::arg("group"))
-    .def("Delete", &BND_File3dmGroupTable::Delete, py::arg("group"))
-    .def("Delete", &BND_File3dmGroupTable::DeleteIndex, py::arg("index"))
-    .def("Delete", &BND_File3dmGroupTable::DeleteId, py::arg("id")) // This overload must come last because ON_UUID is a pybind11::object and accepts anything given to it
-    .def("FindIndex", &BND_File3dmGroupTable::FindIndex, py::arg("index"))
-    .def("FindName", &BND_File3dmGroupTable::FindName, py::arg("name"))
-    .def("GroupMembers", &BND_File3dmGroupTable::GroupMembers, py::arg("groupIndex"))
-    .def("GroupMembers2", &BND_File3dmGroupTable::GroupMembers2, py::arg("groupIndex"))
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*> >(m, "__DimStyleIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*> &it) -> PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>::next)
+//    ;
+//
+//  py::class_<BND_File3dmDimStyleTable>(m, "File3dmDimStyleTable")
+//    .def("__len__", &BND_File3dmDimStyleTable::Count)
+//    .def("__getitem__", &BND_File3dmDimStyleTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>(s.cast<BND_File3dmDimStyleTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmDimStyleTable::Add, py::arg("dimstyle"))
+//    .def("Delete", &BND_File3dmDimStyleTable::Delete, py::arg("id"))
+//    .def("FindIndex", &BND_File3dmDimStyleTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmDimStyleTable::FindId, py::arg("id"))
+//    ;
+//
+//  py::class_<PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*> >(m, "__IdefIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*> &it) -> PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>::next)
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*> >(m, "__DimStyleIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*> &it) -> PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>::next)
-    ;
+//  py::class_<BND_File3dmInstanceDefinitionTable>(m, "File3dmInstanceDefinitionTable")
+//    .def("__len__", &BND_File3dmInstanceDefinitionTable::Count)
+//    .def("__getitem__", &BND_File3dmInstanceDefinitionTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>(s.cast<BND_File3dmInstanceDefinitionTable &>(), s); })
+//#endif
+//    .def("AddInstanceDefinition", &BND_File3dmInstanceDefinitionTable::AddInstanceDefinition, py::arg("idef"))
+//    .def("Add", &BND_File3dmInstanceDefinitionTable::Add, py::arg("name"), py::arg("description"), py::arg("url"), py::arg("urlTag"), py::arg("basePoint"), py::arg("geometry"), py::arg("attributes"))
+//    .def("FindIndex", &BND_File3dmInstanceDefinitionTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmInstanceDefinitionTable::FindId, py::arg("id"))
+//    ;
+//
+//  py::class_<PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*> >(m, "__ViewIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*> &it) -> PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>::next)
+//    ;
+//
+//  py::class_<BND_File3dmViewTable>(m, "File3dmViewTable")
+//    .def("__len__", &BND_File3dmViewTable::Count)
+//    .def("__getitem__", &BND_File3dmViewTable::GetItem)
+//    .def("__setitem__", &BND_File3dmViewTable::SetItem)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>(s.cast<BND_File3dmViewTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmViewTable::Add, py::arg("view"))
+//    ;
 
-  py::class_<BND_File3dmDimStyleTable>(m, "File3dmDimStyleTable")
-    .def("__len__", &BND_File3dmDimStyleTable::Count)
-    .def("__getitem__", &BND_File3dmDimStyleTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmDimStyleTable&, BND_DimensionStyle*>(s.cast<BND_File3dmDimStyleTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmDimStyleTable::Add, py::arg("dimstyle"))
-    .def("Delete", &BND_File3dmDimStyleTable::Delete, py::arg("id"))
-    .def("FindIndex", &BND_File3dmDimStyleTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmDimStyleTable::FindId, py::arg("id"))
-    ;
+//  py::class_<BND_File3dmStringTable>(m, "File3dmStringTable")
+//    .def("__len__", &BND_File3dmStringTable::Count)
+//    .def("__getitem__", &BND_File3dmStringTable::GetKeyValue)
+//    .def("__getitem__", &BND_File3dmStringTable::GetValueFromKey)
+//    .def("__setitem__", &BND_File3dmStringTable::SetString)
+//    .def("DocumentUserTextCount", &BND_File3dmStringTable::DocumentUserTextCount)
+//    .def("Delete", &BND_File3dmStringTable::Delete, py::arg("key"))
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*> >(m, "__IdefIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*> &it) -> PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>::next)
-    ;
+//  py::class_<BND_File3dmWriteOptions>(m, "File3dmWriteOptions")
+//    .def(py::init<>())
+//    .def_property("Version", &BND_File3dmWriteOptions::GetVersion, &BND_File3dmWriteOptions::SetVersion)
+//    .def_property("SaveUserData", &BND_File3dmWriteOptions::SaveUserData, &BND_File3dmWriteOptions::SetSaveUserData)
+//    ;
 
-  py::class_<BND_File3dmInstanceDefinitionTable>(m, "File3dmInstanceDefinitionTable")
-    .def("__len__", &BND_File3dmInstanceDefinitionTable::Count)
-    .def("__getitem__", &BND_File3dmInstanceDefinitionTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmInstanceDefinitionTable&, BND_InstanceDefinitionGeometry*>(s.cast<BND_File3dmInstanceDefinitionTable &>(), s); })
-#endif
-    .def("AddInstanceDefinition", &BND_File3dmInstanceDefinitionTable::AddInstanceDefinition, py::arg("idef"))
-    .def("Add", &BND_File3dmInstanceDefinitionTable::Add, py::arg("name"), py::arg("description"), py::arg("url"), py::arg("urlTag"), py::arg("basePoint"), py::arg("geometry"), py::arg("attributes"))
-    .def("FindIndex", &BND_File3dmInstanceDefinitionTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmInstanceDefinitionTable::FindId, py::arg("id"))
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*> >(m, "__EmbeddedFileIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*> &it) -> PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>::next)
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*> >(m, "__ViewIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*> &it) -> PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>::next)
-    ;
+//  py::class_<BND_File3dmEmbeddedFileTable>(m, "File3dmEmbeddedFileTable")
+//    .def("__len__", &BND_File3dmEmbeddedFileTable::Count)
+//    .def("__getitem__", &BND_File3dmEmbeddedFileTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>(s.cast<BND_File3dmEmbeddedFileTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmEmbeddedFileTable::Add, py::arg("embedded_file"))
+//    .def("FindIndex", &BND_File3dmEmbeddedFileTable::FindIndex, py::arg("index"))
+//    ////.def("FindId", &BND_File3dmEmbeddedFileTable::FindId, py::arg("id"))
+//    ;
 
-  py::class_<BND_File3dmViewTable>(m, "File3dmViewTable")
-    .def("__len__", &BND_File3dmViewTable::Count)
-    .def("__getitem__", &BND_File3dmViewTable::GetItem)
-    .def("__setitem__", &BND_File3dmViewTable::SetItem)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmViewTable&, BND_ViewInfo*>(s.cast<BND_File3dmViewTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmViewTable::Add, py::arg("view"))
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*> >(m, "__RenderContentIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*> &it) -> PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>::next)
+//    ;
+//  py::class_<BND_File3dmRenderContentTable>(m, "File3dmRenderContentTable")
+//    .def("__len__", &BND_File3dmRenderContentTable::Count)
+//    .def("__getitem__", &BND_File3dmRenderContentTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>(s.cast<BND_File3dmRenderContentTable &>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmRenderContentTable::Add, py::arg("render_content"))
+//    .def("FindIndex", &BND_File3dmRenderContentTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmRenderContentTable::FindId, py::arg("id"))
+//    ;
 
-  py::class_<BND_File3dmStringTable>(m, "File3dmStringTable")
-    .def("__len__", &BND_File3dmStringTable::Count)
-    .def("__getitem__", &BND_File3dmStringTable::GetKeyValue)
-    .def("__getitem__", &BND_File3dmStringTable::GetValueFromKey)
-    .def("__setitem__", &BND_File3dmStringTable::SetString)
-    .def("DocumentUserTextCount", &BND_File3dmStringTable::DocumentUserTextCount)
-    .def("Delete", &BND_File3dmStringTable::Delete, py::arg("key"))
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*> >(m, "__PostEffectIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*> &it) -> PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>::next)
+//    ;
 
-  py::class_<BND_File3dmWriteOptions>(m, "File3dmWriteOptions")
-    .def(py::init<>())
-    .def_property("Version", &BND_File3dmWriteOptions::GetVersion, &BND_File3dmWriteOptions::SetVersion)
-    .def_property("SaveUserData", &BND_File3dmWriteOptions::SaveUserData, &BND_File3dmWriteOptions::SetSaveUserData)
-    ;
+//  py::class_<BND_File3dmPostEffectTable>(m, "File3dmPostEffectTable")
+//    .def(py::init<>())
+//    .def(py::init<const BND_File3dmPostEffectTable&>(), py::arg("other"))
+//    .def("__len__", &BND_File3dmPostEffectTable::Count)
+//    .def("__getitem__", &BND_File3dmPostEffectTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>(s.cast<BND_File3dmPostEffectTable &>(), s); })
+//#endif
+//    ////.def("Add", &BND_File3dmRenderContentTable::Add, py::arg("render_content"))
+//    .def("FindIndex", &BND_File3dmPostEffectTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmPostEffectTable::FindId, py::arg("id"))
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*> >(m, "__EmbeddedFileIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*> &it) -> PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>::next)
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*> >(m, "__DecalIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*> &it) -> PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>::next)
+//    ;
 
-  py::class_<BND_File3dmEmbeddedFileTable>(m, "File3dmEmbeddedFileTable")
-    .def("__len__", &BND_File3dmEmbeddedFileTable::Count)
-    .def("__getitem__", &BND_File3dmEmbeddedFileTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmEmbeddedFileTable&, BND_File3dmEmbeddedFile*>(s.cast<BND_File3dmEmbeddedFileTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmEmbeddedFileTable::Add, py::arg("embedded_file"))
-    .def("FindIndex", &BND_File3dmEmbeddedFileTable::FindIndex, py::arg("index"))
-    ////.def("FindId", &BND_File3dmEmbeddedFileTable::FindId, py::arg("id"))
-    ;
+//  py::class_<BND_File3dmDecalTable>(m, "File3dmDecalTable")
+//    .def(py::init<>())
+//    .def(py::init<const BND_File3dmDecalTable&>(), py::arg("other"))
+//    .def("__len__", &BND_File3dmDecalTable::Count)
+//    .def("__getitem__", &BND_File3dmDecalTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>(s.cast<BND_File3dmDecalTable&>(), s); })
+//#endif
+//    .def("FindIndex", &BND_File3dmDecalTable::FindIndex, py::arg("index"))
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*> >(m, "__RenderContentIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*> &it) -> PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>::next)
-    ;
-  py::class_<BND_File3dmRenderContentTable>(m, "File3dmRenderContentTable")
-    .def("__len__", &BND_File3dmRenderContentTable::Count)
-    .def("__getitem__", &BND_File3dmRenderContentTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmRenderContentTable&, BND_File3dmRenderContent*>(s.cast<BND_File3dmRenderContentTable &>(), s); })
-#endif
-    .def("Add", &BND_File3dmRenderContentTable::Add, py::arg("render_content"))
-    .def("FindIndex", &BND_File3dmRenderContentTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmRenderContentTable::FindId, py::arg("id"))
-    ;
+//  py::class_<BND_File3dmMeshModifiers>(m, "File3dmMeshModifiers")
+//    .def_property_readonly("Displacement", &BND_File3dmMeshModifiers::Displacement)
+//    .def_property_readonly("EdgeSoftening", &BND_File3dmMeshModifiers::EdgeSoftening)
+//    .def_property_readonly("Thickening", &BND_File3dmMeshModifiers::Thickening)
+//    .def_property_readonly("CurvePiping", &BND_File3dmMeshModifiers::CurvePiping)
+//    .def_property_readonly("ShutLining", &BND_File3dmMeshModifiers::ShutLining)
+//    .def("CreateDisplacement", &BND_File3dmMeshModifiers::CreateDisplacement)
+//    .def("CreateEdgeSoftening", &BND_File3dmMeshModifiers::CreateEdgeSoftening)
+//    .def("CreateThickening ", &BND_File3dmMeshModifiers::CreateThickening)
+//    .def("CreateCurvePiping", &BND_File3dmMeshModifiers::CreateCurvePiping)
+//    .def("CreateShutLining ", &BND_File3dmMeshModifiers::CreateShutLining)
+//    ;
 
-  py::class_<PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*> >(m, "__PostEffectIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*> &it) -> PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>::next)
-    ;
+//  py::class_<PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*> >(m, "__ShutLiningCurveIterator")
+//    .def("__iter__", [](PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*> &it) -> PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>& { return it; })
+//    .def("__next__", &PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>::next)
+//    ;
 
-  py::class_<BND_File3dmPostEffectTable>(m, "File3dmPostEffectTable")
-    .def(py::init<>())
-    .def(py::init<const BND_File3dmPostEffectTable&>(), py::arg("other"))
-    .def("__len__", &BND_File3dmPostEffectTable::Count)
-    .def("__getitem__", &BND_File3dmPostEffectTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmPostEffectTable&, BND_File3dmPostEffect*>(s.cast<BND_File3dmPostEffectTable &>(), s); })
-#endif
-    ////.def("Add", &BND_File3dmRenderContentTable::Add, py::arg("render_content"))
-    .def("FindIndex", &BND_File3dmPostEffectTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmPostEffectTable::FindId, py::arg("id"))
-    ;
-
-  py::class_<PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*> >(m, "__DecalIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*> &it) -> PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>::next)
-    ;
-
-  py::class_<BND_File3dmDecalTable>(m, "File3dmDecalTable")
-    .def(py::init<>())
-    .def(py::init<const BND_File3dmDecalTable&>(), py::arg("other"))
-    .def("__len__", &BND_File3dmDecalTable::Count)
-    .def("__getitem__", &BND_File3dmDecalTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmDecalTable&, BND_File3dmDecal*>(s.cast<BND_File3dmDecalTable&>(), s); })
-#endif
-    .def("FindIndex", &BND_File3dmDecalTable::FindIndex, py::arg("index"))
-    ;
-
-  py::class_<BND_File3dmMeshModifiers>(m, "File3dmMeshModifiers")
-    .def_property_readonly("Displacement", &BND_File3dmMeshModifiers::Displacement)
-    .def_property_readonly("EdgeSoftening", &BND_File3dmMeshModifiers::EdgeSoftening)
-    .def_property_readonly("Thickening", &BND_File3dmMeshModifiers::Thickening)
-    .def_property_readonly("CurvePiping", &BND_File3dmMeshModifiers::CurvePiping)
-    .def_property_readonly("ShutLining", &BND_File3dmMeshModifiers::ShutLining)
-    .def("CreateDisplacement", &BND_File3dmMeshModifiers::CreateDisplacement)
-    .def("CreateEdgeSoftening", &BND_File3dmMeshModifiers::CreateEdgeSoftening)
-    .def("CreateThickening ", &BND_File3dmMeshModifiers::CreateThickening)
-    .def("CreateCurvePiping", &BND_File3dmMeshModifiers::CreateCurvePiping)
-    .def("CreateShutLining ", &BND_File3dmMeshModifiers::CreateShutLining)
-    ;
-
-  py::class_<PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*> >(m, "__ShutLiningCurveIterator")
-    .def("__iter__", [](PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*> &it) -> PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>& { return it; })
-    .def("__next__", &PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>::next)
-    ;
-
-  py::class_<BND_File3dmShutLiningCurveTable>(m, "File3dmShutLiningCurveTable")
-    .def("__len__", &BND_File3dmShutLiningCurveTable::Count)
-    .def("__getitem__", &BND_File3dmShutLiningCurveTable::FindIndex)
-#if !defined(NANOBIND)
-    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>(s.cast<BND_File3dmShutLiningCurveTable&>(), s); })
-#endif
-    .def("Add", &BND_File3dmShutLiningCurveTable::Add, py::arg("id"))
-    .def("FindIndex", &BND_File3dmShutLiningCurveTable::FindIndex, py::arg("index"))
-    .def("FindId", &BND_File3dmShutLiningCurveTable::FindId, py::arg("id"))
-    ;
+//  py::class_<BND_File3dmShutLiningCurveTable>(m, "File3dmShutLiningCurveTable")
+//    .def("__len__", &BND_File3dmShutLiningCurveTable::Count)
+//    .def("__getitem__", &BND_File3dmShutLiningCurveTable::FindIndex)
+//#if !defined(NANOBIND)
+//    .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmShutLiningCurveTable&, BND_File3dmShutLiningCurve*>(s.cast<BND_File3dmShutLiningCurveTable&>(), s); })
+//#endif
+//    .def("Add", &BND_File3dmShutLiningCurveTable::Add, py::arg("id"))
+//    .def("FindIndex", &BND_File3dmShutLiningCurveTable::FindIndex, py::arg("index"))
+//    .def("FindId", &BND_File3dmShutLiningCurveTable::FindId, py::arg("id"))
+//    ;
 
   py::class_<BND_ONXModel>(m, "File3dm")
     .def(py::init<>())
     .def_static("Read", &BND_ONXModel::Read, py::arg("path"))
     .def_static("ReadNotes", &BND_ONXModel::ReadNotes, py::arg("path"))
     .def_static("ReadArchiveVersion", &BND_ONXModel::ReadArchiveVersion, py::arg("path"))
-#if !defined(NANOBIND)
-    .def_static("FromByteArray", [](py::buffer b) {
-      py::buffer_info info = b.request();
-      return BND_ONXModel::FromByteArray(static_cast<int>(info.size), info.ptr);
-    })
- #endif
+//#if !defined(NANOBIND)
+//    .def_static("FromByteArray", [](py::buffer b) {
+//      py::buffer_info info = b.request();
+//      return BND_ONXModel::FromByteArray(static_cast<int>(info.size), info.ptr);
+//    })
+// #endif
     .def("Write", &BND_ONXModel::Write, py::arg("path"), py::arg("version")=0)
-    .def_property("StartSectionComments", &BND_ONXModel::GetStartSectionComments, &BND_ONXModel::SetStartSectionComments)
-    .def_property("ApplicationName", &BND_ONXModel::GetApplicationName, &BND_ONXModel::SetApplicationName)
-    .def_property("ApplicationUrl", &BND_ONXModel::GetApplicationUrl, &BND_ONXModel::SetApplicationUrl)
-    .def_property("ApplicationDetails", &BND_ONXModel::GetApplicationDetails, &BND_ONXModel::SetApplicationDetails)
-    .def_property_readonly("ArchiveVersion", &BND_ONXModel::GetArchiveVersion)
-    .def_property_readonly("Created", &BND_ONXModel::GetCreated)
-    .def_property_readonly("CreatedBy", &BND_ONXModel::GetCreatedBy)
-    .def_property_readonly("LastEdited", &BND_ONXModel::GetLastEdited)
-    .def_property_readonly("LastEditedBy", &BND_ONXModel::GetLastEditedBy)
-    .def_property("Revision", &BND_ONXModel::GetRevision, &BND_ONXModel::SetRevision)
-    .def_property_readonly("Settings", &BND_ONXModel::Settings)
-    .def_property_readonly("Objects", &BND_ONXModel::Objects)
-    .def_property_readonly("Materials", &BND_ONXModel::Materials)
-    .def_property_readonly("Linetypes", &BND_ONXModel::Linetypes)
-    .def_property_readonly("Bitmaps", &BND_ONXModel::Bitmaps)
+    //.def_property("StartSectionComments", &BND_ONXModel::GetStartSectionComments, &BND_ONXModel::SetStartSectionComments)
+    //.def_property("ApplicationName", &BND_ONXModel::GetApplicationName, &BND_ONXModel::SetApplicationName)
+    //.def_property("ApplicationUrl", &BND_ONXModel::GetApplicationUrl, &BND_ONXModel::SetApplicationUrl)
+    //.def_property("ApplicationDetails", &BND_ONXModel::GetApplicationDetails, &BND_ONXModel::SetApplicationDetails)
+    //.def_property_readonly("ArchiveVersion", &BND_ONXModel::GetArchiveVersion)
+    //.def_property_readonly("Created", &BND_ONXModel::GetCreated)
+    //.def_property_readonly("CreatedBy", &BND_ONXModel::GetCreatedBy)
+    //.def_property_readonly("LastEdited", &BND_ONXModel::GetLastEdited)
+    //.def_property_readonly("LastEditedBy", &BND_ONXModel::GetLastEditedBy)
+    //.def_property("Revision", &BND_ONXModel::GetRevision, &BND_ONXModel::SetRevision)
+    //.def_property_readonly("Settings", &BND_ONXModel::Settings)
+    //.def_property_readonly("Objects", &BND_ONXModel::Objects)
+    //.def_property_readonly("Materials", &BND_ONXModel::Materials)
+    //.def_property_readonly("Linetypes", &BND_ONXModel::Linetypes)
+    //.def_property_readonly("Bitmaps", &BND_ONXModel::Bitmaps)
     .def_property_readonly("Layers", &BND_ONXModel::Layers)
-    .def_property_readonly("Groups", &BND_ONXModel::AllGroups)
-    .def_property_readonly("DimStyles", &BND_ONXModel::DimStyles)
-    .def_property_readonly("InstanceDefinitions", &BND_ONXModel::InstanceDefinitions)
-    .def_property_readonly("Views", &BND_ONXModel::Views)
-    .def_property_readonly("NamedViews", &BND_ONXModel::NamedViews)
-    .def_property_readonly("PlugInData", &BND_ONXModel::PlugInData)
-    .def_property_readonly("Strings", &BND_ONXModel::Strings)
-    .def_property_readonly("EmbeddedFiles", &BND_ONXModel::EmbeddedFiles)
-    .def_property_readonly("RenderContent", &BND_ONXModel::RenderContent)
-    .def("Encode", &BND_ONXModel::Encode)
-    .def("Encode", &BND_ONXModel::Encode2)
-    .def("Decode", &BND_ONXModel::Decode)
-    .def("EmbeddedFilePaths", &BND_ONXModel::GetEmbeddedFilePaths)
-    .def("EmbeddedFilePaths2", &BND_ONXModel::GetEmbeddedFilePaths2)
-    .def("GetEmbeddedFileAsBase64", &BND_ONXModel::GetEmbeddedFileAsBase64)
-    .def("GetEmbeddedFileAsBase64", &BND_ONXModel::GetEmbeddedFileAsBase64Strict)
-    .def("RdkXml", &BND_ONXModel::RdkXml)
+    //.def_property_readonly("Groups", &BND_ONXModel::AllGroups)
+    //.def_property_readonly("DimStyles", &BND_ONXModel::DimStyles)
+    //.def_property_readonly("InstanceDefinitions", &BND_ONXModel::InstanceDefinitions)
+    //.def_property_readonly("Views", &BND_ONXModel::Views)
+    //.def_property_readonly("NamedViews", &BND_ONXModel::NamedViews)
+    //.def_property_readonly("PlugInData", &BND_ONXModel::PlugInData)
+    //.def_property_readonly("Strings", &BND_ONXModel::Strings)
+    //.def_property_readonly("EmbeddedFiles", &BND_ONXModel::EmbeddedFiles)
+    //.def_property_readonly("RenderContent", &BND_ONXModel::RenderContent)
+    //.def("Encode", &BND_ONXModel::Encode)
+    //.def("Encode", &BND_ONXModel::Encode2)
+    //.def("Decode", &BND_ONXModel::Decode)
+    //.def("EmbeddedFilePaths", &BND_ONXModel::GetEmbeddedFilePaths)
+    //.def("EmbeddedFilePaths2", &BND_ONXModel::GetEmbeddedFilePaths2)
+    //.def("GetEmbeddedFileAsBase64", &BND_ONXModel::GetEmbeddedFileAsBase64)
+    //.def("GetEmbeddedFileAsBase64", &BND_ONXModel::GetEmbeddedFileAsBase64Strict)
+    //.def("RdkXml", &BND_ONXModel::RdkXml)
     ;
 }

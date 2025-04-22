@@ -83,174 +83,174 @@ BND_CommonObject* BND_CommonObject::CreateWrapper(ON_Object* obj, const ON_Model
     return nullptr;
 
   ON_Geometry* geometry = ON_Geometry::Cast(obj);
-  if( geometry )
-  {
-    ON_Mesh* mesh = ON_Mesh::Cast(obj);
-    if( mesh )
-      return new BND_Mesh(mesh, compref);
-    ON_Brep* brep = ON_Brep::Cast(obj);
-    if( brep )
-      return new BND_Brep(brep, compref);
-    ON_Curve* curve = ON_Curve::Cast(obj);
-    if(curve)
-    {
-      ON_NurbsCurve* nc = ON_NurbsCurve::Cast(obj);
-      if( nc )
-        return new BND_NurbsCurve(nc, compref);
-      ON_LineCurve* lc = ON_LineCurve::Cast(obj);
-      if( lc )
-        return new BND_LineCurve(lc, compref);
-      ON_PolylineCurve* plc = ON_PolylineCurve::Cast(obj);
-      if( plc )
-        return new BND_PolylineCurve(plc, compref);
-      ON_PolyCurve* pc = ON_PolyCurve::Cast(obj);
-      if( pc )
-        return new BND_PolyCurve(pc, compref);
-      ON_ArcCurve* ac = ON_ArcCurve::Cast(obj);
-      if (ac)
-        return new BND_ArcCurve(ac, compref);
-      ON_CurveProxy* proxy = ON_CurveProxy::Cast(obj);
-      if (proxy)
-        return new BND_CurveProxy(proxy, compref);
-      return new BND_Curve(curve, compref);
-    }
+//  if( geometry )
+//  {
+//    ON_Mesh* mesh = ON_Mesh::Cast(obj);
+//    if( mesh )
+//      return new BND_Mesh(mesh, compref);
+//    ON_Brep* brep = ON_Brep::Cast(obj);
+//    if( brep )
+//      return new BND_Brep(brep, compref);
+//    ON_Curve* curve = ON_Curve::Cast(obj);
+//    if(curve)
+//    {
+//      ON_NurbsCurve* nc = ON_NurbsCurve::Cast(obj);
+//      if( nc )
+//        return new BND_NurbsCurve(nc, compref);
+//      ON_LineCurve* lc = ON_LineCurve::Cast(obj);
+//      if( lc )
+//        return new BND_LineCurve(lc, compref);
+//      ON_PolylineCurve* plc = ON_PolylineCurve::Cast(obj);
+//      if( plc )
+//        return new BND_PolylineCurve(plc, compref);
+//      ON_PolyCurve* pc = ON_PolyCurve::Cast(obj);
+//      if( pc )
+//        return new BND_PolyCurve(pc, compref);
+//      ON_ArcCurve* ac = ON_ArcCurve::Cast(obj);
+//      if (ac)
+//        return new BND_ArcCurve(ac, compref);
+//      ON_CurveProxy* proxy = ON_CurveProxy::Cast(obj);
+//      if (proxy)
+//        return new BND_CurveProxy(proxy, compref);
+//      return new BND_Curve(curve, compref);
+//    }
+//
+//    ON_Surface* surface = ON_Surface::Cast(obj);
+//    if (surface)
+//    {
+//      ON_NurbsSurface* ns = ON_NurbsSurface::Cast(obj);
+//      if (ns)
+//        return new BND_NurbsSurface(ns, compref);
+//      ON_Extrusion* extr = ON_Extrusion::Cast(obj);
+//      if (extr)
+//        return new BND_Extrusion(extr, compref);
+//      ON_SurfaceProxy* proxy = ON_SurfaceProxy::Cast(obj);
+//      if (proxy)
+//      {
+//        ON_BrepFace* brepface = ON_BrepFace::Cast(obj);
+//        if (brepface)
+//          return new BND_BrepFace(brepface, compref);
+//        return new BND_SurfaceProxy(proxy, compref);
+//      }
+//      ON_RevSurface* revsrf = ON_RevSurface::Cast(obj);
+//      if (revsrf)
+//        return new BND_RevSurface(revsrf, compref);
+//      return new BND_Surface(surface, compref);
+//    }
+//
+//    ON_Point* point = ON_Point::Cast(obj);
+//    if (point)
+//      return new BND_Point(point, compref);
+//
+//    ON_PointCloud* pointcloud = ON_PointCloud::Cast(obj);
+//    if (pointcloud)
+//      return new BND_PointCloud(pointcloud, compref);
+//
+//    ON_PointGrid* pointgrid = ON_PointGrid::Cast(obj);
+//    if (pointgrid)
+//      return new BND_PointGrid(pointgrid, compref);
+//
+//    ON_Viewport* viewport = ON_Viewport::Cast(obj);
+//    if( viewport )
+//      return new BND_Viewport(viewport, compref);
+//
+//    ON_Hatch* hatch = ON_Hatch::Cast(obj);
+//    if (hatch)
+//      return new BND_Hatch(hatch, compref);
+//
+//    ON_InstanceRef* iref = ON_InstanceRef::Cast(obj);
+//    if (iref)
+//      return new BND_InstanceReferenceGeometry(iref, compref);
+//
+//    ON_Annotation* annotation = ON_Annotation::Cast(obj);
+//    if (annotation)
+//    {
+//      ON_Text* text = ON_Text::Cast(obj);
+//      if (text)
+//        return new BND_Text(text, compref);
+//
+//      ON_Leader* leader = ON_Leader::Cast(obj);
+//      if(leader)
+//        return new BND_Leader(leader, compref);
+//
+//      ON_Dimension* dimension = ON_Dimension::Cast(obj);
+//      if( dimension )
+//      {
+//        ON_DimLinear* dimlinear = ON_DimLinear::Cast(obj);
+//        if(dimlinear)
+//          return new BND_DimLinear(dimlinear, compref);
+//
+//        ON_DimAngular* dimangular = ON_DimAngular::Cast(obj);
+//        if(dimangular)
+//          return new BND_DimAngular(dimangular, compref);
+//
+//        ON_DimRadial* dimradial = ON_DimRadial::Cast(obj);
+//        if(dimradial)
+//          return new BND_DimRadial(dimradial, compref);
+//
+//        ON_DimOrdinate* dimordinate = ON_DimOrdinate::Cast(obj);
+//        if(dimordinate)
+//          return new BND_DimOrdinate(dimordinate, compref);
+//
+//        ON_Centermark* centermark = ON_Centermark::Cast(obj);
+//        if(centermark)
+//          return new BND_Centermark(centermark, compref);
+//
+//        return new BND_Dimension(dimension, compref);
+//      }
+//      return new BND_AnnotationBase(annotation, compref);
+//    }
+//
+//    ON_TextDot* dot = ON_TextDot::Cast(obj);
+//    if (dot)
+//      return new BND_TextDot(dot, compref);
+//
+//    ON_Light* light = ON_Light::Cast(obj);
+//    if (light)
+//      return new BND_Light(light, compref);
+//
+//    ON_SubD* subd = ON_SubD::Cast(obj);
+//    if (subd)
+//      return new BND_SubD(subd, compref);
+//
+//    return new BND_GeometryBase(geometry, compref);
+//  }
 
-    ON_Surface* surface = ON_Surface::Cast(obj);
-    if (surface)
-    {
-      ON_NurbsSurface* ns = ON_NurbsSurface::Cast(obj);
-      if (ns)
-        return new BND_NurbsSurface(ns, compref);
-      ON_Extrusion* extr = ON_Extrusion::Cast(obj);
-      if (extr)
-        return new BND_Extrusion(extr, compref);
-      ON_SurfaceProxy* proxy = ON_SurfaceProxy::Cast(obj);
-      if (proxy)
-      {
-        ON_BrepFace* brepface = ON_BrepFace::Cast(obj);
-        if (brepface)
-          return new BND_BrepFace(brepface, compref);
-        return new BND_SurfaceProxy(proxy, compref);
-      }
-      ON_RevSurface* revsrf = ON_RevSurface::Cast(obj);
-      if (revsrf)
-        return new BND_RevSurface(revsrf, compref);
-      return new BND_Surface(surface, compref);
-    }
-
-    ON_Point* point = ON_Point::Cast(obj);
-    if (point)
-      return new BND_Point(point, compref);
-
-    ON_PointCloud* pointcloud = ON_PointCloud::Cast(obj);
-    if (pointcloud)
-      return new BND_PointCloud(pointcloud, compref);
-
-    ON_PointGrid* pointgrid = ON_PointGrid::Cast(obj);
-    if (pointgrid)
-      return new BND_PointGrid(pointgrid, compref);
-
-    ON_Viewport* viewport = ON_Viewport::Cast(obj);
-    if( viewport )
-      return new BND_Viewport(viewport, compref);
-
-    ON_Hatch* hatch = ON_Hatch::Cast(obj);
-    if (hatch)
-      return new BND_Hatch(hatch, compref);
-
-    ON_InstanceRef* iref = ON_InstanceRef::Cast(obj);
-    if (iref)
-      return new BND_InstanceReferenceGeometry(iref, compref);
-
-    ON_Annotation* annotation = ON_Annotation::Cast(obj);
-    if (annotation)
-    {
-      ON_Text* text = ON_Text::Cast(obj);
-      if (text)
-        return new BND_Text(text, compref);
-
-      ON_Leader* leader = ON_Leader::Cast(obj);
-      if(leader)
-        return new BND_Leader(leader, compref);
-
-      ON_Dimension* dimension = ON_Dimension::Cast(obj);
-      if( dimension )
-      {
-        ON_DimLinear* dimlinear = ON_DimLinear::Cast(obj);
-        if(dimlinear)
-          return new BND_DimLinear(dimlinear, compref);
-
-        ON_DimAngular* dimangular = ON_DimAngular::Cast(obj);
-        if(dimangular)
-          return new BND_DimAngular(dimangular, compref);
-
-        ON_DimRadial* dimradial = ON_DimRadial::Cast(obj);
-        if(dimradial)
-          return new BND_DimRadial(dimradial, compref);
-
-        ON_DimOrdinate* dimordinate = ON_DimOrdinate::Cast(obj);
-        if(dimordinate)
-          return new BND_DimOrdinate(dimordinate, compref);
-
-        ON_Centermark* centermark = ON_Centermark::Cast(obj);
-        if(centermark)
-          return new BND_Centermark(centermark, compref);
-
-        return new BND_Dimension(dimension, compref);
-      }
-      return new BND_AnnotationBase(annotation, compref);
-    }
-
-    ON_TextDot* dot = ON_TextDot::Cast(obj);
-    if (dot)
-      return new BND_TextDot(dot, compref);
-
-    ON_Light* light = ON_Light::Cast(obj);
-    if (light)
-      return new BND_Light(light, compref);
-
-    ON_SubD* subd = ON_SubD::Cast(obj);
-    if (subd)
-      return new BND_SubD(subd, compref);
-
-    return new BND_GeometryBase(geometry, compref);
-  }
-
-  ON_Material* material = ON_Material::Cast(obj);
-  if (material)
-    return new BND_Material(material, compref);
+//  ON_Material* material = ON_Material::Cast(obj);
+//  if (material)
+//    return new BND_Material(material, compref);
 
   ON_Layer* layer = ON_Layer::Cast(obj);
   if (layer)
     return new BND_Layer(layer, compref);
 
-  ON_Texture* texture = ON_Texture::Cast(obj);
-  if (texture)
-    return new BND_Texture(texture, compref);
+//  ON_Texture* texture = ON_Texture::Cast(obj);
+//  if (texture)
+//    return new BND_Texture(texture, compref);
 
-  ON_Bitmap* bitmap = ON_Bitmap::Cast(obj);
-  if (bitmap)
-    return new BND_Bitmap(bitmap, compref);
+//  ON_Bitmap* bitmap = ON_Bitmap::Cast(obj);
+//  if (bitmap)
+//    return new BND_Bitmap(bitmap, compref);
 
-  ON_TextureMapping* texturemapping = ON_TextureMapping::Cast(obj);
-  if (texturemapping)
-    return new BND_TextureMapping(texturemapping, compref);
+//  ON_TextureMapping* texturemapping = ON_TextureMapping::Cast(obj);
+//  if (texturemapping)
+//    return new BND_TextureMapping(texturemapping, compref);
 
-  ON_DimStyle* dimstyle = ON_DimStyle::Cast(obj);
-  if (dimstyle)
-    return new BND_DimensionStyle(dimstyle, compref);
+//  ON_DimStyle* dimstyle = ON_DimStyle::Cast(obj);
+//  if (dimstyle)
+//    return new BND_DimensionStyle(dimstyle, compref);
 
-  ON_InstanceDefinition* idef = ON_InstanceDefinition::Cast(obj);
-  if (idef)
-    return new BND_InstanceDefinitionGeometry(idef, compref);
+//  ON_InstanceDefinition* idef = ON_InstanceDefinition::Cast(obj);
+//  if (idef)
+//    return new BND_InstanceDefinitionGeometry(idef, compref);
 
-  ON_3dmRenderSettings* render_settings = ON_3dmRenderSettings::Cast(obj);
-  if (render_settings)
-    return new BND_RenderSettings(render_settings, compref);
+//  ON_3dmRenderSettings* render_settings = ON_3dmRenderSettings::Cast(obj);
+//  if (render_settings)
+//    return new BND_RenderSettings(render_settings, compref);
 
-  ON_Group* group = ON_Group::Cast(obj);
-  if (group)
-    return new BND_Group(group, compref);
+//  ON_Group* group = ON_Group::Cast(obj);
+//  if (group)
+//    return new BND_Group(group, compref);
 
   return new BND_CommonObject(obj, compref);
 }
@@ -343,13 +343,6 @@ BND_DICT BND_CommonObject::Encode() const
   return d;
 }
 
-#if defined(__EMSCRIPTEN__)
-BND_DICT BND_CommonObject::toJSON(BND_DICT key)
-{
-  return Encode();
-}
-#endif
-
 RH_C_FUNCTION ON_Write3dmBufferArchive* ON_WriteBufferArchive_NewMemoryWriter(int rhinoversion)
 {
   // figure out the appropriate version number
@@ -359,7 +352,6 @@ RH_C_FUNCTION ON_Write3dmBufferArchive* ON_WriteBufferArchive_NewMemoryWriter(in
   return rc;
 }
 
-#if defined(ON_PYTHON_COMPILE)
 static bool WriteDictionaryEntryHelper(ON_Write3dmBufferArchive* archive, const ON_wString& key, ItemType it, py::handle& value)
 {
   if (ItemType::Undefined == it)
@@ -502,29 +494,29 @@ static bool WriteDictionaryEntryHelper(ON_Write3dmBufferArchive* archive, const 
     break;
   case ItemType::OnMeshParameters:
     break;
-  case ItemType::OnGeometry:
-  {
-    BND_GeometryBase* geometry = py::cast<BND_GeometryBase*>(value);
-    rc = archive->WriteObject(*geometry->GeometryPointer());
-  }
+  //case ItemType::OnGeometry:
+  //{
+  //  BND_GeometryBase* geometry = py::cast<BND_GeometryBase*>(value);
+  //  rc = archive->WriteObject(*geometry->GeometryPointer());
+  //}
     break;
   case ItemType::OnObjRef:
     break;
   case ItemType::ArrayObjRef:
     break;
-  case ItemType::ArrayGeometry:
-  {
-    int listCount = 0;
-    for (auto item : py::iter(value))
-      listCount++;
-    rc = archive->WriteInt(listCount);
-    for (auto item : py::iter(value))
-    {
-      BND_GeometryBase* geometry = py::cast<BND_GeometryBase*>(item);
-      rc = rc && archive->WriteObject(*geometry->GeometryPointer());
-    }
-  }
-    break;
+  //case ItemType::ArrayGeometry:
+  //{
+  //  int listCount = 0;
+  //  for (auto item : py::iter(value))
+  //    listCount++;
+  //  rc = archive->WriteInt(listCount);
+  //  for (auto item : py::iter(value))
+  //  {
+  //    BND_GeometryBase* geometry = py::cast<BND_GeometryBase*>(item);
+  //    rc = rc && archive->WriteObject(*geometry->GeometryPointer());
+  //  }
+  //}
+  //  break;
   default:
     break;
   }
@@ -586,23 +578,23 @@ py::dict BND_ArchivableDictionary::EncodeFromDictionary(py::dict d)
     {
       it = ItemType::Vector3d; //35
     }
-    else if (py::isinstance<BND_GeometryBase>(item.second))
-    {
-      it = ItemType::OnGeometry; //47
-    }
-    else if (py::isinstance<py::iterable>(item.second))
-    {
-      for (auto listitem : py::iter(item.second))
-      {
-        bool isGeometry = py::isinstance<BND_GeometryBase>(listitem);
-        if (!isGeometry)
-        {
-          it = ItemType::Undefined;
-          break;
-        }
-        it = ItemType::ArrayGeometry;
-      }
-    }
+    //else if (py::isinstance<BND_GeometryBase>(item.second))
+    //{
+    //  it = ItemType::OnGeometry; //47
+    //}
+    //else if (py::isinstance<py::iterable>(item.second))
+    //{
+    //  for (auto listitem : py::iter(item.second))
+    //  {
+    //    bool isGeometry = py::isinstance<BND_GeometryBase>(listitem);
+    //    if (!isGeometry)
+    //    {
+    //      it = ItemType::Undefined;
+    //      break;
+    //    }
+    //    it = ItemType::ArrayGeometry;
+    //  }
+    //}
     if (ItemType::Undefined == it)
     {
       archive->EndWriteDictionary();
@@ -634,293 +626,10 @@ py::dict BND_ArchivableDictionary::EncodeFromDictionary(py::dict d)
   delete archive;
   return rc;
 }
-#endif
-
-#if defined(__EMSCRIPTEN__)
-/*
-std::string BND_ArchivableDictionary::Test(BND_DICT d)
-{
-  emscripten::val keys = emscripten::val::global("Object").call<emscripten::val>("keys", d);
-  std::string name = keys[0].as<std::string>();
-  emscripten::val v = d[name];
-  emscripten::val vt = v.typeOf();
-  emscripten::val lc = emscripten::val::module_property("LineCurve");
-  if( v.instanceof(lc))
-  {
-    std::string prefix = "prefix";
-    emscripten::val callrc = emscripten::val::module_property("ArchivableDictionary").call<emscripten::val>("test2", v, prefix);
-    name = callrc.as<std::string>();
-  }
-  else
-    name = "no";
-  //name = vt.as<std::string>();
-  return name;
-}
-
-std::string BND_ArchivableDictionary::Test2(BND_LineCurve* lc, std::string s)
-{
-  std::string rc;
-  if( lc)
-    rc = s+"worked";
-  else
-    rc = s+"failed";
-  return rc;
-}
-*/
-static ON_Write3dmBufferArchive* _activeWriteBuffer = nullptr;
-void BND_ArchivableDictionary::WriteGeometry(BND_GeometryBase* geometry)
-{
-  if( geometry && _activeWriteBuffer )
-  {
-    _activeWriteBuffer->WriteObject(*geometry->GeometryPointer());
-  }
-}
-
-static bool WriteDictionaryEntryHelper(ON_Write3dmBufferArchive* archive, const ON_wString& key, ItemType it, emscripten::val& value)
-{
-  if (ItemType::Undefined == it)
-    return false;
-
-  if (!archive->BeginWriteDictionaryEntry((int)it, key))
-    return false;
-  bool rc = false;
-
-  switch (it)
-  {
-  case ItemType::Undefined:
-    break;
-  case ItemType::Bool:
-    {
-      bool b = value.as<bool>();
-      rc = archive->WriteBool(b);
-    }
-    break;
-  case ItemType::Byte:
-    break;
-  case ItemType::SByte:
-    break;
-  case ItemType::Short:
-    break;
-  case ItemType::UShort:
-    break;
-  case ItemType::Int32:
-    {
-      int i = value.as<int>();
-      rc = archive->WriteInt(i);
-    }
-    break;
-  case ItemType::UInt32:
-    break;
-  case ItemType::Int64:
-    break;
-  case ItemType::Single:
-    break;
-  case ItemType::Double:
-    {
-      double d = value.as<double>();
-      rc = archive->WriteDouble(d);
-    }
-    break;
-  case ItemType::Guid:
-    break;
-  case ItemType::String:
-    {
-      std::string s = value.as<std::string>();
-      ON_wString ws(s.c_str());
-      rc = archive->WriteString(ws);
-    }
-    break;
-  case ItemType::ArrayBool:
-    break;
-  case ItemType::ArrayByte:
-    break;
-  case ItemType::ArraySByte:
-    break;
-  case ItemType::ArrayShort:
-    break;
-  case ItemType::ArrayInt32:
-    break;
-  case ItemType::ArraySingle:
-    break;
-  case ItemType::ArrayDouble:
-    break;
-  case ItemType::ArrayGuid:
-    break;
-  case ItemType::ArrayString:
-    break;
-  case ItemType::Color:
-    break;
-  case ItemType::Point:
-    break;
-  case ItemType::PointF:
-    break;
-  case ItemType::Rectangle:
-    break;
-  case ItemType::RectangleF:
-    break;
-  case ItemType::Size:
-    break;
-  case ItemType::SizeF:
-    break;
-  case ItemType::Font:
-    break;
-  case ItemType::Interval:
-    break;
-  case ItemType::Point2d:
-    break;
-  case ItemType::Point3d:
-    break;
-  case ItemType::Point4d:
-    break;
-  case ItemType::Vector2d:
-    break;
-  case ItemType::Vector3d:
-    break;
-  case ItemType::BoundingBox:
-    break;
-  case ItemType::Ray3d:
-    break;
-  case ItemType::PlaneEquation:
-    break;
-  case ItemType::Xform:
-    break;
-  case ItemType::Plane:
-    break;
-  case ItemType::Line:
-    break;
-  case ItemType::Point3f:
-    break;
-  case ItemType::Vector3f:
-    break;
-  case ItemType::OnBinaryArchiveDictionary:
-    break;
-  case ItemType::OnObject:
-    break;
-  case ItemType::OnMeshParameters:
-    break;
-  case ItemType::OnGeometry:
-  {
-    _activeWriteBuffer = archive;
-    emscripten::val::module_property("ArchivableDictionary").call<void>("writeGeometry", value);
-    _activeWriteBuffer = nullptr;
-  }
-    break;
-  case ItemType::OnObjRef:
-    break;
-  case ItemType::ArrayObjRef:
-    break;
-  case ItemType::ArrayGeometry:
-  {
-    int itemCount = value["length"].as<int>();
-    rc = archive->WriteInt(itemCount);
-    for( int index=0; index<itemCount; index++ )
-    {
-      _activeWriteBuffer = archive;
-      emscripten::val::module_property("ArchivableDictionary").call<void>("writeGeometry", value[index]);
-      _activeWriteBuffer = nullptr;
-    }
-  }
-    break;
-  default:
-    break;
-  }
-  return archive->EndWriteDictionaryEntry() && rc;
-}
-
-
-BND_DICT BND_ArchivableDictionary::EncodeFromDictionary(BND_DICT dict)
-{
-  BND_DICT rc = emscripten::val::object();
-  int rhinoversion;
-  SetupEncodedDictionaryVersions(rc, rhinoversion);
-
-  ON_Write3dmBufferArchive* archive = ON_WriteBufferArchive_NewMemoryWriter(rhinoversion);
-  if (!archive)
-    return rc;
-
-  if (!archive->BeginWriteDictionary(RhinoDotNetDictionaryId(), 0, L""))
-    return rc;
-
-  //emscripten::val commonObject = emscripten::val::module_property("CommonObject");
-  emscripten::val geometryBase = emscripten::val::module_property("GeometryBase");
-
-  emscripten::val keys = emscripten::val::global("Object").call<emscripten::val>("keys", dict);
-  int keyCount = keys["length"].as<int>();
-  for(int keyIndex = 0; keyIndex<keyCount; keyIndex++)
-  {
-    std::string keyname = keys[keyIndex].as<std::string>();
-    emscripten::val value = dict[keyname];
-    ON_wString wkey(keyname.c_str());
-
-    ItemType it = ItemType::Undefined;
-    if( value.isTrue() || value.isFalse() )
-    {
-      it = ItemType::Bool; //1
-    }
-    else if( value.isNumber() )
-    {
-      it = ItemType::Double; //10
-    }
-    else if( value.isString() )
-    {
-      it = ItemType::String; //12
-    }
-    else if( value.instanceof(geometryBase) )
-    {
-      it = ItemType::OnGeometry; //47
-    }
-    else if( value.isArray() )
-    {
-      int elementCount = value["length"].as<int>();
-      for( int index=0; index<elementCount; index++ )
-      {
-        if( !value[index].instanceof(geometryBase) )
-        {
-          it = ItemType::Undefined;
-          break;
-        }
-        it = ItemType::ArrayGeometry;
-      }
-    }
-
-    if (ItemType::Undefined == it)
-    {
-      archive->EndWriteDictionary();
-      delete archive;
-      ON_String msg("Unable to serialize '");
-      msg += wkey + "'.";
-      msg += "\nAllowed value types are boolean, number, string, and GeometryBase.";
-      msg += "\nMore types can be supported; just ask.";
-      throw std::runtime_error(msg);
-    }
-
-    if (ItemType::Undefined != it)
-      WriteDictionaryEntryHelper(archive, wkey, it, value);
-  }
-  archive->EndWriteDictionary();
-
-  std::string data = "";
-  int length = (int)archive->SizeOfArchive();
-  if (length > 0)
-  {
-    unsigned char* buffer = (unsigned char*)archive->Buffer();
-    data = base64_encode(buffer, length);
-  }
-
-  SetDictValue(rc, "data", data);
-
-  delete archive;
-  return rc;
-}
-#endif
 
 BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
 {
-#if defined(ON_PYTHON_COMPILE)
   py::dict rc;
-#else
-  emscripten::val rc(emscripten::val::object());
-#endif
 
   std::string buffer = StringFromDict(jsonObject, "data");
   int rhinoversion = IntFromDict(jsonObject, "archive3dm");
@@ -929,40 +638,31 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
   int length = static_cast<int>(decoded.length());
   const unsigned char* c = (const unsigned char*)&decoded.at(0);
   // Eliminate potential bogus file versions written
-#if defined(ON_PYTHON_COMPILE)
+
   //py::cast_error exception();//("Unable to decode ArchivableDictionary");
   if (rhinoversion > 5 && rhinoversion < 50)
     throw py::cast_error();
 
   if (length < 1 || nullptr == c)
     throw py::cast_error();
-#endif
 
   ON_Read3dmBufferArchive archive((size_t)length, c, false, rhinoversion, opennurbsversion);
   ON_UUID dictionaryId;
   unsigned int dictionaryVersion = 0;
   ON_wString dictionaryName;
-#if defined(ON_PYTHON_COMPILE)
+
   if (!archive.BeginReadDictionary(&dictionaryId, &dictionaryVersion, dictionaryName))
     throw py::cast_error();
   if (dictionaryId != RhinoDotNetDictionaryId())
     throw py::cast_error();
-#else
-  archive.BeginReadDictionary(&dictionaryId, &dictionaryVersion, dictionaryName);
-#endif
 
   while (true)
   {
     int i_type = 0;
     ON_wString entryName;
     int read_rc = archive.BeginReadDictionaryEntry(&i_type, entryName);
-#if defined(ON_PYTHON_COMPILE)
     if (0 == read_rc)
       throw py::cast_error();
-#else
-    if (0 == read_rc)
-      break;
-#endif
     if (1 != read_rc)
       break;
     // Make sure this type is readable with the current version of RhinoCommon.
@@ -1192,14 +892,7 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           int i[2];
           if (archive.ReadInt(2, i))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(i[0], i[1]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,i[0]);
-            arr.set(1,i[1]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
@@ -1208,14 +901,7 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           float f[2];
           if (archive.ReadFloat(2, f))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(f[0], f[1]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,f[0]);
-            arr.set(1,f[1]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
@@ -1224,16 +910,7 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           int i[4];
           if (archive.ReadInt(4, i))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(i[0], i[1], i[2], i[3]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,i[0]);
-            arr.set(1,i[1]);
-            arr.set(2,i[2]);
-            arr.set(3,i[3]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
@@ -1242,16 +919,7 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           float f[4];
           if (archive.ReadFloat(4, f))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(f[0], f[1], f[2], f[3]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,f[0]);
-            arr.set(1,f[1]);
-            arr.set(2,f[2]);
-            arr.set(3,f[3]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
@@ -1260,14 +928,7 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           int i[2];
           if (archive.ReadInt(2, i))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(i[0], i[1]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,i[0]);
-            arr.set(1,i[1]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
@@ -1276,29 +937,22 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           float f[2];
           if (archive.ReadFloat(2, f))
           {
-#if defined(ON_PYTHON_COMPILE)
             rc[keyname] = py::make_tuple(f[0], f[1]);
-#else
-            emscripten::val arr = emscripten::val::array();
-            arr.set(0,f[0]);
-            arr.set(1,f[1]);
-            SetDictValue(rc, keyname, arr);
-#endif
           }
         }
         break;
       case ItemType::Font:
         break;
-      case ItemType::Interval:
-        {
-          double d[2];
-          if (archive.ReadDouble(2, d))
-          {
-            auto binding = BND_Interval(ON_Interval(d[0], d[1]));
-            SetDictValue(rc, keyname, binding);
-          }
-        }
-        break;
+      //case ItemType::Interval:
+      //  {
+      //    double d[2];
+      //    if (archive.ReadDouble(2, d))
+      //    {
+      //      auto binding = BND_Interval(ON_Interval(d[0], d[1]));
+      //      SetDictValue(rc, keyname, binding);
+      //    }
+      //  }
+      //  break;
       case ItemType::Point2d:
         {
           ON_2dPoint pt;
@@ -1334,63 +988,63 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
             SetDictValue(rc, keyname, v);
         }
         break;
-      case ItemType::BoundingBox:
-        {
-          ON_BoundingBox bb;
-          if (archive.ReadBoundingBox(bb))
-          {
-            auto binding = BND_BoundingBox(bb);
-            SetDictValue(rc, keyname, binding);
-          }
-        }
-        break;
+      //case ItemType::BoundingBox:
+      //  {
+      //    ON_BoundingBox bb;
+      //    if (archive.ReadBoundingBox(bb))
+      //    {
+      //      auto binding = BND_BoundingBox(bb);
+      //      SetDictValue(rc, keyname, binding);
+      //    }
+      //  }
+      //  break;
       case ItemType::Ray3d:
         break;
       case ItemType::PlaneEquation:
         break;
-      case ItemType::Xform:
-        {
-          ON_Xform xf;
-          if (archive.ReadXform(xf))
-          {
-            auto binding = BND_Transform(xf);
-            SetDictValue(rc, keyname, binding);
-          }
-        }
-        break;
-      case ItemType::Plane:
-        {
-          ON_Plane plane;
-          if (archive.ReadPlane(plane))
-          {
-            auto binding = BND_Plane::FromOnPlane(plane);
-            SetDictValue(rc, keyname, binding);
-          }
-        }
-        break;
-      case ItemType::Line:
-        {
-          ON_Line line;
-          if (archive.ReadLine(line))
-            SetDictValue(rc, keyname, line);
-        }
-        break;
-      case ItemType::Point3f:
-        {
-          ON_3fPoint pt;
-          if (archive.ReadFloat(3, &pt.x))
-            SetDictValue(rc, keyname, pt);
-        }
-        break;
-      case ItemType::Vector3f:
-        {
-          ON_3fVector v;
-          if (archive.ReadFloat(3, &v.x))
-            SetDictValue(rc, keyname, v);
-        }
-        break;
-      case ItemType::OnBinaryArchiveDictionary:
-        break;
+      //case ItemType::Xform:
+      //  {
+      //    ON_Xform xf;
+      //    if (archive.ReadXform(xf))
+      //    {
+      //      auto binding = BND_Transform(xf);
+      //      SetDictValue(rc, keyname, binding);
+      //    }
+      //  }
+      //  break;
+      //case ItemType::Plane:
+      //  {
+      //    ON_Plane plane;
+      //    if (archive.ReadPlane(plane))
+      //    {
+      //      auto binding = BND_Plane::FromOnPlane(plane);
+      //      SetDictValue(rc, keyname, binding);
+      //    }
+      //  }
+      //  break;
+      //case ItemType::Line:
+      //  {
+      //    ON_Line line;
+      //    if (archive.ReadLine(line))
+      //      SetDictValue(rc, keyname, line);
+      //  }
+      //  break;
+      //case ItemType::Point3f:
+      //  {
+      //    ON_3fPoint pt;
+      //    if (archive.ReadFloat(3, &pt.x))
+      //      SetDictValue(rc, keyname, pt);
+      //  }
+      //  break;
+      //case ItemType::Vector3f:
+      //  {
+      //    ON_3fVector v;
+      //    if (archive.ReadFloat(3, &v.x))
+      //      SetDictValue(rc, keyname, v);
+      //  }
+      //  break;
+      //case ItemType::OnBinaryArchiveDictionary:
+      //  break;
       case ItemType::OnObject:
         {
           ON_Object* pObject = nullptr;
@@ -1401,16 +1055,16 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
           }
         }
         break;
-      case ItemType::OnMeshParameters:
-        {
-          ON_MeshParameters mp;
-          if (mp.Read(archive))
-          {
-            auto binding = BND_MeshingParameters(mp);
-            SetDictValue(rc, keyname, binding);
-          }
-        }
-        break;
+      //case ItemType::OnMeshParameters:
+      //  {
+      //    ON_MeshParameters mp;
+      //    if (mp.Read(archive))
+      //    {
+      //      auto binding = BND_MeshingParameters(mp);
+      //      SetDictValue(rc, keyname, binding);
+      //    }
+      //  }
+      //  break;
       case ItemType::OnGeometry:
         {
           ON_Object* pObject = nullptr;
@@ -1451,12 +1105,8 @@ BND_DICT BND_ArchivableDictionary::DecodeToDictionary(BND_DICT jsonObject)
         break;
       }
     }
-#if defined(ON_PYTHON_COMPILE)
     if (!archive.EndReadDictionaryEntry())
       throw py::cast_error();
-#else
-    archive.EndReadDictionaryEntry();
-#endif
   }
 
   archive.EndReadDictionary();
@@ -1570,7 +1220,6 @@ BND_TUPLE BND_CommonObject::IsValidWithLog() const
   return rc;
 }
 
-#if defined(ON_PYTHON_COMPILE)
 
 void initObjectBindings(rh3dmpymodule& m)
 {
@@ -1594,32 +1243,3 @@ void initObjectBindings(rh3dmpymodule& m)
     ;
 }
 
-#endif
-
-#if defined(ON_WASM_COMPILE)
-using namespace emscripten;
-
-void initObjectBindings(void*)
-{
-  class_<BND_CommonObject>("CommonObject")
-    .property("isValid", &BND_CommonObject::IsValid)
-    .property("isValidWithLog", &BND_CommonObject::IsValidWithLog)
-    .function("encode", &BND_CommonObject::Encode)
-    .function("toJSON", &BND_CommonObject::toJSON)
-    .class_function("decode", &BND_CommonObject::Decode, allow_raw_pointers())
-    .function("setUserString", &BND_CommonObject::SetUserString)
-    .function("getUserString", &BND_CommonObject::GetUserString)
-    .property("userStringCount", &BND_CommonObject::UserStringCount)
-    .function("getUserStrings", &BND_CommonObject::GetUserStrings)
-    .function("rdkXml", &BND_CommonObject::RdkXml)
-    ;
-
-  class_<BND_ArchivableDictionary>("ArchivableDictionary")
-    .class_function("encodeDict", &BND_ArchivableDictionary::EncodeFromDictionary)
-    .class_function("decodeDict", &BND_ArchivableDictionary::DecodeToDictionary)
-    .class_function("writeGeometry", &BND_ArchivableDictionary::WriteGeometry, allow_raw_pointers())
-    ////.class_function("test", &BND_ArchivableDictionary::Test)
-    ////.class_function("test2", &BND_ArchivableDictionary::Test2, allow_raw_pointers())
-    ;
-}
-#endif

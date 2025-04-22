@@ -11,13 +11,13 @@ public:
     BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m); // { m_model = m; }
     int Count() const;                                   //{ return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::Layer); }
     int Add(const class BND_Layer &layer);
-    int AddLayer(std::wstring name, BND_Color color);
+    //int AddLayer(std::wstring name, BND_Color color);
     bool Delete(BND_UUID id);
     bool Has(std::wstring full_name);
-    const class BND_Layer *Get(std::wstring full_name);
-    class BND_Layer *FindName(std::wstring name, BND_UUID parentId);
+    const class LayerView *Get(std::wstring full_name);
+    class LayerView *FindName(std::wstring name, BND_UUID parentId);
     // BND_Layer* FindNameHash(NameHash nameHash)
-    class BND_Layer *FindIndex(int index);
-    class BND_Layer *IterIndex(int index); // helper function for iterator
-    class BND_Layer *FindId(BND_UUID id);
+    class LayerView *FindIndex(int index);
+    class LayerView *IterIndex(int index); // helper function for iterator
+    class LayerView *FindId(BND_UUID id);
 };

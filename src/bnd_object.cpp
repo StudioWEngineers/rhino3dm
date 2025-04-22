@@ -4,33 +4,21 @@
 
 std::string StringFromDict(BND_DICT& d, const char* key)
 {
-#if defined(ON_PYTHON_COMPILE)
   std::string rc = ToStdString(py::str(d[key]));
-#else
-  std::string rc = d[key].as<std::string>();
-#endif
   return rc;
 }
 
 int IntFromDict(BND_DICT& d, const char* key)
 {
-#if defined(ON_PYTHON_COMPILE)
 //  int rc = d[key].cast<int>();
   int rc = py::cast<int>(d[key]);
-#else
-  int rc = d[key].as<int>();
-#endif
   return rc;
 }
 
 template <class T>
 void SetDictValue(BND_DICT& d, const char* key, T& value)
 {
-#if defined(ON_PYTHON_COMPILE)
   d[key] = value;
-#else
-  d.set(key, emscripten::val(value));
-#endif
 }
 
 

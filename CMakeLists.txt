@@ -63,9 +63,9 @@ add_subdirectory(lib/draco)
 target_link_libraries(_rhino3dm PRIVATE draco::draco)
 
 install(FILES
-    ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.py
-    ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.pyi
-    ${CMAKE_SOURCE_DIR}/rhino3dm/py.typed
+    ${CMAKE_SOURCE_DIR}/src/__init__.py
+    ${CMAKE_SOURCE_DIR}/src/__init__.pyi
+    ${CMAKE_SOURCE_DIR}/src/py.typed
     DESTINATION rhino3dm
 )
 

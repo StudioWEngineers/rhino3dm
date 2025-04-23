@@ -66,10 +66,10 @@ install(FILES
     ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.py
     ${CMAKE_SOURCE_DIR}/rhino3dm/__init__.pyi
     ${CMAKE_SOURCE_DIR}/rhino3dm/py.typed
-    DESTINATION rhino3dm
+    DESTINATION _rhino3dm
 )
 
 install(TARGETS _rhino3dm
-        LIBRARY DESTINATION rhino3dm
-        RUNTIME DESTINATION rhino3dm
-        ARCHIVE DESTINATION rhino3dm)
+        LIBRARY DESTINATION _rhino3dm
+        RUNTIME DESTINATION _rhino3dm
+        ARCHIVE DESTINATION _rhino3dm)

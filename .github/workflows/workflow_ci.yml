@@ -53,6 +53,7 @@ jobs:
 
     - name: test ${{ matrix.python }} ${{ matrix.os }}
       run: |
+        cd tests
         python -m unittest discover
       shell: bash
 

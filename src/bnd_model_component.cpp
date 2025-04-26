@@ -21,7 +21,6 @@ void BND_ModelComponent::SetId(BND_UUID id)
 
 //////////////////////////////////////////////////////////////////////////////
 
-#if defined(ON_PYTHON_COMPILE)
 
 void initModelComponentBindings(rh3dmpymodule& m)
 {
@@ -32,19 +31,3 @@ void initModelComponentBindings(rh3dmpymodule& m)
     .def("ClearId", &BND_ModelComponent::ClearId)
     ;
 }
-
-#endif
-
-#if defined(ON_WASM_COMPILE)
-using namespace emscripten;
-
-void initModelComponentBindings(void*)
-{
-  class_<BND_ModelComponent, base<BND_CommonObject>>("ModelComponent")
-    .function("dataCRC", &BND_ModelComponent::DataCRC)
-    .property("isSystemComponent", &BND_ModelComponent::IsSystemComponent)
-    .property("id", &BND_ModelComponent::GetId, &BND_ModelComponent::SetId)
-    .function("clearId", &BND_ModelComponent::ClearId)
-    ;
-}
-#endif

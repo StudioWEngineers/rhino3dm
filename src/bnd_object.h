@@ -2,11 +2,7 @@
 
 #pragma once
 
-#if defined(ON_PYTHON_COMPILE)
 void initObjectBindings(rh3dmpymodule& m);
-#else
-void initObjectBindings(void* m);
-#endif
 
 class BND_CommonObject
 {
@@ -21,10 +17,6 @@ public:
 
   BND_DICT Encode() const;
   static BND_CommonObject* Decode(BND_DICT jsonObject);
-
-#if defined(__EMSCRIPTEN__)
-  BND_DICT toJSON(BND_DICT key);
-#endif
 
   bool IsValid() const { return m_object->IsValid(); }
   BND_TUPLE IsValidWithLog() const;
@@ -48,10 +40,6 @@ class BND_ArchivableDictionary
 public:
   static BND_DICT EncodeFromDictionary(BND_DICT dict);
   static BND_DICT DecodeToDictionary(BND_DICT jsonObject);
-
-#if defined(__EMSCRIPTEN__)
-  static void WriteGeometry(class BND_GeometryBase* geometry);
-#endif
 
 };
 

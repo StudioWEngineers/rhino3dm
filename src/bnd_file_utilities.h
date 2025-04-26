@@ -2,11 +2,7 @@
 
 #pragma once
 
-#if defined(ON_PYTHON_COMPILE)
 void initFileUtilitiesBindings(rh3dmpymodule& m);
-#else
-void initFileUtilitiesBindings(void* m);
-#endif
 
 class BND_FileReference
 {

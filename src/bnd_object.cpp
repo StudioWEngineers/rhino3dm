@@ -304,11 +304,7 @@ static void SetupEncodedDictionaryVersions(BND_DICT& d, int& rhinoversion)
 
 BND_DICT BND_CommonObject::Encode() const
 {
-#if defined(ON_PYTHON_COMPILE)
   BND_DICT d;
-#else
-  emscripten::val d(emscripten::val::object());
-#endif
   int rhinoversion;
   SetupEncodedDictionaryVersions(d, rhinoversion);
 
@@ -323,11 +319,7 @@ BND_DICT BND_CommonObject::Encode() const
   if( archive )
     delete archive;
 
-#if defined(ON_PYTHON_COMPILE)
   d["data"] = data;
-#else
-  d.set("data", emscripten::val(data));
-#endif
   return d;
 }
 

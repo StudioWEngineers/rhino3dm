@@ -28,10 +28,10 @@ cmake.version = ">=3.15"
 cmake.build-type = "Release"
 #cmake.args = ["-DPYTHON_BINDING_LIB=NANOBIND"]
 
-[tool.scikit-build.editable]
-mode = "redirect"
-verbose = true
-rebuild = true
+#[tool.scikit-build.editable]
+#mode = "redirect"
+#verbose = true
+#rebuild = true
 
 
 # pip install -e . --config-settings editable=true

@@ -44,11 +44,6 @@ add_definitions(-DOPENNURBS_ZLIB_LIB_DIR)
 add_definitions(-DUNICODE)
 add_definitions(-DON_INCLUDE_DRACO)
 
-if(UNIX AND NOT APPLE)
-  find_library(UUID_LIB uuid REQUIRED)
-  target_link_libraries(_rhino3dm PRIVATE ${UUID_LIB})
-endif()
-
 add_library(zlib_static STATIC ${zlib_SRC})
 add_library(opennurbs_static STATIC ${opennurbs_SRC})
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
@@ -66,6 +61,11 @@ target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
 
 add_subdirectory(lib/draco)
 target_link_libraries(_rhino3dm PRIVATE draco::draco)
+
+if(UNIX AND NOT APPLE)
+  find_library(UUID_LIB uuid REQUIRED)
+  target_link_libraries(_rhino3dm PRIVATE ${UUID_LIB})
+endif()
 
 install(FILES
     ${CMAKE_SOURCE_DIR}/src/__init__.py

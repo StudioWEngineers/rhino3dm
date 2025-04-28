@@ -108,8 +108,7 @@ void BND_ONXModel::Destroy() {
     if(model) {
         delete model;
     }
-    model = nullptr;
-    m_model.reset(model);
+    m_model.reset(nullptr);
 }
 
 BND_ONXModel* BND_ONXModel::Read(std::wstring path)

@@ -1171,19 +1171,6 @@ std::vector<std::vector<std::wstring>> BND_CommonObject::GetUserStrings2() const
 }
 
 
-
-std::wstring BND_CommonObject::RdkXml() const
-{
-  std::wstring rc;
-  ON_wString xmlstring;
-  if (ONX_Model::GetRDKObjectInformation(*m_object, xmlstring))
-  {
-    rc = xmlstring.Array();
-    return rc;
-  }
-  return rc;
-}
-
 BND_TUPLE BND_CommonObject::IsValidWithLog() const
 {
   ON_wString str("");
@@ -1213,7 +1200,6 @@ void initObjectBindings(rh3dmpymodule& m)
     .def_property_readonly("UserStringCount", &BND_CommonObject::UserStringCount)
     .def("GetUserStrings", &BND_CommonObject::GetUserStrings)
     .def("GetUserStrings2", &BND_CommonObject::GetUserStrings2)
-    .def("RdkXml", &BND_CommonObject::RdkXml)
     ;
 
   py::class_<BND_ArchivableDictionary>(m, "ArchivableDictionary")

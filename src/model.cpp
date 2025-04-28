@@ -30,12 +30,10 @@ BND_ONXModel* BND_ONXModel::Read(std::wstring path)
   return new BND_ONXModel(m);
 }
 
-std::string BND_ONXModel::ReadNotes(std::wstring path)
-{
+std::string BND_ONXModel::ReadNotes(std::wstring path) {
   std::string str;
   FILE* fp = ON::OpenFile(path.c_str(), L"rb");
-  if (fp)
-  {
+  if (fp) {
     ON_BinaryFile file(ON::archive_mode::read3dm, fp);
     int version = 0;
     ON_String comments;

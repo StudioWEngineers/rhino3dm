@@ -15,11 +15,6 @@ BND_FileReference BND_FileReference::CreateFromFullAndRelativePaths(std::wstring
   return rc;
 }
 
-
-
-//////////////////////////////////////////////////////////////////////////////
-
-#if defined(ON_PYTHON_COMPILE)
 void initFileUtilitiesBindings(rh3dmpymodule& m)
 {
   py::class_<BND_FileReference>(m, "FileReference")
@@ -29,18 +24,3 @@ void initFileUtilitiesBindings(rh3dmpymodule& m)
     .def_property_readonly("RelativePath", &BND_FileReference::GetRelativePath)
     ;
 }
-#endif
-
-#if defined(ON_WASM_COMPILE)
-using namespace emscripten;
-
-void initFileUtilitiesBindings(void*)
-{
-  class_<BND_FileReference>("FileReference")
-    .class_function("createFromFullPath", &BND_FileReference::CreateFromFullPath)
-    .class_function("createFromFullAndRelativePaths", &BND_FileReference::CreateFromFullAndRelativePaths)
-    .property("fullPath", &BND_FileReference::GetFullPath)
-    .property("relativePath", &BND_FileReference::GetRelativePath)
-    ;
-}
-#endif

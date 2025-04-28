@@ -42,9 +42,4 @@ public:
 };
 
 
-#if defined(ON_PYTHON_COMPILE)
 void initModelComponentBindings(rh3dmpymodule& m);
-#else
-void initModelComponentBindings(void* m);
-#endif
-

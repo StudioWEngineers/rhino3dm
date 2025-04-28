@@ -16,12 +16,6 @@ int BND_File3dmLayerTable::Add(const BND_Layer &layer) {
     return layer_index;
 }
 
-//int BND_File3dmLayerTable::AddLayer(std::wstring name, BND_Color color) {
-//    ON_Color c = Binding_to_ON_Color(color);
-//    int rc = m_model->AddLayer(name.c_str(), c);
-//    return rc;
-//}
-
 int BND_File3dmLayerTable::Count() const {
     return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::Layer);
 }

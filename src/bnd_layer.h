@@ -2,21 +2,25 @@
 
 #pragma once
 
-#if defined(ON_PYTHON_COMPILE)
 void initLayerBindings(rh3dmpymodule& m);
-#else
-void initLayerBindings(void* m);
-#endif
 
-class BND_Layer : public BND_CommonObject
-{
-public:
-  ON_Layer* m_layer = nullptr;
-  std::shared_ptr<ONX_Model> m_model;
-public:
-  BND_Layer();
-  BND_Layer(ON_Layer* layer, const ON_ModelComponentReference* compref);
-  BND_Layer(ON_Layer* layer, const ON_ModelComponentReference* compref, std::shared_ptr<ONX_Model>& model);
+class BND_Layer : public BND_CommonObject {
+    public:
+    ON_Layer* m_layer = nullptr;
+    std::shared_ptr<ONX_Model> m_model;
+
+    BND_Layer();
+
+    BND_Layer(
+      ON_Layer* layer,
+      const ON_ModelComponentReference* compref
+    );
+
+    BND_Layer(
+      ON_Layer* layer,
+      const ON_ModelComponentReference* compref,
+      std::shared_ptr<ONX_Model>& model
+    );
 
   static std::wstring PathSeparator() { return std::wstring(ON_ModelComponent::NamePathSeparator.Array()); }
 

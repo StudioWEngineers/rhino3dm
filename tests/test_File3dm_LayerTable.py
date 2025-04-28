@@ -29,7 +29,7 @@ class TestFile3dmLayerTable(TestCase):
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 2)
 
-        remove(dirname(__file__) + "\\test_createFileWithLayers.3dm")
+        remove(dirname(__file__) + "/test_createFileWithLayers.3dm")
 
     #objective: to test creating file with layers and deleting a layer
     def test_deleteLayer(self) -> None:

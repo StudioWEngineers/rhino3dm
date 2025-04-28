@@ -24,7 +24,7 @@ classifiers = [
 minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 wheel.packages = ["rhino3dm"]
-cmake.version = ">=3.15"
+cmake.version = ">=3.30"
 cmake.build-type = "Release"
 #cmake.args = ["-DPYTHON_BINDING_LIB=NANOBIND"]
 

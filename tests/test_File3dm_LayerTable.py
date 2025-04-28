@@ -24,7 +24,7 @@ class TestFile3dmLayerTable(unittest.TestCase):
         file3dm.Write('test_createFileWithLayers.3dm')
 
         file = rhino3dm.File3dm.Read('test_createFileWithLayers.3dm')
-        qtyLayers2 = len(file.Layers)
+        qtyLayers2 = len(file.layers)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 2)
 

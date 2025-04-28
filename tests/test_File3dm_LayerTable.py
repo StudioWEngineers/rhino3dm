@@ -1,9 +1,10 @@
 import rhino3dm
-import unittest
+from unittest import TestCase
+from os import remove
 from os.path import dirname
 
 #objective: to test creating file with layers and reading a file with layers
-class TestFile3dmLayerTable(unittest.TestCase):
+class TestFile3dmLayerTable(TestCase):
     def test_createFileWithLayers(self) -> None:
 
         file3dm = rhino3dm.File3dm()
@@ -21,12 +22,14 @@ class TestFile3dmLayerTable(unittest.TestCase):
 
         qtyLayers = len(file3dm.layers)
 
-        file3dm.Write('test_createFileWithLayers.3dm')
+        file3dm.write("test_createFileWithLayers.3dm")
 
         file = rhino3dm.File3dm.Read('test_createFileWithLayers.3dm')
         qtyLayers2 = len(file.layers)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 2)
+
+        remove(dirname(__file__) + "\\test_createFileWithLayers.3dm")
 
     #objective: to test creating file with layers and deleting a layer
     def test_deleteLayer(self) -> None:
@@ -41,7 +44,7 @@ class TestFile3dmLayerTable(unittest.TestCase):
         layer2.Name = 'layer2'
 
         index1 = file3dm.layers.Add(layer1)
-        index2 = file3dm.layers.Add(layer2)
+        file3dm.layers.Add(layer2)
 
         qtyLayers = len(file3dm.layers)
 

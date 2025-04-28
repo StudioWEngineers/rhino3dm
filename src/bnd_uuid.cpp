@@ -1,7 +1,5 @@
 #include "bindings.h"
 
-#if defined(ON_PYTHON_COMPILE)
-
 static py::object make_uuid;
 BND_UUID ON_UUID_to_Binding(const ON_UUID& id)
 {
@@ -38,22 +36,3 @@ std::vector<BND_UUID> ON_SimpleArrayUUID_to_Binding(const ON_SimpleArray<ON_UUID
 
 	return guids;
 }
-
-#endif
-
-#if defined(ON_WASM_COMPILE)
-BND_UUID ON_UUID_to_Binding(const ON_UUID& id)
-{
-  char s[37];
-  memset(s, 0, sizeof(s));
-
-  char* suuid = ON_UuidToString(id, s);
-  std::string rc(suuid);
-  return rc;
-}
-
-ON_UUID Binding_to_ON_UUID(const BND_UUID& id)
-{
-  return ON_UuidFromString(id.c_str());
-}
-#endif

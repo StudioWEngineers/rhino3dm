@@ -73,13 +73,14 @@ endif()
 
 # Python package installation
 install(FILES
-    ${CMAKE_SOURCE_DIR}/src/__init__.py
-    ${CMAKE_SOURCE_DIR}/src/__init__.pyi
-    ${CMAKE_SOURCE_DIR}/src/py.typed
-    DESTINATION rhino3dm
+  ${CMAKE_SOURCE_DIR}/src/__init__.py
+  ${CMAKE_SOURCE_DIR}/src/__init__.pyi
+  ${CMAKE_SOURCE_DIR}/src/py.typed
+  DESTINATION rhino3dm
 )
 
 install(TARGETS _rhino3dm
-    LIBRARY DESTINATION rhino3dm
-    RUNTIME DESTINATION rhino3dm
-    ARCHIVE DESTINATION rhino3dm)
+  LIBRARY DESTINATION rhino3dm
+  RUNTIME DESTINATION rhino3dm
+  ARCHIVE DESTINATION rhino3dm
+)

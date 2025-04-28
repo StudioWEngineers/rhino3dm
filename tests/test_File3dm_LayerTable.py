@@ -73,5 +73,5 @@ class TestFile3dmLayerTable(unittest.TestCase):
 
     def test_ReadFileWithLayers(self) -> None:
         file = rhino3dm.File3dm.Read(dirname(__file__) + "/models/file3dm_stuff.3dm")
-        qtyLayers = len(file.Layers)
+        qtyLayers = len(file.layers)
         self.assertTrue(qtyLayers == 6)

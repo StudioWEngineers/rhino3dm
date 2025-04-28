@@ -43,10 +43,13 @@ add_definitions(
   -DON_INCLUDE_DRACO
 )
 
+# Static libraries
 add_library(zlib_static STATIC ${zlib_SRC})
 add_library(opennurbs_static STATIC ${opennurbs_SRC})
+add_subdirectory(lib/draco)
+
+# Main Python extension module
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
-  #need to build nanobind to link it?
   nanobind_build_library(nanobind)
   nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
   target_link_libraries(_rhino3dm PRIVATE nanobind-static)
@@ -55,11 +58,12 @@ else()
   target_link_libraries(_rhino3dm PRIVATE pybind11::module)
 endif()
 
-target_link_libraries(_rhino3dm PRIVATE zlib_static)
-target_link_libraries(_rhino3dm PRIVATE opennurbs_static)
-
-add_subdirectory(lib/draco)
-target_link_libraries(_rhino3dm PRIVATE draco::draco)
+# Link additional libraries
+target_link_libraries(_rhino3dm PRIVATE
+  zlib_static
+  opennurbs_static
+  draco::draco
+)
 
 # Link libuuid on Linux
 if(UNIX AND NOT APPLE)

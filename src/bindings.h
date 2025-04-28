@@ -178,7 +178,7 @@ BND_DateTime CreateDateTime(struct tm t);
 //#include "bnd_viewport.h"
 //#include "bnd_group.h"
 //#include "bnd_mesh_modifiers.h"
-#include "bnd_extensions.h"
+//#include "bnd_extensions.h"
 //#include "bnd_3dm_attributes.h"
 //#include "bnd_draco.h"
 //#include "bnd_rtree.h"
@@ -187,3 +187,4 @@ BND_DateTime CreateDateTime(struct tm t);
 // sw additions
 #include "bnd_layer_table.h"
 #include "layer_view.h"
+#include "model.h"

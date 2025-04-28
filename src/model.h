@@ -2,7 +2,7 @@
 
 #pragma once
 
-void initExtensionsBindings(rh3dmpymodule& m);
+void ModelBindings(rh3dmpymodule& m);
 
 class BND_ONXModel {
 public:
@@ -15,15 +15,7 @@ public:
     static std::string ReadNotes(std::wstring path);
     static int ReadArchiveVersion(std::wstring path);
 
-    std::string Encode();
-    std::string Encode2(const class BND_File3dmWriteOptions* options);
-
-    //static BND_ONXModel* FromByteArray(int length, const void* buffer);
-    static BND_ONXModel* Decode(std::string buffer);
     bool Write(std::wstring path, int version);
-    //public bool Write(string path, File3dmWriteOptions options)
-    //public bool WriteWithLog(string path, int version, out string errorLog)
-    //public bool WriteWithLog(string path, File3dmWriteOptions options, out string errorLog)
 
     std::wstring GetStartSectionComments() const;
     void SetStartSectionComments(std::wstring comments);
@@ -57,14 +49,6 @@ public:
     //BND_File3dmEmbeddedFileTable EmbeddedFiles() { return BND_File3dmEmbeddedFileTable(m_model); }
     //BND_File3dmRenderContentTable RenderContent() { return BND_File3dmRenderContentTable(m_model); }
 
-    //std::wstring Dump() const;
-    //std::wstring DumpSummary() const;
-    //public void DumpToTextLog(TextLog log)
     BND_TUPLE GetEmbeddedFilePaths();
     std::vector<std::wstring> GetEmbeddedFilePaths2();
-    std::string GetEmbeddedFileAsBase64(std::wstring path);
-    std::string GetEmbeddedFileAsBase64Strict(std::wstring path, bool strict);
-    std::wstring RdkXml() const;
-
-    static bool ReadTest(std::wstring filepath);
 };

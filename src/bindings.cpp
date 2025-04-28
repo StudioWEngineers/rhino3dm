@@ -74,7 +74,7 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   //initSphereBindings(m);
   //initViewportBindings(m);
   //initGroupBindings(m);
-  initExtensionsBindings(m);
+  ModelBindings(m);
   //initDracoBindings(m);
   //initRTreeBindings(m);
   //initLinetypeBindings(m);

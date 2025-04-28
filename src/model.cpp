@@ -440,7 +440,7 @@ struct PyBNDIterator {
   int index = 0;
 };
 
-void initExtensionsBindings(rh3dmpymodule& m)
+void ModelBindings(rh3dmpymodule& m)
 {
 
 

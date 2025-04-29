@@ -7,7 +7,7 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   m.attr("Version") = py::cast(version);
 
   ON::Begin();
-  initFileUtilitiesBindings(m);
+  //initFileUtilitiesBindings(m);
   //initDefines(m);
   //initIntersectBindings(m);
   //initPolylineBindings(m);

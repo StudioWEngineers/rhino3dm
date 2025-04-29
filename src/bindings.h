@@ -130,7 +130,7 @@ BND_DateTime CreateDateTime(struct tm t);
 //#include "bnd_ellipse.h"
 //#include "bnd_font.h"
 #include "bnd_object.h"
-#include "bnd_model_component.h"
+//#include "bnd_model_component.h"
 //#include "bnd_geometry.h"
 //#include "bnd_light.h"
 //#include "bnd_material.h"

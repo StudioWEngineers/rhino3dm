@@ -13,7 +13,7 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   //initPolylineBindings(m);
   //initPlaneBindings(m);
   initObjectBindings(m);
-  initModelComponentBindings(m);
+  //initModelComponentBindings(m);
   //init3dmSettingsBindings(m);
   //init3dmAttributesBindings(m);
   //initBitmapBindings(m);

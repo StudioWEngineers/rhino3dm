@@ -12,7 +12,7 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   //initIntersectBindings(m);
   //initPolylineBindings(m);
   //initPlaneBindings(m);
-  initObjectBindings(m);
+  //initObjectBindings(m);
   //initModelComponentBindings(m);
   //init3dmSettingsBindings(m);
   //init3dmAttributesBindings(m);

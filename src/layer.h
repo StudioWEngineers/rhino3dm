@@ -4,25 +4,25 @@
 
 void LayerBindings(rh3dmpymodule& m);
 
-class BND_Layer {  //: public BND_CommonObject
+class Layer {  //: public BND_CommonObject
     public:
     ON_Layer* m_layer = nullptr;
     std::shared_ptr<ONX_Model> m_model;
 
-    BND_Layer();
+    Layer();
 
-    BND_Layer(
+    Layer(
       ON_Layer* layer,
       const ON_ModelComponentReference* compref
     );
 
-    BND_Layer(
+    Layer(
       ON_Layer* layer,
       const ON_ModelComponentReference* compref,
       std::shared_ptr<ONX_Model>& model
     );
 
-    ~BND_Layer();
+    ~Layer();
 
   static std::wstring PathSeparator() { return std::wstring(ON_ModelComponent::NamePathSeparator.Array()); }
 

@@ -8,7 +8,7 @@ BND_File3dmLayerTable::BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m) {
     m_model = m;
 }
 
-int BND_File3dmLayerTable::Add(const BND_Layer &layer) {
+int BND_File3dmLayerTable::Add(const Layer &layer) {
     const ON_Layer *l = layer.m_layer;
     ON_ModelComponentReference mr = m_model->AddModelComponent(*l);
     const ON_Layer *managed_layer = ON_Layer::FromModelComponentRef(mr, nullptr);

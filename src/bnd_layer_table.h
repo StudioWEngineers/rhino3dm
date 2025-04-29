@@ -10,7 +10,7 @@ class BND_File3dmLayerTable {
 public:
     BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m);
     int Count() const;
-    int Add(const class BND_Layer &layer);
+    int Add(const class Layer &layer);
     bool Delete(BND_UUID id);
     bool Has(std::wstring full_name);
     const class LayerView *Get(std::wstring full_name);

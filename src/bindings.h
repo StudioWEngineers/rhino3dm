@@ -150,7 +150,7 @@ BND_DateTime CreateDateTime(struct tm t);
 //#include "bnd_3dm_settings.h"
 //#include "bnd_bitmap.h"
 //#include "bnd_dimensionstyle.h"
-#include "bnd_layer.h"
+//#include "bnd_layer.h"
 //#include "bnd_texture_mapping.h"
 //#include "bnd_annotationbase.h"
 //#include "bnd_instance.h"

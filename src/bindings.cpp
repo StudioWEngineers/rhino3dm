@@ -18,7 +18,7 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
   //init3dmAttributesBindings(m);
   //initBitmapBindings(m);
   //initDimensionStyleBindings(m);
-  initLayerBindings(m);
+  //initLayerBindings(m);
   //initMaterialBindings(m);
   //initEmbeddedFileBindings(m);
   //initSkylightBindings(m);

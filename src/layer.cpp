@@ -16,6 +16,12 @@ BND_Layer::BND_Layer(ON_Layer* layer, const ON_ModelComponentReference* compref,
   m_model = model;
 }
 
+BND_Layer::~BND_Layer() {
+  if (m_layer != nullptr && m_component_ref.IsEmpty()) {
+    delete m_layer;
+  }
+}
+
 void BND_Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref)
 {
   m_layer = layer;
@@ -130,7 +136,6 @@ void BND_Layer::SetPlotColor(const BND_Color& color)
 void LayerBindings(rh3dmpymodule& m)
 {
   py::class_<BND_Layer>(m, "Layer")
-  //py::class_<BND_Layer, BND_CommonObject>(m, "Layer")
     .def(py::init<>())
     .def_property_readonly_static("PathSeparator", &BND_Layer::PathSeparator)
     .def_property("Name", &BND_Layer::GetName, &BND_Layer::SetName)

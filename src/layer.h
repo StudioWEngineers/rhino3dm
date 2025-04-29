@@ -22,6 +22,8 @@ class BND_Layer {  //: public BND_CommonObject
       std::shared_ptr<ONX_Model>& model
     );
 
+    ~BND_Layer();
+
   static std::wstring PathSeparator() { return std::wstring(ON_ModelComponent::NamePathSeparator.Array()); }
 
   std::wstring GetName() const { return std::wstring(m_layer->NameAsPointer()); }

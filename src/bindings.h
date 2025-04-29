@@ -187,4 +187,5 @@ BND_DateTime CreateDateTime(struct tm t);
 // sw additions
 #include "bnd_layer_table.h"
 #include "layer_view.h"
+#include "layer.h"
 #include "model.h"

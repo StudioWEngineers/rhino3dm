@@ -2,7 +2,7 @@
 // #include "bnd_layer_table.h"
 //  uncomment the previous line leads to class redifintion
 // https://stackoverflow.com/questions/25713718/error-c2011-class-type-redefinition
-#include "base64.h"
+//#include "base64.h"
 
 BND_File3dmLayerTable::BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m) {
     m_model = m;

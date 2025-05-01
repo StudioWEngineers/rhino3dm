@@ -65,12 +65,6 @@ target_link_libraries(_rhino3dm PRIVATE
   draco::draco
 )
 
-# Link libuuid on Linux
-if(UNIX AND NOT APPLE)
-  find_library(UUID_LIB uuid REQUIRED)
-  target_link_libraries(_rhino3dm PRIVATE ${UUID_LIB})
-endif()
-
 # Python package installation
 install(FILES
   ${CMAKE_SOURCE_DIR}/src/__init__.py

@@ -42,6 +42,12 @@ add_definitions(
   -DUNICODE
   -DON_INCLUDE_DRACO
 )
+if(UNIX)
+  add_definitions(
+    -DON_RUNTIME_LINUX
+    -DON_CLANG_CONSTRUCTOR_BUG
+  )
+endif()
 
 # Static libraries
 add_library(zlib_static STATIC ${zlib_SRC})
@@ -51,7 +57,11 @@ add_subdirectory(lib/draco)
 # Main Python extension module
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   nanobind_build_library(nanobind)
-  nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
+  if(UNIX)
+    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC} ${opennurbs_SRC} ${zlib_SRC} ${uuid_SRC})
+  else()
+    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
+  endif()
   target_link_libraries(_rhino3dm PRIVATE nanobind-static)
 else()
   pybind11_add_module(_rhino3dm ${bindings_SRC})
@@ -64,6 +74,12 @@ target_link_libraries(_rhino3dm PRIVATE
   opennurbs_static
   draco::draco
 )
+
+# Link libuuid on Linux
+if(UNIX AND NOT APPLE)
+  find_library(UUID_LIB uuid REQUIRED)
+  target_link_libraries(_rhino3dm PRIVATE ${UUID_LIB})
+endif()
 
 # Python package installation
 install(FILES

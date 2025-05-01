@@ -58,9 +58,11 @@ else()
   target_link_libraries(_rhino3dm PRIVATE pybind11::module)
 endif()
 
+# Link zlib only into opennurbs (due to compile options -DMY_ZCALLOC and -DZ_PREFIX)
+target_link_libraries(opennurbs_static PRIVATE zlib_static)
+
 # Link additional libraries
 target_link_libraries(_rhino3dm PRIVATE
-  zlib_static
   opennurbs_static
   draco::draco
 )

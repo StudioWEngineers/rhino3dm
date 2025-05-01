@@ -64,13 +64,13 @@ void SetTuple(BND_TUPLE& tuple, int index, const T& value)
 
 struct buffer_info {
   std::string format;
-  std::vector<ssize_t> shape;
-  std::vector<ssize_t> strides;
+  std::vector<std::size_t> shape;
+  std::vector<std::size_t> strides;
 
   buffer_info(
       std::string format,
-      std::vector<ssize_t> shape_in,
-      std::vector<ssize_t> strides_in)
+      std::vector<std::size_t> shape_in,
+      std::vector<std::size_t> strides_in)
       : format(std::move(format)),
         shape(std::move(shape_in)),
         strides(std::move(strides_in)) {}

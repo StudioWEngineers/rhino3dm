@@ -42,7 +42,7 @@ add_definitions(
   -DUNICODE
   -DON_INCLUDE_DRACO
 )
-if(UNIX)
+if(UNIX AND NOT APPLE)
   add_definitions(
     -DON_RUNTIME_LINUX
     -DON_CLANG_CONSTRUCTOR_BUG

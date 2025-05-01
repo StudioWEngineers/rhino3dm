@@ -107,14 +107,13 @@ void initLayerTableBindings(rh3dmpymodule &m) {
         .def("__iter__", [](PyBNDIterator<BND_File3dmLayerTable &, LayerView *> &it) -> PyBNDIterator<BND_File3dmLayerTable &, LayerView *> & { return it; })
         .def("__next__", &PyBNDIterator<BND_File3dmLayerTable &, LayerView *>::next);
 
-    py::class_<BND_File3dmLayerTable>(m, "File3dmLayerTable")
+    py::class_<BND_File3dmLayerTable>(m, "LayerTable")
         .def("__len__", &BND_File3dmLayerTable::Count)
         .def("__getitem__", &BND_File3dmLayerTable::FindIndex)
 #if !defined(NANOBIND)
         .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLayerTable &, LayerView *>(s.cast<BND_File3dmLayerTable &>(), s); })
 #endif
         .def("Add", &BND_File3dmLayerTable::Add, py::arg("layer"))
-        //.def("AddLayer", &BND_File3dmLayerTable::AddLayer, py::arg("name"), py::arg("color"))
         .def("Delete", &BND_File3dmLayerTable::Delete, py::arg("id"))
         .def("FindName", &BND_File3dmLayerTable::FindName, py::arg("name"), py::arg("parentId"))
         .def("FindIndex", &BND_File3dmLayerTable::FindIndex, py::arg("index"))

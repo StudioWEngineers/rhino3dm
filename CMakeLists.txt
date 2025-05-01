@@ -51,7 +51,7 @@ add_subdirectory(lib/draco)
 # Main Python extension module
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   nanobind_build_library(nanobind)
-  nanobind_add_module(_rhino3dm ${bindings_SRC})  #
+  nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
   target_link_libraries(_rhino3dm PRIVATE nanobind-static)
 else()
   pybind11_add_module(_rhino3dm ${bindings_SRC})

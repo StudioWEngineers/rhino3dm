@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.30)
 project(rhino3dm)
 
-set (CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 message("Python Compile")
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   message("Using nanobind")
-  add_compile_definitions( NANOBIND )
+  add_compile_definitions(NANOBIND)
   set(DEV_MODULE Development.Module)
   find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
   add_subdirectory(lib/nanobind)
@@ -43,24 +43,29 @@ add_definitions(
   -DON_INCLUDE_DRACO
 )
 
+# Create a shared library for zlib
+add_library(zlib_shared SHARED ${zlib_SRC})
+
 # Static libraries
-add_library(zlib_static STATIC ${zlib_SRC})
 add_library(opennurbs_static STATIC ${opennurbs_SRC})
 add_subdirectory(lib/draco)
 
 # Main Python extension module
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   nanobind_build_library(nanobind)
-  nanobind_add_module(_rhino3dm ${bindings_SRC})  #
+  nanobind_add_module(_rhino3dm ${bindings_SRC})
   target_link_libraries(_rhino3dm PRIVATE nanobind-static)
 else()
   pybind11_add_module(_rhino3dm ${bindings_SRC})
   target_link_libraries(_rhino3dm PRIVATE pybind11::module)
 endif()
 
+# Link zlib as a shared library into both OpenNURBS and _rhino3dm
+target_link_libraries(opennurbs_static PRIVATE zlib_shared)
+target_link_libraries(_rhino3dm PRIVATE zlib_shared)
+
 # Link additional libraries
 target_link_libraries(_rhino3dm PRIVATE
-  zlib_static
   opennurbs_static
   draco::draco
 )

@@ -1,4 +1,5 @@
 #include "bindings.h"
+#include "layer_view.h"
 
 #pragma once
 

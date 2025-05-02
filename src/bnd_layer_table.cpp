@@ -3,6 +3,7 @@
 //  uncomment the previous line leads to class redifintion
 // https://stackoverflow.com/questions/25713718/error-c2011-class-type-redefinition
 //#include "base64.h"
+#include <iostream>
 
 BND_File3dmLayerTable::BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m) {
     m_model = m;
@@ -86,15 +87,19 @@ LayerView *BND_File3dmLayerTable::FindId(BND_UUID id) {
 }
 
 // --------------------- Iterator helpers ------- //
-template <typename IT, typename ET>
+template <typename IT>
 struct PyBNDIterator {
     PyBNDIterator(const IT table, py::object ref)
         : seq(table), ref(ref) {}
 
-    ET next() {
+    py::object next() {
         if (index >= seq.Count())
             throw py::stop_iteration();
-        return const_cast<IT>(seq).IterIndex(index++);
+        LayerView* lv = const_cast<IT>(seq).IterIndex(index++);
+        //std::cout << typeid(*lv).name() << std::endl;
+        //static_assert(std::is_same_v<decltype(lv), LayerView*>, "Type mismatch!");
+        return py::cast(lv, py::rv_policy::reference);  // or take_ownership if appropriate
+        //return py::cast(reinterpret_cast<LayerView*>(lv), py::rv_policy::reference);
     }
 
     const IT seq;
@@ -103,16 +108,23 @@ struct PyBNDIterator {
 };
 
 void initLayerTableBindings(rh3dmpymodule &m) {
-    py::class_<PyBNDIterator<BND_File3dmLayerTable &, LayerView *>>(m, "__LayerIterator")
-        .def("__iter__", [](PyBNDIterator<BND_File3dmLayerTable &, LayerView *> &it) -> PyBNDIterator<BND_File3dmLayerTable &, LayerView *> & { return it; })
-        .def("__next__", &PyBNDIterator<BND_File3dmLayerTable &, LayerView *>::next);
+    using LayerIterator = PyBNDIterator<BND_File3dmLayerTable &>;
+
+    py::class_<LayerIterator>(m, "__LayerIterator")
+        .def("__iter__", [](LayerIterator &it) -> LayerIterator & {
+            return it;
+        })
+        .def("__next__", &LayerIterator::next);
 
     py::class_<BND_File3dmLayerTable>(m, "LayerTable")
         .def("__len__", &BND_File3dmLayerTable::Count)
         .def("__getitem__", &BND_File3dmLayerTable::FindIndex)
-#if !defined(NANOBIND)
-        .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLayerTable &, LayerView *>(s.cast<BND_File3dmLayerTable &>(), s); })
-#endif
+//#if !defined(NANOBIND)
+//        .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLayerTable &, LayerView *>(s.cast<BND_File3dmLayerTable &>(), s); })
+//#endif
+        .def("__iter__", [](BND_File3dmLayerTable &self) {
+            return LayerIterator(self, py::cast(self, py::rv_policy::reference));
+        })
         .def("Add", &BND_File3dmLayerTable::Add, py::arg("layer"))
         .def("Delete", &BND_File3dmLayerTable::Delete, py::arg("id"))
         .def("FindName", &BND_File3dmLayerTable::FindName, py::arg("name"), py::arg("parentId"))

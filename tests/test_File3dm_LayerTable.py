@@ -17,15 +17,15 @@ class TestFile3dmLayerTable(TestCase):
         layer2 = rhino3dm.Layer()
         layer2.Name = 'layer2'
 
-        file3dm.layers.Add(layer1)
-        file3dm.layers.Add(layer2)
+        file3dm.LayerTable.Add(layer1)
+        file3dm.LayerTable.Add(layer2)
 
-        qtyLayers = len(file3dm.layers)
+        qtyLayers = len(file3dm.LayerTable)
 
         file3dm.write("test_createFileWithLayers.3dm")
 
         file = rhino3dm.File3dm.Read('test_createFileWithLayers.3dm')
-        qtyLayers2 = len(file.layers)
+        qtyLayers2 = len(file.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 2)
 
@@ -43,20 +43,20 @@ class TestFile3dmLayerTable(TestCase):
         layer2 = rhino3dm.Layer()
         layer2.Name = 'layer2'
 
-        index1 = file3dm.layers.Add(layer1)
-        file3dm.layers.Add(layer2)
+        index1 = file3dm.LayerTable.Add(layer1)
+        file3dm.LayerTable.Add(layer2)
 
-        qtyLayers = len(file3dm.layers)
+        qtyLayers = len(file3dm.LayerTable)
 
-        id1 = file3dm.layers[index1].Id
+        id1 = file3dm.LayerTable[index1].Id
 
         #print(id1)
         #print(type(id1))
         #print(str(id1))
 
-        file3dm.layers.Delete(id1)
+        file3dm.LayerTable.Delete(id1)
 
-        qtyLayers2 = len(file3dm.layers)
+        qtyLayers2 = len(file3dm.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 1)
 
@@ -68,13 +68,13 @@ class TestFile3dmLayerTable(TestCase):
         # create layer
         layer_index_0 = rhino3dm.Layer()
         # add the layer to the table the update the index accordingly
-        index = file3dm.layers.Add(layer_index_0)
+        index = file3dm.LayerTable.Add(layer_index_0)
 
-        l0 = file3dm.layers.FindIndex(index)
+        l0 = file3dm.LayerTable.FindIndex(index)
 
         self.assertEqual(l0.Index, 0)
 
     def test_ReadFileWithLayers(self) -> None:
         file = rhino3dm.File3dm.Read(dirname(__file__) + "/models/file3dm_stuff.3dm")
-        qtyLayers = len(file.layers)
+        qtyLayers = len(file.LayerTable)
         self.assertTrue(qtyLayers == 6)

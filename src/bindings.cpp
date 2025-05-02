@@ -8,9 +8,9 @@ RH3DM_PYTHON_BINDING(_rhino3dm, m) {
 
   ON::Begin();
   LayerBindings(m);
-  ModelBindings(m);
-  initLayerViewBindings(m);
-  initLayerTableBindings(m);
+  //ModelBindings(m);
+  //initLayerViewBindings(m);
+  //initLayerTableBindings(m);
   }
 
 //std::string ToStdString(const py::str& str)

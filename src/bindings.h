@@ -109,9 +109,9 @@ typedef py::list BND_LIST;
 
 //BND_DateTime CreateDateTime(struct tm t);
 
-#include "bnd_color.h"
+//#include "bnd_color.h"
 #include "bnd_uuid.h"
-#include "layer_view.h"
-#include "bnd_layer_table.h"
+//#include "layer_view.h"
+//#include "bnd_layer_table.h"
 #include "layer.h"
-#include "model.h"
+//#include "model.h"

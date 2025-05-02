@@ -44,8 +44,7 @@ add_definitions(
 )
 #if(UNIX AND NOT APPLE)
 #  add_definitions(
-#    -DON_RUNTIME_LINUX
-#    -DON_CLANG_CONSTRUCTOR_BUG
+#    -DON_RUNTIME_LINUX -> this seems to be required in font.cpp and other cpp
 #  )
 #endif()
 

@@ -51,5 +51,5 @@ public:
     BND_DateTime GetLastEdited() const;
     int GetRevision() const;
     void SetRevision(int revision_number);
-    BND_File3dmLayerTable Layers();
+    BND_File3dmLayerTable LayerTable();
 };

@@ -222,7 +222,7 @@ void BND_ONXModel::SetRevision(int revision_number) {
     ONX_Model_SetRevision(p_model.get(), revision_number);
 }
 
-BND_File3dmLayerTable BND_ONXModel::Layers() {
+BND_File3dmLayerTable BND_ONXModel::LayerTable() {
     return BND_File3dmLayerTable(p_model);
 }
 
@@ -258,6 +258,6 @@ void ModelBindings(rh3dmpymodule& m)
 //    })
 // #endif
     .def("write", &BND_ONXModel::Write, py::arg("path"), py::arg("version")=7)
-    .def_property_readonly("layers", &BND_ONXModel::Layers)
+    .def_property_readonly("LayerTable", &BND_ONXModel::LayerTable)
     ;
 }

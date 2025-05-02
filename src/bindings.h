@@ -33,9 +33,9 @@
   typedef pybind11::module rh3dmpymodule;
 #endif
 
-std::string ToStdString(const py::str& str);
-  #include "datetime.h"
-  #pragma comment(lib, "rpcrt4.lib")
+//std::string ToStdString(const py::str& str);
+//  #include "datetime.h"
+//  #pragma comment(lib, "rpcrt4.lib")
   #pragma comment(lib, "shlwapi.lib")
 
 #include "../lib/opennurbs/opennurbs.h"
@@ -47,67 +47,67 @@ typedef py::tuple BND_TUPLE;
 typedef py::handle BND_DateTime;
 typedef py::list BND_LIST;
 
-BND_TUPLE CreateTuple(int count);
-BND_TUPLE NullTuple();
-template<typename T>
-void SetTuple(BND_TUPLE& tuple, int index, const T& value)
-{
-#if defined(NANOBIND)
-  UNIMPLEMENTED_EXCEPTION;
-#else
-  tuple[index] = value;
-#endif
-}
+//BND_TUPLE CreateTuple(int count);
+//BND_TUPLE NullTuple();
+//template<typename T>
+//void SetTuple(BND_TUPLE& tuple, int index, const T& value)
+//{
+//#if defined(NANOBIND)
+//  UNIMPLEMENTED_EXCEPTION;
+//#else
+//  tuple[index] = value;
+//#endif
+//}
 
 //buffer_info for nanobind
-#if defined(ON_PYTHON_COMPILE) && defined(NANOBIND)
+//#if defined(ON_PYTHON_COMPILE) && defined(NANOBIND)
+//
+//struct buffer_info {
+//  std::string format;
+//  std::vector<std::size_t> shape;
+//  std::vector<std::size_t> strides;
+//
+//  buffer_info(
+//      std::string format,
+//      std::vector<std::size_t> shape_in,
+//      std::vector<std::size_t> strides_in)
+//      : format(std::move(format)),
+//        shape(std::move(shape_in)),
+//        strides(std::move(strides_in)) {}
+//
+//  buffer_info(const buffer_info&) = delete;
+//  buffer_info& operator=(const buffer_info&) = delete;
+//
+//  buffer_info(buffer_info&& other) noexcept {
+//    (*this) = std::move(other);
+//  }
+//
+//  buffer_info& operator=(buffer_info&& rhs) noexcept {
+//    format = std::move(rhs.format);
+//    shape = std::move(rhs.shape);
+//    strides = std::move(rhs.strides);
+//    return *this;
+//  }
+//};
+//
+//
+//#endif
 
-struct buffer_info {
-  std::string format;
-  std::vector<std::size_t> shape;
-  std::vector<std::size_t> strides;
+//BND_LIST CreateList(int count);
+//BND_LIST NullList();
+//template<typename T>
+//void Insert(BND_LIST& list, int index, const T& value)
+//{
+//  list.insert(index, value);
+//}
+//
+//template<typename T>
+//void Append(BND_LIST& list, const T& value)
+//{
+//  list.append(value);
+//}
 
-  buffer_info(
-      std::string format,
-      std::vector<std::size_t> shape_in,
-      std::vector<std::size_t> strides_in)
-      : format(std::move(format)),
-        shape(std::move(shape_in)),
-        strides(std::move(strides_in)) {}
-
-  buffer_info(const buffer_info&) = delete;
-  buffer_info& operator=(const buffer_info&) = delete;
-
-  buffer_info(buffer_info&& other) noexcept {
-    (*this) = std::move(other);
-  }
-
-  buffer_info& operator=(buffer_info&& rhs) noexcept {
-    format = std::move(rhs.format);
-    shape = std::move(rhs.shape);
-    strides = std::move(rhs.strides);
-    return *this;
-  }
-};
-
-
-#endif
-
-BND_LIST CreateList(int count);
-BND_LIST NullList();
-template<typename T>
-void Insert(BND_LIST& list, int index, const T& value)
-{
-  list.insert(index, value);
-}
-
-template<typename T>
-void Append(BND_LIST& list, const T& value)
-{
-  list.append(value);
-}
-
-BND_DateTime CreateDateTime(struct tm t);
+//BND_DateTime CreateDateTime(struct tm t);
 
 #include "bnd_color.h"
 #include "bnd_uuid.h"

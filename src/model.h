@@ -47,8 +47,8 @@ public:
     int GetArchiveVersion() const;
     std::wstring GetCreatedBy() const;
     std::wstring GetLastEditedBy() const;
-    BND_DateTime GetCreated() const;
-    BND_DateTime GetLastEdited() const;
+    //BND_DateTime GetCreated() const;
+    //BND_DateTime GetLastEdited() const;
     int GetRevision() const;
     void SetRevision(int revision_number);
     BND_File3dmLayerTable LayerTable();

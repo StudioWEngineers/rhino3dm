@@ -191,14 +191,14 @@ std::wstring BND_ONXModel::GetLastEditedBy() const
   ONX_Model_GetString(p_model.get(), idxLastCreatedBy, &s);
   return std::wstring(s);
 }
-BND_DateTime BND_ONXModel::GetCreated() const
-{
-  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_create_time);
-}
-BND_DateTime BND_ONXModel::GetLastEdited() const
-{
-  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_last_edit_time);
-}
+//BND_DateTime BND_ONXModel::GetCreated() const
+//{
+//  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_create_time);
+//}
+//BND_DateTime BND_ONXModel::GetLastEdited() const
+//{
+//  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_last_edit_time);
+//}
 
 RH_C_FUNCTION int ONX_Model_GetRevision(const ONX_Model* pConstModel)
 {

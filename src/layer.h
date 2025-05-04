@@ -1,69 +1,66 @@
 #pragma once
-
-#include "bindings.h"
-
-void LayerBindings(rh3dmpymodule& m);
+#include "opennurbs_includes.h"
+#include <memory>
+#include <string>
 
 class Layer {
 public:
     ON_Layer* m_layer = nullptr;
 
     Layer();
-    Layer(ON_Layer* layer, const ON_ModelComponentReference* compref);
-    Layer(ON_Layer* layer, const ON_ModelComponentReference* compref, std::shared_ptr<ONX_Model>& model);
     ~Layer();
 
-    //static std::wstring PathSeparator();
+    static std::wstring PathSeparator();
 
     std::wstring GetName() const;
     void SetName(const std::wstring& name);
 
-    //std::wstring GetFullPath() const;
+    std::wstring GetFullPath() const;
 
-    //BND_UUID GetParentLayerId() const;
-    //void SetParentLayerId(BND_UUID id);
+    ON_UUID GetParentLayerId() const;
+    void SetParentLayerId(ON_UUID on_uuid);
 
-    //int GetIgesLevel() const;
-    //void SetIgesLevel(int level);
+    int GetIgesLevel() const;
+    void SetIgesLevel(int level);
 
-    //bool HasPerViewportSettings(BND_UUID viewportId) const;
-    //void DeletePerViewportSettings(BND_UUID viewportId);
+    bool HasPerViewportSettings(ON_UUID on_uuid) const;
+    void DeletePerViewportSettings(ON_UUID on_uuid);
 
-    //BND_Color GetColor() const;
-    //void SetColor(const BND_Color& color);
+    ON_Color GetColor() const;
+    void SetColor(const ON_Color& on_color);
 
-    //BND_Color PerViewportColor(BND_UUID viewportId) const;
-    //void SetPerViewportColor(BND_UUID viewportId, BND_Color color);
-    //void DeletePerViewportColor(BND_UUID viewportId);
+    ON_Color PerViewportColor(ON_UUID on_uuid) const;
+    void SetPerViewportColor(ON_UUID on_uuid, ON_Color on_color);
+    void DeletePerViewportColor(ON_UUID on_uuid);
 
-    //BND_Color GetPlotColor() const;
-    //void SetPlotColor(const BND_Color& color);
+    ON_Color GetPlotColor() const;
+    void SetPlotColor(const ON_Color& on_color);
 
-    //double GetPlotWeight() const;
-    //void SetPlotWeight(double weight);
+    double GetPlotWeight() const;
+    void SetPlotWeight(double weight);
 
-    //int GetLinetypeIndex() const;
-    //void SetLinetypeIndex(int index);
+    int GetLinetypeIndex() const;
+    void SetLinetypeIndex(int index);
 
-    //int GetRenderMaterialIndex() const;
-    //void SetRenderMaterialIndex(int index);
+    int GetRenderMaterialIndex() const;
+    void SetRenderMaterialIndex(int index);
 
-    //bool IsVisible() const;
-    //void SetVisible(bool visible);
+    bool IsVisible() const;
+    void SetVisible(bool is_visible);
 
-    //bool IsLocked() const;
-    //void SetLocked(bool locked);
+    bool IsLocked() const;
+    void SetLocked(bool is_locked);
 
-    //bool GetPersistentVisibility() const;
-    //void SetPersistentVisibility(bool persistent);
-    //void UnsetPersistentVisibility();
+    bool GetPersistentVisibility() const;
+    void SetPersistentVisibility(bool persistent_visibility);
+    void UnsetPersistentVisibility();
 
-    //bool GetPersistentLocking() const;
-    //void SetPersistentLocking(bool persistent);
-    //void UnsetPersistentLocking();
+    bool GetPersistentLocking() const;
+    void SetPersistentLocking(bool persistent_locking);
+    void UnsetPersistentLocking();
 
-    //bool IsExpanded() const;
-    //void SetExpanded(bool expanded);
+    bool IsExpanded() const;
+    void SetExpanded(bool is_expanded);
 
 protected:
     void SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref);

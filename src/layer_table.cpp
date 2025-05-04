@@ -1,0 +1,101 @@
+#include "layer.h"
+#include "layer_table.h"
+
+BND_File3dmLayerTable::BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m) {
+    m_model = m;
+}
+
+int BND_File3dmLayerTable::Add(const Layer &layer) {
+    const ON_Layer *l = layer.m_layer;
+    ON_ModelComponentReference mr = m_model->AddModelComponent(*l);
+    const ON_Layer *managed_layer = ON_Layer::FromModelComponentRef(mr, nullptr);
+    int layer_index = (nullptr != managed_layer) ? managed_layer->Index() : ON_UNSET_INT_INDEX;
+    return layer_index;
+}
+
+int BND_File3dmLayerTable::Count() const {
+    return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::Layer);
+}
+
+bool BND_File3dmLayerTable::Delete(ON_UUID id) {
+    ON_ModelComponentReference cr = m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, id);
+    return !cr.IsEmpty();
+    // return DeleteModelComponent(id, ON_ModelComponent::Type::Layer, m_model);
+}
+
+LayerView *BND_File3dmLayerTable::FindName(std::wstring name, ON_UUID parentId) {
+    ON_ModelComponentReference compref = m_model->LayerFromName(parentId, name.c_str());
+    const ON_ModelComponent *model_component = compref.ModelComponent();
+    ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
+    if (modellayer)
+        return new LayerView(modellayer, &compref, m_model);
+    return nullptr;
+}
+
+const LayerView *BND_File3dmLayerTable::Get(std::wstring full_name) {
+    const int num_layers = BND_File3dmLayerTable::Count();
+    for (int i = 0; i <= num_layers; ++i) {
+        const std::wstring name = BND_File3dmLayerTable::FindIndex(i)->GetFullPath();
+        if (full_name == name) {
+            ON_ModelComponentReference cr = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
+            ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(cr.ModelComponent()));
+            return new LayerView(modellayer, &cr, m_model);
+        }
+    }
+    return nullptr;
+}
+
+bool BND_File3dmLayerTable::Has(std::wstring full_name) {
+    const int num_layers = BND_File3dmLayerTable::Count();
+    for (int i = 0; i <= num_layers; ++i) {
+        const std::wstring name = BND_File3dmLayerTable::FindIndex(i)->GetFullPath();
+        if (full_name == name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+LayerView *BND_File3dmLayerTable::IterIndex(int index) {
+    return FindIndex(index);
+}
+
+LayerView *BND_File3dmLayerTable::FindIndex(int index) {
+    ON_ModelComponentReference compref = m_model->LayerFromIndex(index);
+    const ON_ModelComponent *model_component = compref.ModelComponent();
+    ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
+    if (modellayer)
+        return new LayerView(modellayer, &compref, m_model);
+
+    return nullptr;
+}
+
+LayerView *BND_File3dmLayerTable::FindId(ON_UUID id) {
+    ON_ModelComponentReference compref = m_model->LayerFromId(id);
+    const ON_ModelComponent *model_component = compref.ModelComponent();
+    ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
+    if (modellayer)
+        return new LayerView(modellayer, &compref, m_model);
+    return nullptr;
+}
+
+// --------------------- Iterator helpers ------- //
+//template <typename IT>
+//struct PyBNDIterator {
+//    PyBNDIterator(const IT table, py::object ref)
+//        : seq(table), ref(ref) {}
+//
+//    py::object next() {
+//        if (index >= seq.Count())
+//            throw py::stop_iteration();
+//        LayerView* lv = const_cast<IT>(seq).IterIndex(index++);
+//        //std::cout << typeid(*lv).name() << std::endl;
+//        //static_assert(std::is_same_v<decltype(lv), LayerView*>, "Type mismatch!");
+//        return py::cast(lv, py::rv_policy::reference);  // or take_ownership if appropriate
+//        //return py::cast(reinterpret_cast<LayerView*>(lv), py::rv_policy::reference);
+//    }
+//
+//    const IT seq;
+//    py::object ref;
+//    int index = 0;
+//};

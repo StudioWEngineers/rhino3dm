@@ -1,22 +1,22 @@
 import rhino3dm
-from unittest import TestCase, skip
+from unittest import TestCase
 from os import remove
 from os.path import dirname
 
 #objective: to test creating file with layers and reading a file with layers
 class TestFile3dmLayerTable(TestCase):
-    @skip("temporarily off")
+
     def test_createFileWithLayers(self) -> None:
 
         file3dm = rhino3dm.File3dm()
 
         #create layers
         layer1 = rhino3dm.Layer()
-        layer1.Name = 'layer1'
-        layer1.Color = (255,0,255,255)
+        layer1.set_name("layer1")
+        layer1.set_plot_color((255, 0, 255, 255))
 
         layer2 = rhino3dm.Layer()
-        layer2.Name = 'layer2'
+        layer2.set_name("layer2")
 
         file3dm.LayerTable.Add(layer1)
         file3dm.LayerTable.Add(layer2)
@@ -33,17 +33,16 @@ class TestFile3dmLayerTable(TestCase):
         remove(dirname(__file__) + "/test_createFileWithLayers.3dm")
 
     #objective: to test creating file with layers and deleting a layer
-    @skip("temporarily off")
     def test_deleteLayer(self) -> None:
         file3dm = rhino3dm.File3dm()
 
         #create layers
         layer1 = rhino3dm.Layer()
-        layer1.Name = 'layer1'
-        layer1.Color = (255,0,255,255)
+        layer1.set_name("layer1")
+        layer1.set_plot_color((255, 0, 255, 255))
 
         layer2 = rhino3dm.Layer()
-        layer2.Name = 'layer2'
+        layer2.set_name("layer2")
 
         index1 = file3dm.LayerTable.Add(layer1)
         file3dm.LayerTable.Add(layer2)
@@ -61,7 +60,7 @@ class TestFile3dmLayerTable(TestCase):
         qtyLayers2 = len(file3dm.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 1)
-    @skip("temporarily off")
+
     def test_Add(self) -> None:
         """Test for the Add method of File3dmLayerTable.
         """
@@ -76,7 +75,6 @@ class TestFile3dmLayerTable(TestCase):
 
         self.assertEqual(l0.Index, 0)
 
-    @skip("temporarily off")
     def test_ReadFileWithLayers(self) -> None:
         file = rhino3dm.File3dm.Read(dirname(__file__) + "/models/file3dm_stuff.3dm")
         qtyLayers = len(file.LayerTable)

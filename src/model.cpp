@@ -1,17 +1,17 @@
 #include "model.h"
 //#include "base64.h"
 
-BND_ONXModel::BND_ONXModel()
+Model::Model()
 {
   p_model.reset(new ONX_Model());
 }
 
-BND_ONXModel::BND_ONXModel(ONX_Model* m)
+Model::Model(ONX_Model* m)
 {
   p_model.reset(m);
 }
 
-void BND_ONXModel::Destroy() {
+void Model::Destroy() {
     ONX_Model* model = p_model.get();
     if(model) {
         delete model;
@@ -19,7 +19,7 @@ void BND_ONXModel::Destroy() {
     p_model.reset();
 }
 
-BND_ONXModel* BND_ONXModel::Read(std::wstring path)
+Model* Model::Read(std::wstring path)
 {
   ONX_Model* m = new ONX_Model();
   if (!m->Read(path.c_str()))
@@ -27,10 +27,10 @@ BND_ONXModel* BND_ONXModel::Read(std::wstring path)
     delete m;
     return nullptr;
   }
-  return new BND_ONXModel(m);
+  return new Model(m);
 }
 
-std::string BND_ONXModel::ReadNotes(std::wstring path) {
+std::string Model::ReadNotes(std::wstring path) {
   std::string str;
   FILE* fp = ON::OpenFile(path.c_str(), L"rb");
   if (fp) {
@@ -53,7 +53,7 @@ std::string BND_ONXModel::ReadNotes(std::wstring path) {
   return str;
 }
 
-int BND_ONXModel::ReadArchiveVersion(std::wstring path)
+int Model::ReadArchiveVersion(std::wstring path)
 {
   FILE* fp = ON::OpenFile(path.c_str(), L"rb");
   if (fp)
@@ -72,16 +72,16 @@ int BND_ONXModel::ReadArchiveVersion(std::wstring path)
   return 0;
 }
 
-bool BND_ONXModel::Write(std::wstring path, int version) {
+bool Model::Write(std::wstring path, int version) {
     return p_model->Write(path.c_str(), version);
 }
 
-std::wstring BND_ONXModel::GetStartSectionComments() const
+std::wstring Model::GetStartSectionComments() const
 {
   ON_wString comments = p_model->m_sStartSectionComments;
   return std::wstring(comments);
 }
-void BND_ONXModel::SetStartSectionComments(std::wstring comments)
+void Model::SetStartSectionComments(std::wstring comments)
 {
   ON_wString wcomments = comments.c_str();
   p_model->m_sStartSectionComments = wcomments;
@@ -147,57 +147,57 @@ void ONX_Model_SetString(ONX_Model* pModel, int which, const wchar_t* str)
   }
 }
 
-std::wstring BND_ONXModel::GetApplicationName() const
+std::wstring Model::GetApplicationName() const
 {
   ON_wString s;
   ONX_Model_GetString(p_model.get(), idxApplicationName, &s);
   return std::wstring(s);
 }
-void BND_ONXModel::SetApplicationName(std::wstring comments)
+void Model::SetApplicationName(std::wstring comments)
 {
   ONX_Model_SetString(p_model.get(), idxApplicationName, comments.c_str());
 }
-std::wstring BND_ONXModel::GetApplicationUrl() const
+std::wstring Model::GetApplicationUrl() const
 {
   ON_wString s;
   ONX_Model_GetString(p_model.get(), idxApplicationUrl, &s);
   return std::wstring(s);
 }
-void BND_ONXModel::SetApplicationUrl(std::wstring s)
+void Model::SetApplicationUrl(std::wstring s)
 {
   ONX_Model_SetString(p_model.get(), idxApplicationUrl, s.c_str());
 }
-std::wstring BND_ONXModel::GetApplicationDetails() const
+std::wstring Model::GetApplicationDetails() const
 {
   ON_wString s;
   ONX_Model_GetString(p_model.get(), idxApplicationDetails, &s);
   return std::wstring(s);
 }
-void BND_ONXModel::SetApplicationDetails(std::wstring s)
+void Model::SetApplicationDetails(std::wstring s)
 {
   ONX_Model_SetString(p_model.get(), idxApplicationDetails, s.c_str());
 }
-int BND_ONXModel::GetArchiveVersion() const
+int Model::GetArchiveVersion() const
 {
   return p_model->m_3dm_file_version;
 }
-std::wstring BND_ONXModel::GetCreatedBy() const
+std::wstring Model::GetCreatedBy() const
 {
   ON_wString s;
   ONX_Model_GetString(p_model.get(), idxCreatedBy, &s);
   return std::wstring(s);
 }
-std::wstring BND_ONXModel::GetLastEditedBy() const
+std::wstring Model::GetLastEditedBy() const
 {
   ON_wString s;
   ONX_Model_GetString(p_model.get(), idxLastCreatedBy, &s);
   return std::wstring(s);
 }
-//BND_DateTime BND_ONXModel::GetCreated() const
+//BND_DateTime Model::GetCreated() const
 //{
 //  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_create_time);
 //}
-//BND_DateTime BND_ONXModel::GetLastEdited() const
+//BND_DateTime Model::GetLastEdited() const
 //{
 //  return CreateDateTime(p_model->m_properties.m_RevisionHistory.m_last_edit_time);
 //}
@@ -218,15 +218,15 @@ void ONX_Model_SetRevision(ONX_Model* pModel, int rev)
     pModel->m_properties.m_RevisionHistory.m_revision_count = rev;
 }
 
-int BND_ONXModel::GetRevision() const
+int Model::GetRevision() const
 {
   return ONX_Model_GetRevision(p_model.get());
 }
-void BND_ONXModel::SetRevision(int revision_number) {
+void Model::SetRevision(int revision_number) {
     ONX_Model_SetRevision(p_model.get(), revision_number);
 }
 
-BND_File3dmLayerTable BND_ONXModel::LayerTable() {
+BND_File3dmLayerTable Model::LayerTable() {
     return BND_File3dmLayerTable(p_model);
 }
 

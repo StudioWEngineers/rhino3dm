@@ -3,7 +3,7 @@
 
 #pragma once
 
-class BND_ONXModel {
+class Model {
 public:
     ///@name Public member variables
     ///@{
@@ -16,12 +16,12 @@ public:
     /**
     * Default constructor
     */
-    BND_ONXModel();
+    Model();
 
     /**
     * Constructor using Opennurbs model
     */
-    BND_ONXModel(ONX_Model* m);
+    Model(ONX_Model* m);
 
     /**
     * Destructor
@@ -29,7 +29,7 @@ public:
     void Destroy();
     ///@}
 
-    static BND_ONXModel* Read(std::wstring path);
+    static Model* Read(std::wstring path);
     static std::string ReadNotes(std::wstring path);
     static int ReadArchiveVersion(std::wstring path);
 

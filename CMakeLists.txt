@@ -19,7 +19,7 @@ endif()
 include_directories(${PROJECT_NAME} PUBLIC lib/draco/src ${CMAKE_BINARY_DIR})
 
 # Source files
-file(GLOB bindings_SRC "src/*.h" "src/*.cpp")
+file(GLOB_RECURSE bindings_SRC "src/*.h" "src/*.cpp")
 file(GLOB zlib_SRC "lib/opennurbs/zlib/*.h" "lib/opennurbs/zlib/*.c")
 file(GLOB opennurbs_SRC "lib/opennurbs/*.h" "lib/opennurbs/*.cpp")
 
@@ -73,6 +73,10 @@ target_link_libraries(_rhino3dm PRIVATE
   opennurbs_static
   draco::draco
 )
+
+if(WIN32)
+  target_link_libraries(_rhino3dm PRIVATE shlwapi)
+endif()
 
 # Link libuuid on Linux
 if(UNIX AND NOT APPLE)

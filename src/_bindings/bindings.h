@@ -43,6 +43,6 @@
 //typedef py::tuple BND_TUPLE;
 //typedef py::handle BND_DateTime;
 //typedef py::list BND_LIST;
-typedef py::object BND_UUID;  // or py::handle
+//typedef py::object BND_UUID;  // or py::handle
 
 //#include "layer.h"

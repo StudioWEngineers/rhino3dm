@@ -16,8 +16,6 @@ else()
   add_subdirectory(lib/pybind11)
 endif()
 
-include_directories(${PROJECT_NAME} PUBLIC lib/draco/src ${CMAKE_BINARY_DIR})
-
 # Source files
 file(GLOB_RECURSE bindings_SRC "src/*.h" "src/*.cpp")
 file(GLOB zlib_SRC "lib/opennurbs/zlib/*.h" "lib/opennurbs/zlib/*.c")
@@ -57,7 +55,7 @@ add_subdirectory(lib/draco)
 if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
   nanobind_build_library(nanobind)
   if(UNIX AND NOT APPLE)
-    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC} ${opennurbs_SRC} ${zlib_SRC} ${uuid_SRC})
+    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC} ${zlib_SRC})  # ${opennurbs_SRC} ${uuid_SRC}
   else()
     nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
   endif()
@@ -66,6 +64,12 @@ else()
   pybind11_add_module(_rhino3dm ${bindings_SRC})
   target_link_libraries(_rhino3dm PRIVATE pybind11::module)
 endif()
+
+target_include_directories(_rhino3dm PRIVATE
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs
+  ${CMAKE_CURRENT_SOURCE_DIR}/lib/draco/src
+  ${CMAKE_BINARY_DIR}
+)
 
 # Link additional libraries
 target_link_libraries(_rhino3dm PRIVATE

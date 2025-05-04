@@ -1,7 +1,8 @@
 #pragma once
 
 #include "bindings.h"
-#include "../lib/opennurbs/opennurbs_color.h"
+//#include "../lib/opennurbs/opennurbs_color.h"
+#include "opennurbs_color.h"
 
 namespace nanobind::detail {
 

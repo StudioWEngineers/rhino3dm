@@ -1,7 +1,8 @@
 #pragma once
 
 #include "bindings.h"
-#include "../lib/opennurbs/opennurbs_uuid.h"
+//#include "../lib/opennurbs/opennurbs_uuid.h"
+#include "opennurbs_uuid.h"
 
 namespace nanobind::detail {
 

@@ -1,6 +1,5 @@
 [build-system]
-requires = ["scikit-build-core >=0.10", "pybind11 == 2.10.1"]
-#requires = ["scikit-build-core >=0.10", "nanobind >= 2.0.0"]
+requires = ["scikit-build-core >=0.10", "nanobind >= 2.0.0"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -26,7 +25,6 @@ build-dir = "build/{wheel_tag}"
 wheel.packages = ["rhino3dm"]
 cmake.version = ">=3.30"
 cmake.build-type = "Release"
-cmake.args = ["-DPYTHON_BINDING_LIB=NANOBIND"]
 
 #[tool.scikit-build.editable]
 #mode = "redirect"

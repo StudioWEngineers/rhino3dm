@@ -19,11 +19,6 @@ public:
     BND_ONXModel();
 
     /**
-    * Constructor using Opennurbs model
-    */
-    BND_ONXModel(ONX_Model* m);
-
-    /**
     * Destructor
     */
     void Destroy();

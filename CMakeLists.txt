@@ -4,17 +4,9 @@ project(rhino3dm)
 set (CMAKE_CXX_STANDARD 17)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-message("Python Compile")
-if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
-  message("Using nanobind")
-  add_compile_definitions( NANOBIND )
-  set(DEV_MODULE Development.Module)
-  find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
-  add_subdirectory(lib/nanobind)
-else()
-  message("Using pybind11")
-  add_subdirectory(lib/pybind11)
-endif()
+set(DEV_MODULE Development.Module)
+find_package(Python 3.8 COMPONENTS Interpreter ${DEV_MODULE} REQUIRED)
+add_subdirectory(lib/nanobind)
 
 # Source files
 file(GLOB_RECURSE bindings_SRC "src/*.h" "src/*.cpp")
@@ -52,18 +44,13 @@ add_library(opennurbs_static STATIC ${opennurbs_SRC})
 add_subdirectory(lib/draco)
 
 # Main Python extension module
-if(PYTHON_BINDING_LIB STREQUAL "NANOBIND")
-  nanobind_build_library(nanobind)
-  if(UNIX AND NOT APPLE)
-    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC} ${zlib_SRC})  # ${opennurbs_SRC} ${uuid_SRC}
-  else()
-    nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
-  endif()
-  target_link_libraries(_rhino3dm PRIVATE nanobind-static)
+nanobind_build_library(nanobind)
+if(UNIX AND NOT APPLE)
+  nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC} ${zlib_SRC})
 else()
-  pybind11_add_module(_rhino3dm ${bindings_SRC})
-  target_link_libraries(_rhino3dm PRIVATE pybind11::module)
+  nanobind_add_module(_rhino3dm NB_STATIC ${bindings_SRC})
 endif()
+target_link_libraries(_rhino3dm PRIVATE nanobind-static)
 
 target_include_directories(_rhino3dm PRIVATE
   ${CMAKE_CURRENT_SOURCE_DIR}/lib/opennurbs

@@ -4,11 +4,11 @@
 //#include "opennurbs_includes.h"
 
 
-class BND_File3dmLayerTable {
+class LayerTable {
     std::shared_ptr<ONX_Model> m_model;
 
 public:
-    BND_File3dmLayerTable(std::shared_ptr<ONX_Model> m);
+    LayerTable(std::shared_ptr<ONX_Model> m);
     int Count() const;
     int Add(const class Layer &layer);
     bool Delete(ON_UUID id);

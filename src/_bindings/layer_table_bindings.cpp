@@ -26,7 +26,7 @@
 //};
 
 void initLayerTableBindings(rh3dmpymodule &m) {
-    //using LayerIterator = PyBNDIterator<BND_File3dmLayerTable &>;
+    //using LayerIterator = PyBNDIterator<LayerTable &>;
 
     //py::class_<LayerIterator>(m, "__LayerIterator")
     //    .def("__iter__", [](LayerIterator &it) -> LayerIterator & {
@@ -34,20 +34,20 @@ void initLayerTableBindings(rh3dmpymodule &m) {
     //    })
     //    .def("__next__", &LayerIterator::next);
 
-    py::class_<BND_File3dmLayerTable>(m, "LayerTable")
-        .def("__len__", &BND_File3dmLayerTable::Count)
-        .def("__getitem__", &BND_File3dmLayerTable::FindIndex)
+    py::class_<LayerTable>(m, "LayerTable")
+        .def("__len__", &LayerTable::Count)
+        .def("__getitem__", &LayerTable::FindIndex)
 //#if !defined(NANOBIND)
-//        .def("__iter__", [](py::object s) { return PyBNDIterator<BND_File3dmLayerTable &, LayerView *>(s.cast<BND_File3dmLayerTable &>(), s); })
+//        .def("__iter__", [](py::object s) { return PyBNDIterator<LayerTable &, LayerView *>(s.cast<LayerTable &>(), s); })
 //#endif
-        //.def("__iter__", [](BND_File3dmLayerTable &self) {
+        //.def("__iter__", [](LayerTable &self) {
         //    return LayerIterator(self, py::cast(self, py::rv_policy::reference));
         //})
-        .def("Add", &BND_File3dmLayerTable::Add, py::arg("layer"))
-        .def("Delete", &BND_File3dmLayerTable::Delete, py::arg("id"))
-        .def("FindName", &BND_File3dmLayerTable::FindName, py::arg("name"), py::arg("parentId"))
-        .def("FindIndex", &BND_File3dmLayerTable::FindIndex, py::arg("index"))
-        .def("FindId", &BND_File3dmLayerTable::FindId, py::arg("id"))
-        .def("has", &BND_File3dmLayerTable::Has, "Return True if the layer is found, False otherwise.", py::arg("full_name"))
-        .def("get", &BND_File3dmLayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"));
+        .def("Add", &LayerTable::Add, py::arg("layer"))
+        .def("Delete", &LayerTable::Delete, py::arg("id"))
+        .def("FindName", &LayerTable::FindName, py::arg("name"), py::arg("parentId"))
+        .def("FindIndex", &LayerTable::FindIndex, py::arg("index"))
+        .def("FindId", &LayerTable::FindId, py::arg("id"))
+        .def("has", &LayerTable::Has, "Return True if the layer is found, False otherwise.", py::arg("full_name"))
+        .def("get", &LayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"));
 }

@@ -226,8 +226,8 @@ void Model::SetRevision(int revision_number) {
     ONX_Model_SetRevision(p_model.get(), revision_number);
 }
 
-BND_File3dmLayerTable Model::LayerTable() {
-    return BND_File3dmLayerTable(p_model);
+LayerTable Model::ModelLayerTable() {
+    return LayerTable(p_model);
 }
 
 // --------------------- Iterator helpers ------- //

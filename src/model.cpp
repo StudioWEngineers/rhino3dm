@@ -6,6 +6,11 @@ BND_ONXModel::BND_ONXModel()
   p_model.reset(new ONX_Model());
 }
 
+BND_ONXModel::BND_ONXModel(ONX_Model* m)
+{
+  p_model.reset(m);
+}
+
 void BND_ONXModel::Destroy() {
     ONX_Model* model = p_model.get();
     if(model) {

@@ -1,7 +1,5 @@
-// src/bindings/layer_bindings.cpp
 #include "layer_bindings.h"
 #include "../layer.h"
-//#include "uuid_conversion.h"
 #include "uuid_caster.h"
 #include "color_caster.h"
 
@@ -18,15 +16,7 @@ void LayerBindings(rh3dmpymodule& m) {
 
         .def("get_full_path", &Layer::GetFullPath, "Returns the full path to this Layer, including nesting information.")
 
-        //.def("ParentLayerId", [](const Layer& self) {
-        //    return ON_UUID_to_Binding(self.GetParentLayerId());
-        //})
-
         .def_property("IgesLevel", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
-
-        .def("HasPerViewportSettings", &Layer::HasPerViewportSettings)
-
-        .def("DeletePerViewportSettings", &Layer::DeletePerViewportSettings)
 
         .def("ParentLayerId", &Layer::GetParentLayerId);
 }

@@ -65,6 +65,7 @@ target_link_libraries(_rhino3dm PRIVATE
   draco::draco
 )
 
+# Link shlwapi on Windows
 if(WIN32)
   target_link_libraries(_rhino3dm PRIVATE shlwapi)
 endif()

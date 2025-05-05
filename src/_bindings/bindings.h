@@ -3,18 +3,18 @@
 // no need to export RH_C_FUNCTION in these libraries
 //#define RH_C_FUNCTION
 
-#define ON_PYTHON_COMPILE
+//#define ON_PYTHON_COMPILE
 //#if defined(NANOBIND)
-  #include <nanobind/nanobind.h>
-  #include <nanobind/stl/string.h>
-  #include <nanobind/stl/wstring.h>
-  #include <nanobind/stl/tuple.h>
-  #include <nanobind/operators.h>
-  #include <nanobind/stl/vector.h>
-  #include <vector>
-  #include <tuple>
-  namespace py = nanobind;
-  typedef nanobind::module_ rh3dmpymodule;
+#include <nanobind/nanobind.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/wstring.h>
+#include <nanobind/stl/tuple.h>
+#include <nanobind/operators.h>
+#include <nanobind/stl/vector.h>
+#include <vector>
+#include <tuple>
+namespace py = nanobind;
+typedef nanobind::module_ rh3dmpymodule;
 #define RH3DM_PYTHON_BINDING(name, variable) NB_MODULE(name, variable)
 #define def_property def_prop_rw
 #define def_property_readonly def_prop_ro

@@ -4,6 +4,9 @@
 //#include "../lib/opennurbs/opennurbs_uuid.h"
 #include "opennurbs_uuid.h"
 
+
+namespace py = nanobind;
+
 namespace nanobind::detail {
 
 template <>

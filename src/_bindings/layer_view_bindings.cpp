@@ -3,6 +3,7 @@
 #include "color_caster.h"
 #include "../layer_view.h"
 
+namespace py = nanobind;
 
 void initLayerViewBindings(rh3dmpymodule& m) {
     py::class_<LayerView>(m, "LayerView")

@@ -3,6 +3,8 @@
 
 #include "../model.h"
 
+namespace py = nanobind;
+
 void ModelBindings(rh3dmpymodule& m)
 {
 

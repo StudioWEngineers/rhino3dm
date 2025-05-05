@@ -3,6 +3,8 @@
 #include "uuid_caster.h"
 #include "color_caster.h"
 
+namespace py = nanobind;
+
 void LayerBindings(rh3dmpymodule& m) {
     py::class_<Layer>(m, "Layer")
 

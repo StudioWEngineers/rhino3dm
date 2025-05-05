@@ -6,7 +6,8 @@
 
 //const std::string version = ON::VersionQuartetAsString();
 
-RH3DM_PYTHON_BINDING(_rhino3dm, m) {
+//RH3DM_PYTHON_BINDING(_rhino3dm, m) {
+NB_MODULE(_rhino3dm, m) {
     m.doc() = "rhino3dm python package. OpenNURBS wrappers with a RhinoCommon style";
 
     ON::Begin();

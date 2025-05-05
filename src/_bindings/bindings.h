@@ -13,9 +13,10 @@
 #include <nanobind/stl/vector.h>
 #include <vector>
 #include <tuple>
-namespace py = nanobind;
-typedef nanobind::module_ rh3dmpymodule;
-#define RH3DM_PYTHON_BINDING(name, variable) NB_MODULE(name, variable)
+//namespace py = nanobind;
+//typedef nanobind::module_ rh3dmpymodule;
+using rh3dmpymodule = nanobind::module_;
+//#define RH3DM_PYTHON_BINDING(name, variable) NB_MODULE(name, variable)
 #define def_property def_prop_rw
 #define def_property_readonly def_prop_ro
 #define def_readonly def_ro

@@ -3,7 +3,7 @@
 #include "bindings.h"
 //#include "../lib/opennurbs/opennurbs_color.h"
 #include "opennurbs_color.h"
-
+namespace py = nanobind;
 namespace nanobind::detail {
 
 template <>

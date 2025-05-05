@@ -25,6 +25,8 @@
 //    int index = 0;
 //};
 
+namespace py = nanobind;
+
 void initLayerTableBindings(rh3dmpymodule &m) {
     //using LayerIterator = PyBNDIterator<LayerTable &>;
 

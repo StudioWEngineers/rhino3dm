@@ -12,20 +12,8 @@ Layer::~Layer() {
     }
 }
 
-void Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref) {
-    m_layer = layer;
-
-    if (compref) {
-        m_component_ref = *compref;
-    } else {
-        ON_ModelComponent* model_component = ON_ModelComponent::Cast(layer);
-        if (model_component == nullptr) {
-            model_component = ON_ModelGeometryComponent::CreateManaged(layer, nullptr, nullptr);
-        }
-        if (model_component) {
-            m_component_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
-        }
-    }
+static std::wstring PathSeparator() {
+    return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
 }
 
 std::wstring Layer::GetName() const {
@@ -34,6 +22,46 @@ std::wstring Layer::GetName() const {
 
 void Layer::SetName(const std::wstring& name) {
     m_layer->SetName(name.c_str());
+}
+
+std::wstring Layer::GetFullPath() const {
+    ONX_Model* model = m_model.get();
+    if (nullptr == model) {
+        return GetName();
+    }
+
+    ON_wString fullPath = m_layer->Name();
+    ON_UUID parent_id = m_layer->ParentId();
+    while (ON_UuidIsNotNil(parent_id)) {
+        ON_ModelComponentReference compref = model->LayerFromId(parent_id);
+        const ON_ModelComponent* model_component = compref.ModelComponent();
+        ON_Layer* modellayer = const_cast<ON_Layer*>(ON_Layer::Cast(model_component));
+        if (nullptr == modellayer) {
+            break;
+        }
+
+        ON_wString parentName = modellayer->Name();
+        fullPath = parentName + ON_ModelComponent::NamePathSeparator + fullPath;
+        parent_id = modellayer->ParentId();
+    }
+
+    return std::wstring(fullPath.Array());
+}
+
+ON_UUID Layer::GetParentLayerId() const {
+    return m_layer->ParentId();
+}
+
+void Layer::SetParentLayerId(ON_UUID on_uuid) {
+    m_layer->SetParentLayerId(on_uuid);
+}
+
+int Layer::GetIgesLevel() const {
+    return m_layer->IgesLevel();
+}
+
+void Layer::SetIgesLevel(int level) {
+    m_layer->SetIgesLevel(level);
 }
 
 ON_Color Layer::GetColor() const {
@@ -116,42 +144,26 @@ void Layer::UnsetPersistentLocking() {
     m_layer->UnsetPersistentLocking();
 }
 
-int Layer::GetIgesLevel() const {
-    return m_layer->IgesLevel();
+bool Layer::IsExpanded() const {
+    return m_layer->m_bExpanded;
 }
 
-void Layer::SetIgesLevel(int level) {
-    m_layer->SetIgesLevel(level);
+void Layer::SetExpanded(bool is_expanded) {
+    m_layer->m_bExpanded = is_expanded;
 }
 
-std::wstring Layer::GetFullPath() const {
-    ONX_Model* model = m_model.get();
-    if (nullptr == model) {
-        return GetName();
-    }
+void Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref) {
+    m_layer = layer;
 
-    ON_wString fullPath = m_layer->Name();
-    ON_UUID parent_id = m_layer->ParentId();
-    while (ON_UuidIsNotNil(parent_id)) {
-        ON_ModelComponentReference compref = model->LayerFromId(parent_id);
-        const ON_ModelComponent* model_component = compref.ModelComponent();
-        ON_Layer* modellayer = const_cast<ON_Layer*>(ON_Layer::Cast(model_component));
-        if (nullptr == modellayer) {
-            break;
+    if (compref) {
+        m_component_ref = *compref;
+    } else {
+        ON_ModelComponent* model_component = ON_ModelComponent::Cast(layer);
+        if (model_component == nullptr) {
+            model_component = ON_ModelGeometryComponent::CreateManaged(layer, nullptr, nullptr);
         }
-
-        ON_wString parentName = modellayer->Name();
-        fullPath = parentName + ON_ModelComponent::NamePathSeparator + fullPath;
-        parent_id = modellayer->ParentId();
+        if (model_component) {
+            m_component_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
+        }
     }
-
-    return std::wstring(fullPath.Array());
-}
-
-ON_UUID Layer::GetParentLayerId() const {
-    return m_layer->ParentId();
-}
-
-void Layer::SetParentLayerId(ON_UUID on_uuid) {
-    m_layer->SetParentLayerId(on_uuid);
 }

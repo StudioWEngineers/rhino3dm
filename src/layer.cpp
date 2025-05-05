@@ -6,7 +6,7 @@ Layer::Layer() {
 }
 
 Layer::~Layer() {
-    if (m_layer != nullptr && m_component_ref.IsEmpty()) {
+    if (m_layer != nullptr && m_comp_ref.IsEmpty()) {
         delete m_layer;
         m_layer = nullptr;
     }
@@ -156,14 +156,14 @@ void Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference*
     m_layer = layer;
 
     if (compref) {
-        m_component_ref = *compref;
+        m_comp_ref = *compref;
     } else {
         ON_ModelComponent* model_component = ON_ModelComponent::Cast(layer);
         if (model_component == nullptr) {
             model_component = ON_ModelGeometryComponent::CreateManaged(layer, nullptr, nullptr);
         }
         if (model_component) {
-            m_component_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
+            m_comp_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
         }
     }
 }

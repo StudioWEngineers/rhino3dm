@@ -1,7 +1,19 @@
+/*
+    src/layers.h: Implementation details related to Layer.
+    Rearranged from .../bnd_layer.h in https://github.com/mcneel/rhino3dm
+
+    Copyright (c) 2025 Studio W Engineers
+
+    All rights reserved. Use of this source code is governed by a
+    BSD-style license that can be found in the LICENSE file.
+*/
+
 #pragma once
+
 #include "opennurbs_includes.h"
 #include <memory>
 #include <string>
+
 
 class Layer {
 public:
@@ -57,7 +69,7 @@ public:
 
 protected:
     std::shared_ptr<ONX_Model> m_model;
-    ON_ModelComponentReference m_component_ref;
+    ON_ModelComponentReference m_comp_ref;
 
 private:
     void SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref);

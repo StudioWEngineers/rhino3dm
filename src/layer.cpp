@@ -1,19 +1,9 @@
 #include "layer.h"
-//#include "../lib/opennurbs/opennurbs_layer.h"
-//#include "../lib/opennurbs/opennurbs_model_component.h"
+
 
 Layer::Layer() {
     SetTrackedPointer(new ON_Layer(), nullptr);
 }
-
-//Layer::Layer(ON_Layer* layer, const ON_ModelComponentReference* compref) {
-//    SetTrackedPointer(layer, compref);
-//}
-
-//Layer::Layer(ON_Layer* layer, const ON_ModelComponentReference* compref, std::shared_ptr<ONX_Model>& model) {
-//    SetTrackedPointer(layer, compref);
-//    m_model = model;
-//}
 
 Layer::~Layer() {
     if (m_layer != nullptr && m_component_ref.IsEmpty()) {
@@ -44,6 +34,14 @@ std::wstring Layer::GetName() const {
 
 void Layer::SetName(const std::wstring& name) {
     m_layer->SetName(name.c_str());
+}
+
+ON_Color Layer::GetColor() const {
+    return m_layer->Color();
+}
+
+void Layer::SetColor(const ON_Color& on_color) {
+    m_layer->SetColor(on_color);
 }
 
 ON_Color Layer::GetPlotColor() const {
@@ -128,8 +126,9 @@ void Layer::SetIgesLevel(int level) {
 
 std::wstring Layer::GetFullPath() const {
     ONX_Model* model = m_model.get();
-    if (nullptr == model)
-      return GetName();
+    if (nullptr == model) {
+        return GetName();
+    }
 
     ON_wString fullPath = m_layer->Name();
     ON_UUID parent_id = m_layer->ParentId();
@@ -137,8 +136,9 @@ std::wstring Layer::GetFullPath() const {
         ON_ModelComponentReference compref = model->LayerFromId(parent_id);
         const ON_ModelComponent* model_component = compref.ModelComponent();
         ON_Layer* modellayer = const_cast<ON_Layer*>(ON_Layer::Cast(model_component));
-        if (nullptr == modellayer)
+        if (nullptr == modellayer) {
             break;
+        }
 
         ON_wString parentName = modellayer->Name();
         fullPath = parentName + ON_ModelComponent::NamePathSeparator + fullPath;
@@ -154,12 +154,4 @@ ON_UUID Layer::GetParentLayerId() const {
 
 void Layer::SetParentLayerId(ON_UUID on_uuid) {
     m_layer->SetParentLayerId(on_uuid);
-}
-
-bool Layer::HasPerViewportSettings(ON_UUID on_uuid) const {
-    return m_layer->HasPerViewportSettings(on_uuid);
-}
-
-void Layer::DeletePerViewportSettings(ON_UUID on_uuid) {
-    m_layer->DeletePerViewportSettings(on_uuid);
 }

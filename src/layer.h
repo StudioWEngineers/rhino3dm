@@ -23,15 +23,8 @@ public:
     int GetIgesLevel() const;
     void SetIgesLevel(int level);
 
-    bool HasPerViewportSettings(ON_UUID on_uuid) const;
-    void DeletePerViewportSettings(ON_UUID on_uuid);
-
     ON_Color GetColor() const;
     void SetColor(const ON_Color& on_color);
-
-    ON_Color PerViewportColor(ON_UUID on_uuid) const;
-    void SetPerViewportColor(ON_UUID on_uuid, ON_Color on_color);
-    void DeletePerViewportColor(ON_UUID on_uuid);
 
     ON_Color GetPlotColor() const;
     void SetPlotColor(const ON_Color& on_color);
@@ -63,8 +56,9 @@ public:
     void SetExpanded(bool is_expanded);
 
 protected:
-    void SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref);
-
     std::shared_ptr<ONX_Model> m_model;
     ON_ModelComponentReference m_component_ref;
+
+private:
+    void SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref);
 };

@@ -51,11 +51,7 @@ class TestFile3dmLayerTable(TestCase):
 
         id1 = file3dm.LayerTable[index1].Id
 
-        #print(id1)
-        #print(type(id1))
-        #print(str(id1))
-
-        file3dm.LayerTable.Delete(id1)
+        file3dm.LayerTable.delete_by_id(id1)
 
         qtyLayers2 = len(file3dm.LayerTable)
 

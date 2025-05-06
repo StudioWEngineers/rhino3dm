@@ -27,7 +27,7 @@
 
 namespace py = nanobind;
 
-void initLayerTableBindings(rh3dmpymodule &m) {
+void initLayerTableBindings(nanobind::module_ &m) {
     //using LayerIterator = PyBNDIterator<LayerTable &>;
 
     //py::class_<LayerIterator>(m, "__LayerIterator")

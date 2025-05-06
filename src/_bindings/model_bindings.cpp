@@ -5,7 +5,7 @@
 
 namespace py = nanobind;
 
-void ModelBindings(rh3dmpymodule& m)
+void ModelBindings(nanobind::module_ &m)
 {
 
 

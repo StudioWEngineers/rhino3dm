@@ -15,7 +15,7 @@
 #include <tuple>
 //namespace py = nanobind;
 //typedef nanobind::module_ rh3dmpymodule;
-using rh3dmpymodule = nanobind::module_;
+//using rh3dmpymodule = nanobind::module_;
 //#define RH3DM_PYTHON_BINDING(name, variable) NB_MODULE(name, variable)
 //#define def_property def_prop_rw
 //#define def_property_readonly def_prop_ro

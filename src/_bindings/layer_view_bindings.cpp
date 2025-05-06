@@ -5,7 +5,7 @@
 
 namespace py = nanobind;
 
-void initLayerViewBindings(rh3dmpymodule& m) {
+void initLayerViewBindings(nanobind::module_ &m) {
     py::class_<LayerView>(m, "LayerView")
         .def_prop_ro_static("PathSeparator", &LayerView::PathSeparator)
         .def_prop_ro("Name", &LayerView::GetName)

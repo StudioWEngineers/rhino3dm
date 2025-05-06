@@ -2,4 +2,4 @@
 
 #pragma once
 
-void initLayerViewBindings(rh3dmpymodule& m);
+void initLayerViewBindings(nanobind::module_ &m);

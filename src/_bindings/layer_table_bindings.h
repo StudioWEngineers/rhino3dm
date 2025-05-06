@@ -2,4 +2,4 @@
 
 #pragma once
 
-void initLayerTableBindings(rh3dmpymodule &m);
+void initLayerTableBindings(nanobind::module_ &m);

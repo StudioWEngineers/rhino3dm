@@ -2,4 +2,4 @@
 
 #include "bindings.h"
 
-void LayerBindings(rh3dmpymodule& m);
+void LayerBindings(nanobind::module_ &m);

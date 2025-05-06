@@ -5,7 +5,7 @@
 
 namespace py = nanobind;
 
-void LayerBindings(rh3dmpymodule& m) {
+void LayerBindings(nanobind::module_ &m) {
     py::class_<Layer>(m, "Layer")
 
         .def(py::init<>())

@@ -46,7 +46,7 @@ void initLayerTableBindings(rh3dmpymodule &m) {
         //    return LayerIterator(self, py::cast(self, py::rv_policy::reference));
         //})
         .def("Add", &LayerTable::Add, py::arg("layer"))
-        .def("Delete", &LayerTable::Delete, py::arg("id"))
+        .def("delete_by_id", &LayerTable::DeleteById, py::arg("uuid"))
         .def("FindName", &LayerTable::FindName, py::arg("name"), py::arg("parentId"))
         .def("FindIndex", &LayerTable::FindIndex, py::arg("index"))
         .def("FindId", &LayerTable::FindId, py::arg("id"))

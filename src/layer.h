@@ -17,10 +17,10 @@
 
 class Layer {
 public:
-    ON_Layer* m_layer = nullptr;
-
     Layer();
     ~Layer();
+
+    const ON_Layer* LayerHandle() const;
 
     static std::wstring PathSeparator();
 
@@ -67,10 +67,10 @@ public:
     bool IsExpanded() const;
     void SetExpanded(bool is_expanded);
 
-protected:
+private:
+    ON_Layer* m_layer = nullptr;
     std::shared_ptr<ONX_Model> m_model;
     ON_ModelComponentReference m_comp_ref;
 
-private:
     void SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref);
 };

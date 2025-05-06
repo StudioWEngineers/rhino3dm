@@ -11,7 +11,8 @@ public:
     LayerTable(std::shared_ptr<ONX_Model> m);
     int Count() const;
     int Add(const class Layer &layer);
-    bool Delete(ON_UUID id);
+    bool DeleteById(ON_UUID id);
+    bool DeleteByName(std::wstring full_name);
     bool Has(std::wstring full_name);
     const class LayerView *Get(std::wstring full_name);
     class LayerView *FindName(std::wstring name, ON_UUID parentId);

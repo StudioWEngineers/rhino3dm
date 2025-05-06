@@ -6,21 +6,18 @@ LayerTable::LayerTable(std::shared_ptr<ONX_Model> m) {
 }
 
 int LayerTable::Add(const Layer &layer) {
-    const ON_Layer *l = layer.m_layer;
-    ON_ModelComponentReference mr = m_model->AddModelComponent(*l);
+    ON_ModelComponentReference mr = m_model->AddModelComponent(*layer.LayerHandle());
     const ON_Layer *managed_layer = ON_Layer::FromModelComponentRef(mr, nullptr);
-    int layer_index = (nullptr != managed_layer) ? managed_layer->Index() : ON_UNSET_INT_INDEX;
-    return layer_index;
+
+    return (nullptr != managed_layer) ? managed_layer->Index() : ON_UNSET_INT_INDEX;
 }
 
 int LayerTable::Count() const {
     return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::Layer);
 }
 
-bool LayerTable::Delete(ON_UUID id) {
-    ON_ModelComponentReference cr = m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, id);
-    return !cr.IsEmpty();
-    // return DeleteModelComponent(id, ON_ModelComponent::Type::Layer, m_model);
+bool LayerTable::DeleteById(ON_UUID on_uuid) {
+    return !m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, on_uuid).IsEmpty();
 }
 
 LayerView *LayerTable::FindName(std::wstring name, ON_UUID parentId) {

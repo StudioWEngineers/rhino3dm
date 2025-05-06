@@ -12,6 +12,10 @@ Layer::~Layer() {
     }
 }
 
+const ON_Layer* Layer::LayerHandle() const {
+    return m_layer;
+}
+
 static std::wstring PathSeparator() {
     return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
 }

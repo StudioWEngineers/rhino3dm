@@ -21,6 +21,6 @@ void ModelBindings(rh3dmpymodule& m)
 //    })
 // #endif
     .def("write", &Model::Write, py::arg("path"), py::arg("version")=7)
-    .def_property_readonly("LayerTable", &Model::ModelLayerTable)
+    .def_prop_ro("LayerTable", &Model::ModelLayerTable)
     ;
 }

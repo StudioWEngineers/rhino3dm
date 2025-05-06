@@ -18,7 +18,7 @@ void LayerBindings(rh3dmpymodule& m) {
 
         .def("get_full_path", &Layer::GetFullPath, "Returns the full path to this Layer, including nesting information.")
 
-        .def_property("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
+        .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
 
         .def("get_parent_layer_id", &Layer::GetParentLayerId);
 }

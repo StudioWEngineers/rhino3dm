@@ -17,13 +17,13 @@
 //typedef nanobind::module_ rh3dmpymodule;
 using rh3dmpymodule = nanobind::module_;
 //#define RH3DM_PYTHON_BINDING(name, variable) NB_MODULE(name, variable)
-#define def_property def_prop_rw
-#define def_property_readonly def_prop_ro
-#define def_readonly def_ro
-#define def_readwrite def_rw
-#define def_property_readonly_static def_prop_ro_static
-#define import import_
-#define UNIMPLEMENTED_EXCEPTION throw std::exception()
+//#define def_property def_prop_rw
+//#define def_property_readonly def_prop_ro
+//#define def_readonly def_ro
+//#define def_readwrite def_rw
+//#define def_property_readonly_static def_prop_ro_static
+//#define import import_
+//#define UNIMPLEMENTED_EXCEPTION throw std::exception()
 
 //#else
   //#include <pybind11/pybind11.h>

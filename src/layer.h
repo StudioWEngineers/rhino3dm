@@ -67,6 +67,8 @@ public:
     bool IsExpanded() const;
     void SetExpanded(bool is_expanded);
 
+    const std::string ToString() const;
+
 private:
     ON_Layer* m_layer = nullptr;
     std::shared_ptr<ONX_Model> m_model;

@@ -1,5 +1,10 @@
 #include "layer.h"
 
+#include <sstream>
+#include <locale>
+#include <codecvt>
+
+
 
 Layer::Layer() {
     SetTrackedPointer(new ON_Layer(), nullptr);
@@ -155,6 +160,22 @@ bool Layer::IsExpanded() const {
 void Layer::SetExpanded(bool is_expanded) {
     m_layer->m_bExpanded = is_expanded;
 }
+
+const std::string Layer::ToString() const {
+    // Convert std::wstring to std::string for name
+    std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
+    std::string name_str = convert.to_bytes(this->GetName());
+
+    // Convert ON_Color to string
+    ON_Color color = this->GetPlotColor();
+    std::ostringstream color_stream;
+    color_stream << "(" << color.Red() << ", " << color.Green() << ", " << color.Blue() << ")";
+    std::string color_str = color_stream.str();
+
+    // Return the final string representation
+    return "<Layer(name='" + name_str + "', plot_color=" + color_str + ")>";
+}
+
 
 void Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref) {
     m_layer = layer;

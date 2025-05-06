@@ -3,12 +3,17 @@
 #include "uuid_caster.h"
 #include "color_caster.h"
 
+#include <string>
+#include <locale>
+#include <codecvt>
+
 namespace py = nanobind;
 
 void LayerBindings(nanobind::module_ &m) {
     py::class_<Layer>(m, "Layer")
 
         .def(py::init<>())
+        .def("__repr__", &Layer::ToString)
 
         .def("get_name", &Layer::GetName, "Returns the Layer's name.")
         .def("get_plot_color", &Layer::GetPlotColor, "Returns the Layer's plot color.")
@@ -20,5 +25,6 @@ void LayerBindings(nanobind::module_ &m) {
 
         .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
 
-        .def("get_parent_layer_id", &Layer::GetParentLayerId);
+        .def("get_parent_layer_id", &Layer::GetParentLayerId)
+    ;
 }

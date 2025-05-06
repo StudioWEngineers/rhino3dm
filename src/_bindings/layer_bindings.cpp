@@ -3,10 +3,6 @@
 #include "uuid_caster.h"
 #include "color_caster.h"
 
-#include <string>
-#include <locale>
-#include <codecvt>
-
 namespace py = nanobind;
 
 void LayerBindings(nanobind::module_ &m) {

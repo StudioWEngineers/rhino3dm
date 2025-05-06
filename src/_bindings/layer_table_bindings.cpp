@@ -28,6 +28,18 @@
 namespace py = nanobind;
 
 void initLayerTableBindings(nanobind::module_ &m) {
+    py::class_<LayerTable::Iterator>(m, "LayerTableIterator")
+    .def("__iter__", [](LayerTable::Iterator &it) -> LayerTable::Iterator& {
+        return it;
+    })
+    .def("__next__", [](LayerTable::Iterator &it) {
+        if (it.is_done()) {
+            throw py::stop_iteration();
+        }
+        LayerView* result = *it;
+        ++it;
+        return result;
+    }, py::rv_policy::take_ownership);
     //using LayerIterator = PyBNDIterator<LayerTable &>;
 
     //py::class_<LayerIterator>(m, "__LayerIterator")
@@ -51,5 +63,12 @@ void initLayerTableBindings(nanobind::module_ &m) {
         .def("FindIndex", &LayerTable::FindIndex, py::arg("index"))
         .def("FindId", &LayerTable::FindId, py::arg("id"))
         .def("has", &LayerTable::Has, "Return True if the layer is found, False otherwise.", py::arg("full_name"))
-        .def("get", &LayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"));
+        .def("get", &LayerTable::Get, "Return the immutable layer if it is found, raise IndexError otherwise.", py::arg("full_name"))
+        .def("__iter__", [](LayerTable &self) {
+            return self.begin();
+        }, py::keep_alive<0, 1>())
+        //.def("__iter__", [](LayerTable &self) {
+        //    return py::make_iterator(py::type<LayerTable>(), self.begin(), self.end());
+        //}, py::keep_alive<0, 1>())
+    ;
 }

@@ -96,3 +96,10 @@ LayerView *LayerTable::FindId(ON_UUID id) {
 //    py::object ref;
 //    int index = 0;
 //};
+LayerTable::Iterator LayerTable::begin() {
+    return Iterator(this, 0);
+}
+
+LayerTable::Iterator LayerTable::end() {
+    return Iterator(this, Count());
+}

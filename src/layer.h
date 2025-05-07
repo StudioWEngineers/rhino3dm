@@ -1,5 +1,5 @@
 /*
-    src/layers.h: Implementation details related to Layer.
+    src/layer.h: Implementation details related to Layer.
     Rearranged from .../bnd_layer.h in https://github.com/mcneel/rhino3dm
 
     Copyright (c) 2025 Studio W Engineers

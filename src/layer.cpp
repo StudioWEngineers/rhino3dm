@@ -5,7 +5,6 @@
 #include <codecvt>
 
 
-
 Layer::Layer() {
     SetTrackedPointer(new ON_Layer(), nullptr);
 }

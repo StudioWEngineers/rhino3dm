@@ -2,4 +2,4 @@
 
 #pragma once
 
-void initLayerViewBindings(nanobind::module_ &m);
+void LayerViewBindings(nanobind::module_ &m);

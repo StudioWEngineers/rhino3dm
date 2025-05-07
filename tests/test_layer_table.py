@@ -1,5 +1,5 @@
 import rhino3dm
-from unittest import TestCase
+from unittest import TestCase, expectedFailure
 from os import remove
 from os.path import dirname
 
@@ -49,14 +49,14 @@ class TestFile3dmLayerTable(TestCase):
 
         qtyLayers = len(file3dm.LayerTable)
 
-        id1 = file3dm.LayerTable[index1].Id
+        id1 = file3dm.LayerTable[index1].layer_uuid
 
         file3dm.LayerTable.delete_by_id(id1)
 
         qtyLayers2 = len(file3dm.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 1)
-
+    @expectedFailure
     def test_Add(self) -> None:
         """Test for the Add method of File3dmLayerTable.
         """

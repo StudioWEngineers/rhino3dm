@@ -5,7 +5,7 @@
 
 namespace nb = nanobind;
 
-void LayerBindings(nanobind::module_ &m) {
+void LayerBindings(nb::module_ &m) {
     nb::class_<Layer>(m, "Layer")
         .def(nb::init<>())
         .def("__repr__", &Layer::ToString)

@@ -1,30 +1,30 @@
-#include "bindings.h"
-#include "uuid_caster.h"
-#include "color_caster.h"
 #include "../layer_view.h"
+#include "color_caster.h"
+#include "layer_view_bindings.h"
+#include "uuid_caster.h"
 
 namespace nb = nanobind;
 
-void initLayerViewBindings(nanobind::module_ &m) {
+void LayerViewBindings(nb::module_ &m) {
     nb::class_<LayerView>(m, "LayerView")
-        .def_prop_ro_static("PathSeparator", &LayerView::PathSeparator)
-        .def_prop_ro("Name", &LayerView::GetName)
-        .def_prop_ro("FullPath", &LayerView::GetFullPath)
-        .def_prop_ro("Id", &LayerView::GetId)
-        .def_prop_ro("Index", &LayerView::GetIndex)
-        .def_prop_ro("ParentLayerId", &LayerView::GetParentLayerId)
-        .def_prop_ro("IgesLevel", &LayerView::GetIgesLevel)
-        .def("HasPerViewportSettings", &LayerView::HasPerViewportSettings, nb::arg("viewportId"))
-        .def_prop_ro("Color", &LayerView::GetColor)
-        .def("PerViewportColor", &LayerView::PerViewportColor, nb::arg("viewportId"))
-        .def_prop_ro("PlotColor", &LayerView::GetPlotColor)
-        .def_prop_ro("PlotWeight", &LayerView::GetPlotWeight)
-        .def_prop_ro("LinetypeIndex", &LayerView::GetLinetypeIndex)
-        .def_prop_ro("RenderMaterialIndex", &LayerView::GetRenderMaterialIndex)
-        .def_prop_ro("Visible", &LayerView::IsVisible)
-        .def_prop_ro("Locked", &LayerView::IsLocked)
-        .def("GetPersistentVisibility", &LayerView::GetPersistentVisibility)
-        .def("GetPersistentLocking", &LayerView::GetPersistentLocking)
-        .def_prop_ro("Expanded", &LayerView::IsExpanded)
-        ;
+        .def("__repr__", &LayerView::ToString)
+
+        .def_prop_ro("color", &LayerView::GetColor)
+        .def_prop_ro("full_path", &LayerView::GetFullPath)
+        .def_prop_ro("iges_level", &LayerView::GetIgesLevel)
+        .def_prop_ro("is_expanded", &LayerView::IsExpanded)
+        .def_prop_ro("is_locked", &LayerView::IsLocked)
+        .def_prop_ro("is_visible", &LayerView::IsVisible)
+        .def_prop_ro("line_type_index", &LayerView::GetLinetypeIndex)
+        .def_prop_ro("name", &LayerView::GetName)
+        .def_prop_ro("parent_uuid", &LayerView::GetParentLayerId)
+        .def_prop_ro("persistent_locking", &LayerView::GetPersistentLocking)
+        .def_prop_ro("persistent_visibility", &LayerView::GetPersistentVisibility)
+        .def_prop_ro("plot_color", &LayerView::GetPlotColor)
+        .def_prop_ro("plot_weight", &LayerView::GetPlotWeight)
+        .def_prop_ro("render_material_index", &LayerView::GetRenderMaterialIndex)
+        .def_prop_ro("layer_uuid", &LayerView::GetId)
+
+        .def_prop_ro_static("path_separator", &LayerView::PathSeparator)
+    ;
 }

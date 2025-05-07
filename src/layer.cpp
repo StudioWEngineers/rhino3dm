@@ -21,7 +21,7 @@ const ON_Layer* Layer::LayerHandle() const {
     return m_layer;
 }
 
-static std::wstring PathSeparator() {
+std::wstring Layer::PathSeparator() {
     return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
 }
 

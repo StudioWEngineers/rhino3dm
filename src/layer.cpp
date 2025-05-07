@@ -161,18 +161,32 @@ void Layer::SetExpanded(bool is_expanded) {
 }
 
 const std::string Layer::ToString() const {
-    // Convert std::wstring to std::string for name
     std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
     std::string name_str = convert.to_bytes(this->GetName());
 
-    // Convert ON_Color to string
-    ON_Color color = this->GetPlotColor();
+    ON_Color color = this->GetColor();
     std::ostringstream color_stream;
-    color_stream << "(" << color.Red() << ", " << color.Green() << ", " << color.Blue() << ")";
-    std::string color_str = color_stream.str();
+    color_stream << "(" << color.Red() << ", " << color.Green() << ", " << color.Blue() << ", " << 255 - color.Alpha() << ")";
 
-    // Return the final string representation
-    return "<Layer(name='" + name_str + "', plot_color=" + color_str + ")>";
+    ON_Color p_color = this->GetPlotColor();
+    std::ostringstream p_color_stream;
+    p_color_stream << "(" << p_color.Red() << ", " << p_color.Green() << ", " << p_color.Blue() << ", " << 255 - p_color.Alpha() << ")";
+
+    std::ostringstream output;
+    output << "Layer with properties:\n"
+           << "\tcolor = " << color_stream.str() << "\n"
+           << "\tiges_level = " << this->GetIgesLevel() << "\n"
+           << "\tis_expanded = " << this->IsExpanded() << "\n"
+           << "\tis_visible = " << std::boolalpha << this->IsVisible() << "\n"
+           << "\tline_type_index = " << this->GetLinetypeIndex() << "\n"
+           << "\tname = '" << name_str << "',\n"
+           << "\tpersistent_locking = " << this->GetPersistentLocking() << "\n"
+           << "\tpersistent_visibility = " << this->GetPersistentVisibility() << "\n"
+           << "\tplot_color = " << p_color_stream.str() << "\n"
+           << "\tplot_weight = " << this->GetPlotWeight() << "\n"
+           << "\trender_material_index = " << this->GetRenderMaterialIndex() << "\n"
+           ;
+    return output.str();
 }
 
 

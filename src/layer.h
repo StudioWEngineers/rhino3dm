@@ -58,11 +58,9 @@ public:
 
     bool GetPersistentVisibility() const;
     void SetPersistentVisibility(bool persistent_visibility);
-    void UnsetPersistentVisibility();
 
     bool GetPersistentLocking() const;
     void SetPersistentLocking(bool persistent_locking);
-    void UnsetPersistentLocking();
 
     bool IsExpanded() const;
     void SetExpanded(bool is_expanded);

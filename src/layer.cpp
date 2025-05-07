@@ -133,24 +133,24 @@ bool Layer::GetPersistentVisibility() const {
     return m_layer->PersistentVisibility();
 }
 
-void Layer::SetPersistentVisibility(bool persistent) {
-    m_layer->SetPersistentVisibility(persistent);
-}
-
-void Layer::UnsetPersistentVisibility() {
-    m_layer->UnsetPersistentVisibility();
+void Layer::SetPersistentVisibility(bool persistent_visibility) {
+    if (persistent_visibility) {
+        m_layer->SetPersistentVisibility(persistent_visibility);
+    } else {
+        m_layer->UnsetPersistentVisibility();
+    }
 }
 
 bool Layer::GetPersistentLocking() const {
     return m_layer->PersistentLocking();
 }
 
-void Layer::SetPersistentLocking(bool persistent) {
-    m_layer->SetPersistentLocking(persistent);
-}
-
-void Layer::UnsetPersistentLocking() {
-    m_layer->UnsetPersistentLocking();
+void Layer::SetPersistentLocking(bool persistent_locking) {
+    if (persistent_locking) {
+        m_layer->SetPersistentLocking(persistent_locking);
+    } else {
+        m_layer->UnsetPersistentLocking();
+    }
 }
 
 bool Layer::IsExpanded() const {

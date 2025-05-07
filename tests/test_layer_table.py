@@ -12,11 +12,11 @@ class TestFile3dmLayerTable(TestCase):
 
         #create layers
         layer1 = rhino3dm.Layer()
-        layer1.set_name("layer1")
-        layer1.set_plot_color((255, 0, 255, 255))
+        layer1.name = "layer1"
+        layer1.plot_color = (255, 0, 255, 255)
 
         layer2 = rhino3dm.Layer()
-        layer2.set_name("layer2")
+        layer2.name = "layer2"
 
         file3dm.LayerTable.Add(layer1)
         file3dm.LayerTable.Add(layer2)
@@ -38,11 +38,11 @@ class TestFile3dmLayerTable(TestCase):
 
         #create layers
         layer1 = rhino3dm.Layer()
-        layer1.set_name("layer1")
-        layer1.set_plot_color((255, 0, 255, 255))
+        layer1.name = "layer1"
+        layer1.plot_color = (255, 0, 255, 255)
 
         layer2 = rhino3dm.Layer()
-        layer2.set_name("layer2")
+        layer2.name = "layer2"
 
         index1 = file3dm.LayerTable.Add(layer1)
         file3dm.LayerTable.Add(layer2)

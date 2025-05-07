@@ -34,31 +34,31 @@ class LayerTestSuite(TestCase):
         """Tests for the `get_plot_color` and `set_plot_color` methods.
         """
         with self.subTest(msg="Layer plot color before assignment"):
-            self.assertEqual(self.layer.get_plot_color(), (0, 0, 0, 255))
+            self.assertEqual(self.layer.plot_color, (0, 0, 0, 255))
 
-        self.layer.set_plot_color((100, 50, 10, 255))
+        self.layer.plot_color = (100, 50, 10, 255)
 
         with self.subTest(msg="Layer plot color after assignment"):
-            self.assertEqual(self.layer.get_plot_color(), (100, 50, 10, 255))
+            self.assertEqual(self.layer.plot_color, (100, 50, 10, 255))
 
     def test_get_and_set_name(self) -> None:
         """Tests for the `get_name` and `set_name` methods.
         """
         with self.subTest(msg="Layer name before assignment"):
-            self.assertEqual(self.layer.get_name(), "")
+            self.assertEqual(self.layer.name, "")
 
-        self.layer.set_name("My new layer")
+        self.layer.name = "My new layer"
 
         with self.subTest(msg="Layer name after assignment"):
-            self.assertEqual(self.layer.get_name(), "My new layer")
+            self.assertEqual(self.layer.name, "My new layer")
 
     def test_get_full_path(self) -> None:
         """Tests for the `get_full_path` method.
         """
         with self.subTest(msg="Layer name before assignment"):
-            self.assertEqual(self.layer.get_full_path(), "")
+            self.assertEqual(self.layer.full_path, "")
 
-        self.layer.set_name("My new layer")
+        self.layer.name = "My new layer"
 
         with self.subTest(msg="Layer name after assignment"):
-            self.assertEqual(self.layer.get_full_path(), "My new layer")
+            self.assertEqual(self.layer.full_path, "My new layer")

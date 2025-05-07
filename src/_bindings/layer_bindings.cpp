@@ -23,6 +23,8 @@ void LayerBindings(nanobind::module_ &m) {
         .def_prop_rw("line_type_index", &Layer::GetLinetypeIndex, &Layer::SetLinetypeIndex)
         .def_prop_rw("name", &Layer::GetName, &Layer::SetName)
         .def_prop_rw("parent_uuid", &Layer::GetParentLayerId, &Layer::SetParentLayerId)
+        .def_prop_rw("persistent_locking", &Layer::GetPersistentLocking, &Layer::SetPersistentLocking)
+        .def_prop_rw("persistent_visibility", &Layer::GetPersistentVisibility, &Layer::SetPersistentVisibility)
         .def_prop_rw("plot_color", &Layer::GetPlotColor, &Layer::SetPlotColor)
         .def_prop_rw("plot_weight", &Layer::GetPlotWeight, &Layer::SetPlotWeight)
         .def_prop_rw("render_material_index", &Layer::GetRenderMaterialIndex, &Layer::SetRenderMaterialIndex)

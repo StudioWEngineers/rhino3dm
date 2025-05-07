@@ -33,7 +33,7 @@ jobs:
       uses: lukka/get-cmake@latest
 
     - name: install dependencies
-      run: python -m pip install --upgrade pip setuptools wheel build scikit-build-core pybind11
+      run: python -m pip install --upgrade pip setuptools wheel build scikit-build-core
 
     - name: Install libuuid (dev headers and linker support)
       if: runner.os == 'Linux'

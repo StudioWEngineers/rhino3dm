@@ -3,10 +3,10 @@
 #include "color_caster.h"
 #include "../layer_view.h"
 
-namespace py = nanobind;
+namespace nb = nanobind;
 
 void initLayerViewBindings(nanobind::module_ &m) {
-    py::class_<LayerView>(m, "LayerView")
+    nb::class_<LayerView>(m, "LayerView")
         .def_prop_ro_static("PathSeparator", &LayerView::PathSeparator)
         .def_prop_ro("Name", &LayerView::GetName)
         .def_prop_ro("FullPath", &LayerView::GetFullPath)
@@ -14,9 +14,9 @@ void initLayerViewBindings(nanobind::module_ &m) {
         .def_prop_ro("Index", &LayerView::GetIndex)
         .def_prop_ro("ParentLayerId", &LayerView::GetParentLayerId)
         .def_prop_ro("IgesLevel", &LayerView::GetIgesLevel)
-        .def("HasPerViewportSettings", &LayerView::HasPerViewportSettings, py::arg("viewportId"))
+        .def("HasPerViewportSettings", &LayerView::HasPerViewportSettings, nb::arg("viewportId"))
         .def_prop_ro("Color", &LayerView::GetColor)
-        .def("PerViewportColor", &LayerView::PerViewportColor, py::arg("viewportId"))
+        .def("PerViewportColor", &LayerView::PerViewportColor, nb::arg("viewportId"))
         .def_prop_ro("PlotColor", &LayerView::GetPlotColor)
         .def_prop_ro("PlotWeight", &LayerView::GetPlotWeight)
         .def_prop_ro("LinetypeIndex", &LayerView::GetLinetypeIndex)

@@ -11,8 +11,6 @@
 #pragma once
 
 #include "opennurbs_includes.h"
-#include <memory>
-#include <string>
 
 
 class Layer {
@@ -22,48 +20,35 @@ public:
 
     const ON_Layer* LayerHandle() const;
 
-    static std::wstring PathSeparator();
-
-    std::wstring GetName() const;
-    void SetName(const std::wstring& name);
-
-    std::wstring GetFullPath() const;
-
-    ON_UUID GetParentLayerId() const;
-    void SetParentLayerId(ON_UUID on_uuid);
-
-    int GetIgesLevel() const;
-    void SetIgesLevel(int level);
-
     ON_Color GetColor() const;
-    void SetColor(const ON_Color& on_color);
-
-    ON_Color GetPlotColor() const;
-    void SetPlotColor(const ON_Color& on_color);
-
-    double GetPlotWeight() const;
-    void SetPlotWeight(double weight);
-
+    std::wstring GetFullPath() const;
+    int GetIgesLevel() const;
+    bool GetIsExpanded() const;
+    bool GetIsLocked() const;
+    bool GetIsVisible() const;
     int GetLinetypeIndex() const;
-    void SetLinetypeIndex(int index);
-
-    int GetRenderMaterialIndex() const;
-    void SetRenderMaterialIndex(int index);
-
-    bool IsVisible() const;
-    void SetVisible(bool is_visible);
-
-    bool IsLocked() const;
-    void SetLocked(bool is_locked);
-
-    bool GetPersistentVisibility() const;
-    void SetPersistentVisibility(bool persistent_visibility);
-
+    std::wstring GetName() const;
+    ON_UUID GetParentLayerId() const;
+    static std::wstring GetPathSeparator();
     bool GetPersistentLocking() const;
-    void SetPersistentLocking(bool persistent_locking);
+    bool GetPersistentVisibility() const;
+    ON_Color GetPlotColor() const;
+    double GetPlotWeight() const;
+    int GetRenderMaterialIndex() const;
 
-    bool IsExpanded() const;
-    void SetExpanded(bool is_expanded);
+    void SetColor(const ON_Color& on_color);
+    void SetIgesLevel(int level);
+    void SetIsExpanded(bool is_expanded);
+    void SetIsLocked(bool is_locked);
+    void SetIsVisible(bool is_visible);
+    void SetLinetypeIndex(int index);
+    void SetName(const std::wstring& name);
+    void SetParentLayerId(ON_UUID on_uuid);
+    void SetPersistentLocking(bool persistent_locking);
+    void SetPersistentVisibility(bool persistent_visibility);
+    void SetPlotColor(const ON_Color& on_color);
+    void SetPlotWeight(double weight);
+    void SetRenderMaterialIndex(int index);
 
     const std::string ToString() const;
 

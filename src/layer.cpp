@@ -6,7 +6,15 @@
 
 
 Layer::Layer() {
-    SetTrackedPointer(new ON_Layer(), nullptr);
+    m_layer = new ON_Layer();
+
+    ON_ModelComponent* model_component = ON_ModelComponent::Cast(m_layer);
+    if (model_component == nullptr) {
+        model_component = ON_ModelGeometryComponent::CreateManaged(m_layer, nullptr, nullptr);
+    }
+    if (model_component) {
+        m_comp_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
+    }
 }
 
 Layer::~Layer() {
@@ -187,21 +195,4 @@ const std::string Layer::ToString() const {
            << "\trender_material_index = " << this->GetRenderMaterialIndex() << "\n"
            ;
     return output.str();
-}
-
-
-void Layer::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* compref) {
-    m_layer = layer;
-
-    if (compref) {
-        m_comp_ref = *compref;
-    } else {
-        ON_ModelComponent* model_component = ON_ModelComponent::Cast(layer);
-        if (model_component == nullptr) {
-            model_component = ON_ModelGeometryComponent::CreateManaged(layer, nullptr, nullptr);
-        }
-        if (model_component) {
-            m_comp_ref = ON_ModelComponentReference::CreateForExperts(model_component, true);
-        }
-    }
 }

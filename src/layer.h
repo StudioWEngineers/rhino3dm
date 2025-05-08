@@ -68,7 +68,7 @@ public:
     const std::string ToString() const;
 
 private:
+    ON_ModelComponentReference m_comp_ref;
     ON_Layer* m_layer = nullptr;
     std::shared_ptr<ONX_Model> m_model;
-    ON_ModelComponentReference m_comp_ref;
 };

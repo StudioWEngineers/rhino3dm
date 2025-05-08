@@ -12,13 +12,13 @@ void LayerBindings(nb::module_ &m) {
 
         .def_prop_ro("full_path", &Layer::GetFullPath)
 
-        .def_prop_ro_static("path_separator", &Layer::PathSeparator)
+        .def_prop_ro_static("path_separator", &Layer::GetPathSeparator)
 
         .def_prop_rw("color", &Layer::GetColor, &Layer::SetColor)
         .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
-        .def_prop_rw("is_expanded", &Layer::IsExpanded, &Layer::SetExpanded)
-        .def_prop_rw("is_locked", &Layer::IsLocked, &Layer::SetLocked)
-        .def_prop_rw("is_visible", &Layer::IsVisible, &Layer::SetVisible)
+        .def_prop_rw("is_expanded", &Layer::GetIsExpanded, &Layer::SetIsExpanded)
+        .def_prop_rw("is_locked", &Layer::GetIsLocked, &Layer::SetIsLocked)
+        .def_prop_rw("is_visible", &Layer::GetIsVisible, &Layer::SetIsVisible)
         .def_prop_rw("line_type_index", &Layer::GetLinetypeIndex, &Layer::SetLinetypeIndex)
         .def_prop_rw("name", &Layer::GetName, &Layer::SetName)
         .def_prop_rw("parent_uuid", &Layer::GetParentLayerId, &Layer::SetParentLayerId)

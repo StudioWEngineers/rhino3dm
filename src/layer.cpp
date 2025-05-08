@@ -28,16 +28,8 @@ const ON_Layer* Layer::LayerHandle() const {
     return m_layer;
 }
 
-std::wstring Layer::PathSeparator() {
-    return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
-}
-
-std::wstring Layer::GetName() const {
-    return std::wstring(m_layer->NameAsPointer());
-}
-
-void Layer::SetName(const std::wstring& name) {
-    m_layer->SetName(name.c_str());
+ON_Color Layer::GetColor() const {
+    return m_layer->Color();
 }
 
 std::wstring Layer::GetFullPath() const {
@@ -64,95 +56,91 @@ std::wstring Layer::GetFullPath() const {
     return std::wstring(fullPath.Array());
 }
 
-ON_UUID Layer::GetParentLayerId() const {
-    return m_layer->ParentId();
-}
-
-void Layer::SetParentLayerId(ON_UUID on_uuid) {
-    m_layer->SetParentLayerId(on_uuid);
-}
-
 int Layer::GetIgesLevel() const {
     return m_layer->IgesLevel();
 }
 
-void Layer::SetIgesLevel(int level) {
-    m_layer->SetIgesLevel(level);
+bool Layer::GetIsExpanded() const {
+    return m_layer->m_bExpanded;
 }
 
-ON_Color Layer::GetColor() const {
-    return m_layer->Color();
+bool Layer::GetIsLocked() const {
+    return m_layer->IsLocked();
 }
 
-void Layer::SetColor(const ON_Color& on_color) {
-    m_layer->SetColor(on_color);
-}
-
-ON_Color Layer::GetPlotColor() const {
-    return m_layer->PlotColor();
-}
-
-void Layer::SetPlotColor(const ON_Color& on_color) {
-    m_layer->SetPlotColor(on_color);
-}
-
-double Layer::GetPlotWeight() const {
-    return m_layer->PlotWeight();
-}
-
-void Layer::SetPlotWeight(double weight) {
-    m_layer->SetPlotWeight(weight);
+bool Layer::GetIsVisible() const {
+    return m_layer->IsVisible();
 }
 
 int Layer::GetLinetypeIndex() const {
     return m_layer->LinetypeIndex();
 }
 
-void Layer::SetLinetypeIndex(int index) {
-    m_layer->SetLinetypeIndex(index);
+std::wstring Layer::GetName() const {
+    return std::wstring(m_layer->NameAsPointer());
 }
 
-int Layer::GetRenderMaterialIndex() const {
-    return m_layer->RenderMaterialIndex();
+ON_UUID Layer::GetParentLayerId() const {
+    return m_layer->ParentId();
 }
 
-void Layer::SetRenderMaterialIndex(int index) {
-    m_layer->SetRenderMaterialIndex(index);
-}
-
-bool Layer::IsVisible() const {
-    return m_layer->IsVisible();
-}
-
-void Layer::SetVisible(bool visible) {
-    m_layer->SetVisible(visible);
-}
-
-bool Layer::IsLocked() const {
-    return m_layer->IsLocked();
-}
-
-void Layer::SetLocked(bool locked) {
-    m_layer->SetLocked(locked);
-}
-
-bool Layer::GetPersistentVisibility() const {
-    return m_layer->PersistentVisibility();
-}
-
-void Layer::SetPersistentVisibility(bool persistent_visibility) {
-    if (persistent_visibility) {
-        m_layer->SetPersistentVisibility(persistent_visibility);
-    } else {
-        m_layer->UnsetPersistentVisibility();
-    }
+std::wstring Layer::GetPathSeparator() {
+    return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
 }
 
 bool Layer::GetPersistentLocking() const {
     return m_layer->PersistentLocking();
 }
 
-void Layer::SetPersistentLocking(bool persistent_locking) {
+bool Layer::GetPersistentVisibility() const {
+    return m_layer->PersistentVisibility();
+}
+
+ON_Color Layer::GetPlotColor() const {
+    return m_layer->PlotColor();
+}
+
+double Layer::GetPlotWeight() const {
+    return m_layer->PlotWeight();
+}
+
+int Layer::GetRenderMaterialIndex() const {
+    return m_layer->RenderMaterialIndex();
+}
+
+void Layer::SetColor(const ON_Color& on_color) {
+    m_layer->SetColor(on_color);
+}
+
+void Layer::SetIgesLevel(const int level) {
+    m_layer->SetIgesLevel(level);
+}
+
+void Layer::SetIsExpanded(const bool is_expanded) {
+    m_layer->m_bExpanded = is_expanded;
+}
+
+void Layer::SetIsLocked(const bool locked) {
+    m_layer->SetLocked(locked);
+}
+
+void Layer::SetIsVisible(const bool visible) {
+    m_layer->SetVisible(visible);
+}
+
+void Layer::SetLinetypeIndex(const int index) {
+    m_layer->SetLinetypeIndex(index);
+}
+
+void Layer::SetName(const std::wstring& name) {
+    m_layer->SetName(name.c_str());
+}
+
+void Layer::SetParentLayerId(const ON_UUID on_uuid) {
+    m_layer->SetParentLayerId(on_uuid);
+}
+
+void Layer::SetPersistentLocking(const bool persistent_locking) {
     if (persistent_locking) {
         m_layer->SetPersistentLocking(persistent_locking);
     } else {
@@ -160,12 +148,24 @@ void Layer::SetPersistentLocking(bool persistent_locking) {
     }
 }
 
-bool Layer::IsExpanded() const {
-    return m_layer->m_bExpanded;
+void Layer::SetPersistentVisibility(const bool persistent_visibility) {
+    if (persistent_visibility) {
+        m_layer->SetPersistentVisibility(persistent_visibility);
+    } else {
+        m_layer->UnsetPersistentVisibility();
+    }
 }
 
-void Layer::SetExpanded(bool is_expanded) {
-    m_layer->m_bExpanded = is_expanded;
+void Layer::SetPlotColor(const ON_Color& on_color) {
+    m_layer->SetPlotColor(on_color);
+}
+
+void Layer::SetPlotWeight(const double weight) {
+    m_layer->SetPlotWeight(weight);
+}
+
+void Layer::SetRenderMaterialIndex(const int index) {
+    m_layer->SetRenderMaterialIndex(index);
 }
 
 const std::string Layer::ToString() const {
@@ -184,8 +184,8 @@ const std::string Layer::ToString() const {
     output << "Layer with properties:\n"
            << "\tcolor = " << color_stream.str() << "\n"
            << "\tiges_level = " << this->GetIgesLevel() << "\n"
-           << "\tis_expanded = " << this->IsExpanded() << "\n"
-           << "\tis_visible = " << std::boolalpha << this->IsVisible() << "\n"
+           << "\tis_expanded = " << this->GetIsExpanded() << "\n"
+           << "\tis_visible = " << std::boolalpha << this->GetIsVisible() << "\n"
            << "\tline_type_index = " << this->GetLinetypeIndex() << "\n"
            << "\tname = '" << name_str << "',\n"
            << "\tpersistent_locking = " << this->GetPersistentLocking() << "\n"

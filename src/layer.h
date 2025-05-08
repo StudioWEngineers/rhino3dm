@@ -37,18 +37,18 @@ public:
     int GetRenderMaterialIndex() const;
 
     void SetColor(const ON_Color& on_color);
-    void SetIgesLevel(int level);
-    void SetIsExpanded(bool is_expanded);
-    void SetIsLocked(bool is_locked);
-    void SetIsVisible(bool is_visible);
-    void SetLinetypeIndex(int index);
+    void SetIgesLevel(const int level);
+    void SetIsExpanded(const bool is_expanded);
+    void SetIsLocked(const bool is_locked);
+    void SetIsVisible(const bool is_visible);
+    void SetLinetypeIndex(const int index);
     void SetName(const std::wstring& name);
-    void SetParentLayerId(ON_UUID on_uuid);
-    void SetPersistentLocking(bool persistent_locking);
-    void SetPersistentVisibility(bool persistent_visibility);
+    void SetParentLayerId(const ON_UUID on_uuid);
+    void SetPersistentLocking(const bool persistent_locking);
+    void SetPersistentVisibility(const bool persistent_visibility);
     void SetPlotColor(const ON_Color& on_color);
-    void SetPlotWeight(double weight);
-    void SetRenderMaterialIndex(int index);
+    void SetPlotWeight(const double weight);
+    void SetRenderMaterialIndex(const int index);
 
     const std::string ToString() const;
 

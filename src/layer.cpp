@@ -181,8 +181,10 @@ const std::string Layer::ToString() const {
     std::string full_name_str = convert.to_bytes(this->GetFullPath());
     std::string path_separator_str = convert.to_bytes(this->GetPathSeparator());
 
+    char p_uuid_str[37];
     char uuid_str[37];
-    ON_UuidToString(this->GetParentLayerId(), uuid_str);
+    ON_UuidToString(this->GetParentLayerId(), p_uuid_str);
+    ON_UuidToString(this->GetLayerId(), uuid_str);
 
     ON_Color color = this->GetColor();
     std::ostringstream color_stream;
@@ -200,9 +202,10 @@ const std::string Layer::ToString() const {
            << "\tis_expanded = " << std::boolalpha << this->GetIsExpanded() << "\n"
            << "\tis_locked = " << this->GetIsLocked() << "\n"
            << "\tis_visible = " << this->GetIsVisible() << "\n"
+           << "\tlayer_uuid = " << std::string(uuid_str) << "\n"
            << "\tline_type_index = " << this->GetLinetypeIndex() << "\n"
            << "\tname = '" << name_str << "'\n"
-           << "\tparent_uuid = " << std::string(uuid_str) << "\n"
+           << "\tparent_uuid = " << std::string(p_uuid_str) << "\n"
            << "\tpath separator = " << path_separator_str << "\n"
            << "\tpersistent_locking = " << this->GetPersistentLocking() << "\n"
            << "\tpersistent_visibility = " << this->GetPersistentVisibility() << "\n"

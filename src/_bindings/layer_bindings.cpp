@@ -10,6 +10,9 @@ void LayerBindings(nb::module_ &m) {
         .def(nb::init<>())
         .def("__repr__", &Layer::ToString)
 
+        .def("unset_persistent_locking", &Layer::UnSetPersistentLocking)
+        .def("unset_persistent_visibility", &Layer::UnSetPersistentVisibility)
+
         .def_prop_ro("full_path", &Layer::GetFullPath)
 
         .def_prop_ro_static("path_separator", &Layer::GetPathSeparator)

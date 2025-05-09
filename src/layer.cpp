@@ -148,19 +148,11 @@ void Layer::SetParentLayerId(const ON_UUID on_uuid) {
 }
 
 void Layer::SetPersistentLocking(const bool persistent_locking) {
-    if (persistent_locking) {
-        m_layer->SetPersistentLocking(persistent_locking);
-    } else {
-        m_layer->UnsetPersistentLocking();
-    }
+    m_layer->SetPersistentLocking(persistent_locking);
 }
 
 void Layer::SetPersistentVisibility(const bool persistent_visibility) {
-    if (persistent_visibility) {
-        m_layer->SetPersistentVisibility(persistent_visibility);
-    } else {
-        m_layer->UnsetPersistentVisibility();
-    }
+    m_layer->SetPersistentVisibility(persistent_visibility);
 }
 
 void Layer::SetPlotColor(const ON_Color& on_color) {
@@ -173,6 +165,14 @@ void Layer::SetPlotWeight(const double weight) {
 
 void Layer::SetRenderMaterialIndex(const int index) {
     m_layer->SetRenderMaterialIndex(index);
+}
+
+void Layer::UnSetPersistentLocking() {
+    m_layer->UnsetPersistentLocking();
+}
+
+void Layer::UnSetPersistentVisibility() {
+    m_layer->UnsetPersistentVisibility();
 }
 
 const std::string Layer::ToString() const {

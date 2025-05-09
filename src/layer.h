@@ -51,6 +51,8 @@ public:
     void SetPlotColor(const ON_Color& on_color);
     void SetPlotWeight(const double weight);
     void SetRenderMaterialIndex(const int index);
+    void UnSetPersistentLocking();
+    void UnSetPersistentVisibility();
 
     const std::string ToString() const;
 

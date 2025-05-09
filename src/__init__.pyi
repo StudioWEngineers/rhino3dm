@@ -132,7 +132,8 @@ class Layer:
 
 
 class LayerView:
-    """Python wrapper for the openNURBS `ON_Layer` class. XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    """Python wrapper for the openNURBS `ON_Layer` class, after being added to a 3dm
+    model, i.e., being immutable.
     """
     def __repr__(self) -> str: ...
 

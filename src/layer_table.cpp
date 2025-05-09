@@ -20,18 +20,9 @@ bool LayerTable::DeleteById(ON_UUID on_uuid) {
     return !m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, on_uuid).IsEmpty();
 }
 
-LayerView *LayerTable::FindName(std::wstring name, ON_UUID parentId) {
-    ON_ModelComponentReference compref = m_model->LayerFromName(parentId, name.c_str());
-    const ON_ModelComponent *model_component = compref.ModelComponent();
-    ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
-    if (modellayer)
-        return new LayerView(modellayer, &compref, m_model);
-    return nullptr;
-}
-
-const LayerView *LayerTable::Get(std::wstring full_name) {
+const LayerView *LayerTable::GetByName(std::wstring full_name) {
     const int num_layers = LayerTable::Count();
-    for (int i = 0; i <= num_layers; ++i) {
+    for (int i = 0; i <= num_layers; ++i) {  // should be < not <= -> check rhino docs
         const std::wstring name = LayerTable::FindIndex(i)->GetFullPath();
         if (full_name == name) {
             ON_ModelComponentReference cr = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
@@ -53,11 +44,7 @@ bool LayerTable::Has(std::wstring full_name) {
     return false;
 }
 
-LayerView *LayerTable::IterIndex(int index) {
-    return FindIndex(index);
-}
-
-LayerView *LayerTable::FindIndex(int index) {
+const LayerView *LayerTable::FindIndex(int index) {
     ON_ModelComponentReference compref = m_model->LayerFromIndex(index);
     const ON_ModelComponent *model_component = compref.ModelComponent();
     ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
@@ -67,7 +54,7 @@ LayerView *LayerTable::FindIndex(int index) {
     return nullptr;
 }
 
-LayerView *LayerTable::FindId(ON_UUID id) {
+const LayerView *LayerTable::FindId(ON_UUID id) {
     ON_ModelComponentReference compref = m_model->LayerFromId(id);
     const ON_ModelComponent *model_component = compref.ModelComponent();
     ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(model_component));
@@ -76,30 +63,22 @@ LayerView *LayerTable::FindId(ON_UUID id) {
     return nullptr;
 }
 
-// --------------------- Iterator helpers ------- //
-//template <typename IT>
-//struct PyBNDIterator {
-//    PyBNDIterator(const IT table, py::object ref)
-//        : seq(table), ref(ref) {}
-//
-//    py::object next() {
-//        if (index >= seq.Count())
-//            throw py::stop_iteration();
-//        LayerView* lv = const_cast<IT>(seq).IterIndex(index++);
-//        //std::cout << typeid(*lv).name() << std::endl;
-//        //static_assert(std::is_same_v<decltype(lv), LayerView*>, "Type mismatch!");
-//        return py::cast(lv, py::rv_policy::reference);  // or take_ownership if appropriate
-//        //return py::cast(reinterpret_cast<LayerView*>(lv), py::rv_policy::reference);
-//    }
-//
-//    const IT seq;
-//    py::object ref;
-//    int index = 0;
-//};
-LayerTable::Iterator LayerTable::begin() {
+LayerTable::Iterator LayerTable::Begin() {
     return Iterator(this, 0);
 }
 
-LayerTable::Iterator LayerTable::end() {
-    return Iterator(this, Count());
+LayerTable::Iterator::Iterator(LayerTable* table, int index)
+    : m_table(table), m_index(index), m_count(table->Count()) {}
+
+bool LayerTable::Iterator::IsOver() const {
+    return m_index >= m_count;
+}
+
+const LayerView* LayerTable::Iterator::operator*() const {
+    return m_table->FindIndex(m_index);
+}
+
+LayerTable::Iterator& LayerTable::Iterator::operator++() {
+    ++m_index;
+    return *this;
 }

@@ -170,6 +170,11 @@ void Layer::SetRenderMaterialIndex(const int index) {
 const std::string Layer::ToString() const {
     std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
     std::string name_str = convert.to_bytes(this->GetName());
+    std::string full_name_str = convert.to_bytes(this->GetFullPath());
+    std::string path_separator_str = convert.to_bytes(this->GetPathSeparator());
+
+    char uuid_str[37];
+    ON_UuidToString(this->GetParentLayerId(), uuid_str);
 
     ON_Color color = this->GetColor();
     std::ostringstream color_stream;
@@ -182,16 +187,19 @@ const std::string Layer::ToString() const {
     std::ostringstream output;
     output << "Layer with properties:\n"
            << "\tcolor = " << color_stream.str() << "\n"
+           << "\tfull_path = '" << full_name_str << "'\n"
            << "\tiges_level = " << this->GetIgesLevel() << "\n"
-           << "\tis_expanded = " << this->GetIsExpanded() << "\n"
-           << "\tis_visible = " << std::boolalpha << this->GetIsVisible() << "\n"
+           << "\tis_expanded = " << std::boolalpha << this->GetIsExpanded() << "\n"
+           << "\tis_locked = " << this->GetIsLocked() << "\n"
+           << "\tis_visible = " << this->GetIsVisible() << "\n"
            << "\tline_type_index = " << this->GetLinetypeIndex() << "\n"
-           << "\tname = '" << name_str << "',\n"
+           << "\tname = '" << name_str << "'\n"
+           << "\tparent_uuid = " << std::string(uuid_str) << "\n"
+           << "\tpath separator = " << path_separator_str << "\n"
            << "\tpersistent_locking = " << this->GetPersistentLocking() << "\n"
            << "\tpersistent_visibility = " << this->GetPersistentVisibility() << "\n"
            << "\tplot_color = " << p_color_stream.str() << "\n"
            << "\tplot_weight = " << this->GetPlotWeight() << "\n"
-           << "\trender_material_index = " << this->GetRenderMaterialIndex() << "\n"
-           ;
+           << "\trender_material_index = " << this->GetRenderMaterialIndex() << "\n";
     return output.str();
 }

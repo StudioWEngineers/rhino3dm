@@ -19,6 +19,7 @@ void LayerBindings(nb::module_ &m) {
         .def_prop_rw("is_expanded", &Layer::GetIsExpanded, &Layer::SetIsExpanded)
         .def_prop_rw("is_locked", &Layer::GetIsLocked, &Layer::SetIsLocked)
         .def_prop_rw("is_visible", &Layer::GetIsVisible, &Layer::SetIsVisible)
+        .def_prop_rw("layer_uuid", &Layer::GetLayerId, &Layer::SetLayerId)
         .def_prop_rw("line_type_index", &Layer::GetLinetypeIndex, &Layer::SetLinetypeIndex)
         .def_prop_rw("name", &Layer::GetName, &Layer::SetName)
         .def_prop_rw("parent_uuid", &Layer::GetParentLayerId, &Layer::SetParentLayerId)

@@ -26,6 +26,7 @@ public:
     bool GetIsExpanded() const;
     bool GetIsLocked() const;
     bool GetIsVisible() const;
+    ON_UUID GetLayerId() const;
     int GetLinetypeIndex() const;
     std::wstring GetName() const;
     ON_UUID GetParentLayerId() const;
@@ -41,6 +42,7 @@ public:
     void SetIsExpanded(const bool is_expanded);
     void SetIsLocked(const bool is_locked);
     void SetIsVisible(const bool is_visible);
+    void SetLayerId(const ON_UUID on_uuid);
     void SetLinetypeIndex(const int index);
     void SetName(const std::wstring& name);
     void SetParentLayerId(const ON_UUID on_uuid);

@@ -71,6 +71,10 @@ bool Layer::GetIsVisible() const {
     return m_layer->IsVisible();
 }
 
+ON_UUID Layer::GetLayerId() const {
+    return m_layer->Id();
+}
+
 int Layer::GetLinetypeIndex() const {
     return m_layer->LinetypeIndex();
 }
@@ -125,6 +129,10 @@ void Layer::SetIsLocked(const bool locked) {
 
 void Layer::SetIsVisible(const bool visible) {
     m_layer->SetVisible(visible);
+}
+
+void Layer::SetLayerId(const ON_UUID layer_uuid) {
+    m_layer->SetId(layer_uuid);
 }
 
 void Layer::SetLinetypeIndex(const int index) {

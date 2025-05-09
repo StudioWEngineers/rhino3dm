@@ -8,12 +8,12 @@
 Layer::Layer() {
     m_layer = new ON_Layer();
 
-    ON_ModelComponent* m_comp = ON_ModelComponent::Cast(m_layer);
-    if (m_comp == nullptr) {
-        m_comp = ON_ModelGeometryComponent::CreateManaged(m_layer, nullptr, nullptr);
+    ON_ModelComponent* mod_comp = ON_ModelComponent::Cast(m_layer);
+    if (mod_comp == nullptr) {
+        mod_comp = ON_ModelGeometryComponent::CreateManaged(m_layer, nullptr, nullptr);
     }
-    if (m_comp) {
-        m_comp_ref = ON_ModelComponentReference::CreateForExperts(m_comp, true);
+    if (mod_comp) {
+        m_comp_ref = ON_ModelComponentReference::CreateForExperts(mod_comp, true);
     }
 }
 
@@ -34,25 +34,25 @@ ON_Color Layer::GetColor() const {
 
 std::wstring Layer::GetFullPath() const {
     ONX_Model* model = m_model.get();
-    if (nullptr == model) {
+    if (model == nullptr) {
         return GetName();
     }
 
-    ON_wString fullPath = m_layer->Name();
+    ON_wString full_name = m_layer->Name();
     ON_UUID parent_id = m_layer->ParentId();
     while (ON_UuidIsNotNil(parent_id)) {
         ON_ModelComponentReference comp_ref = model->LayerFromId(parent_id);
-        ON_Layer* modellayer = const_cast<ON_Layer*>(ON_Layer::Cast(comp_ref.ModelComponent()));
-        if (nullptr == modellayer) {
+        ON_Layer* layer = const_cast<ON_Layer*>(ON_Layer::Cast(comp_ref.ModelComponent()));
+        if (layer == nullptr) {
             break;
         }
 
-        ON_wString parentName = modellayer->Name();
-        fullPath = parentName + ON_ModelComponent::NamePathSeparator + fullPath;
-        parent_id = modellayer->ParentId();
+        ON_wString parent_name = layer->Name();
+        full_name = parent_name + ON_ModelComponent::NamePathSeparator + full_name;
+        parent_id = layer->ParentId();
     }
 
-    return std::wstring(fullPath.Array());
+    return std::wstring(full_name.Array());
 }
 
 int Layer::GetIgesLevel() const {

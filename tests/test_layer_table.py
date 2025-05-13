@@ -18,8 +18,8 @@ class TestFile3dmLayerTable(TestCase):
         layer2 = rhino3dm.Layer()
         layer2.name = "layer2"
 
-        file3dm.LayerTable.Add(layer1)
-        file3dm.LayerTable.Add(layer2)
+        file3dm.LayerTable.add(layer1)
+        file3dm.LayerTable.add(layer2)
 
         qtyLayers = len(file3dm.LayerTable)
 
@@ -44,8 +44,8 @@ class TestFile3dmLayerTable(TestCase):
         layer2 = rhino3dm.Layer()
         layer2.name = "layer2"
 
-        index1 = file3dm.LayerTable.Add(layer1)
-        file3dm.LayerTable.Add(layer2)
+        index1 = file3dm.LayerTable.add(layer1)
+        file3dm.LayerTable.add(layer2)
 
         qtyLayers = len(file3dm.LayerTable)
 
@@ -65,7 +65,7 @@ class TestFile3dmLayerTable(TestCase):
         # create layer
         layer_index_0 = rhino3dm.Layer()
         # add the layer to the table the update the index accordingly
-        index = file3dm.LayerTable.Add(layer_index_0)
+        index = file3dm.LayerTable.add(layer_index_0)
 
         l0 = file3dm.LayerTable.FindIndex(index)
 

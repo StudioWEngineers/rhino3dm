@@ -19,6 +19,7 @@ void LayerBindings(nb::module_ &m) {
 
         .def_prop_rw("color", &Layer::GetColor, &Layer::SetColor)
         .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
+        .def_prop_rw("index", &Layer::GetIndex, &Layer::SetIndex)
         .def_prop_rw("is_expanded", &Layer::GetIsExpanded, &Layer::SetIsExpanded)
         .def_prop_rw("is_locked", &Layer::GetIsLocked, &Layer::SetIsLocked)
         .def_prop_rw("is_visible", &Layer::GetIsVisible, &Layer::SetIsVisible)

@@ -59,6 +59,10 @@ int Layer::GetIgesLevel() const {
     return m_layer->IgesLevel();
 }
 
+int Layer::GetIndex() const {
+    return m_layer->Index();
+}
+
 bool Layer::GetIsExpanded() const {
     return m_layer->m_bExpanded;
 }
@@ -117,6 +121,10 @@ void Layer::SetColor(const ON_Color& on_color) {
 
 void Layer::SetIgesLevel(const int level) {
     m_layer->SetIgesLevel(level);
+}
+
+bool Layer::SetIndex(const int index) {
+    return m_layer->SetIndex(index);
 }
 
 void Layer::SetIsExpanded(const bool is_expanded) {

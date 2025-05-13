@@ -23,6 +23,7 @@ public:
     ON_Color GetColor() const;
     std::wstring GetFullPath() const;
     int GetIgesLevel() const;
+    int GetIndex() const;
     bool GetIsExpanded() const;
     bool GetIsLocked() const;
     bool GetIsVisible() const;
@@ -39,6 +40,7 @@ public:
 
     void SetColor(const ON_Color& on_color);
     void SetIgesLevel(const int level);
+    bool SetIndex(const int index);
     void SetIsExpanded(const bool is_expanded);
     void SetIsLocked(const bool is_locked);
     void SetIsVisible(const bool is_visible);

@@ -132,7 +132,7 @@ const std::string LayerView::ToString() const {
     p_color_stream << "(" << p_color.Red() << ", " << p_color.Green() << ", " << p_color.Blue() << ", " << 255 - p_color.Alpha() << ")";
 
     std::ostringstream output;
-    output << "Layer with properties:\n"
+    output << "LayerView with properties:\n"
            << "\tcolor = " << color_stream.str() << "\n"
            << "\tfull_path = '" << full_name_str << "'\n"
            << "\tiges_level = " << this->GetIgesLevel() << "\n"

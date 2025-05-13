@@ -56,6 +56,10 @@ int LayerView::GetIgesLevel() const {
     return m_layer->IgesLevel();
 }
 
+int LayerView::GetIndex() const {
+    return m_layer->Index();
+}
+
 bool LayerView::GetIsExpanded() const {
     return m_layer->m_bExpanded;
 }
@@ -132,6 +136,7 @@ const std::string LayerView::ToString() const {
            << "\tcolor = " << color_stream.str() << "\n"
            << "\tfull_path = '" << full_name_str << "'\n"
            << "\tiges_level = " << this->GetIgesLevel() << "\n"
+           << "\tindex = " << this->GetIndex() << "\n"
            << "\tis_expanded = " << std::boolalpha << this->GetIsExpanded() << "\n"
            << "\tis_locked = " << this->GetIsLocked() << "\n"
            << "\tis_visible = " << this->GetIsVisible() << "\n"

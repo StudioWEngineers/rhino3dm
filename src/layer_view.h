@@ -24,6 +24,7 @@ public:
     ON_Color GetColor() const;
     std::wstring GetFullPath() const;
     int GetIgesLevel() const;
+    int GetIndex() const;
     bool GetIsExpanded() const;
     bool GetIsLocked() const;
     bool GetIsVisible() const;

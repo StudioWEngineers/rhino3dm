@@ -12,6 +12,7 @@ void LayerViewBindings(nb::module_ &m) {
         .def_prop_ro("color", &LayerView::GetColor)
         .def_prop_ro("full_path", &LayerView::GetFullPath)
         .def_prop_ro("iges_level", &LayerView::GetIgesLevel)
+        .def_prop_ro("index", &LayerView::GetIndex)
         .def_prop_ro("is_expanded", &LayerView::GetIsExpanded)
         .def_prop_ro("is_locked", &LayerView::GetIsLocked)
         .def_prop_ro("is_visible", &LayerView::GetIsVisible)

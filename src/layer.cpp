@@ -207,6 +207,7 @@ const std::string Layer::ToString() const {
            << "\tcolor = " << color_stream.str() << "\n"
            << "\tfull_path = '" << full_name_str << "'\n"
            << "\tiges_level = " << this->GetIgesLevel() << "\n"
+           << "\tindex = " << this->GetIndex() << "\n"
            << "\tis_expanded = " << std::boolalpha << this->GetIsExpanded() << "\n"
            << "\tis_locked = " << this->GetIsLocked() << "\n"
            << "\tis_visible = " << this->GetIsVisible() << "\n"

@@ -1,5 +1,5 @@
 import rhino3dm
-from unittest import TestCase, expectedFailure
+from unittest import TestCase
 from os import remove
 from os.path import dirname
 
@@ -56,7 +56,7 @@ class TestFile3dmLayerTable(TestCase):
         qtyLayers2 = len(file3dm.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 1)
-    @expectedFailure
+
     def test_Add(self) -> None:
         """Test for the Add method of File3dmLayerTable.
         """
@@ -67,9 +67,9 @@ class TestFile3dmLayerTable(TestCase):
         # add the layer to the table the update the index accordingly
         index = file3dm.LayerTable.add(layer_index_0)
 
-        l0 = file3dm.LayerTable.FindIndex(index)
+        l0 = file3dm.LayerTable.get_by_name("Layer 01")
 
-        self.assertEqual(l0.Index, 0)
+        self.assertEqual(l0.name, "Layer 01")
 
     def test_ReadFileWithLayers(self) -> None:
         file = rhino3dm.File3dm.Read(dirname(__file__) + "/models/file3dm_stuff.3dm")

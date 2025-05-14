@@ -92,15 +92,7 @@ bool LayerTable::DeleteByName(std::wstring layer_name) {
 }
 
 const LayerView* LayerTable::GetByName(std::wstring full_name) {
-    const int num_layers = LayerTable::Count();
-    for (int i = 0; i < num_layers; ++i) {  // should be < not <= -> check rhino docs
-        if (full_name == LayerTable::GetByIndex(i)->GetFullPath()) {
-            ON_ModelComponentReference cr = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
-            ON_Layer *modellayer = const_cast<ON_Layer *>(ON_Layer::Cast(cr.ModelComponent()));
-            return new LayerView(modellayer, &cr, m_model);
-        }
-    }
-    return nullptr;
+    return GetByUUID(GetLayerUUID(full_name));
 }
 
 bool LayerTable::Has(std::wstring full_name) {

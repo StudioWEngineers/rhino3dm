@@ -1,3 +1,6 @@
-from ._rhino3dm import *
-
-__version__ = '8.17.2'
+from ._rhino3dm import (
+    File3dm,
+    Layer,
+    LayerView,
+    LayerTable,
+)

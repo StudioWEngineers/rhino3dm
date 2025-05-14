@@ -6,18 +6,22 @@
 namespace nb = nanobind;
 
 void initLayerTableBindings(nanobind::module_ &m) {
-    nb::class_<LayerTable::Iterator>(m, "LayerTableIterator")
-    .def("__iter__", [](LayerTable::Iterator &it) -> LayerTable::Iterator& {
-        return it;
-    })
-    .def("__next__", [](LayerTable::Iterator &it) {
-        if (it.IsOver()) {
+    nb::class_<LayerTable::Iterator>(m, "__LayerTableIterator")
+        .def("__iter__", [](LayerTable::Iterator &it) -> LayerTable::Iterator& {
+            return it;
+        })
+        .def("__next__", [](LayerTable::Iterator &it) {
+            while (!it.IsOver()) {
+                const LayerView* result = *it;
+                ++it;
+
+                if (result != nullptr) {
+                    return result;
+                }
+            }
             throw nb::stop_iteration();
-        }
-        const LayerView* result = *it;
-        ++it;
-        return result;
-    }, nb::rv_policy::take_ownership);
+            }, nb::rv_policy::take_ownership)
+    ;
 
     nb::class_<LayerTable>(m, "LayerTable")
         .def("__len__", &LayerTable::Count)

@@ -20,6 +20,7 @@ public:
 
     int Add(const Layer& layer);
     int Count() const;
+    int MaxIndex() const;
     bool DeleteById(ON_UUID id);
     bool DeleteByName(std::wstring full_name);
     bool Has(std::wstring full_name);

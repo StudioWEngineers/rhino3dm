@@ -17,6 +17,10 @@ int LayerTable::Count() const {
     return m_model.get()->ActiveComponentCount(ON_ModelComponent::Type::Layer);
 }
 
+int LayerTable::MaxIndex() const {
+    return m_model->Manifest().ComponentIndexLimit(ON_ModelComponent::Type::Layer);
+}
+
 const int LayerTable::GetLayerIndex(std::wstring full_name) {
     for (unsigned int i = 0; i < LayerTable::Count(); ++i) {
         if (full_name == LayerTable::GetByIndex(i)->GetFullPath()) {
@@ -27,9 +31,9 @@ const int LayerTable::GetLayerIndex(std::wstring full_name) {
 }
 
 const ON_UUID LayerTable::GetLayerUUID(std::wstring full_name) {
-    const int count = m_model->ActiveComponentCount(ON_ModelComponent::Type::Layer);
+    const int count = m_model->Manifest().ComponentIndexLimit(ON_ModelComponent::Type::Layer);
 
-    for (int i = 0; i < count; ++i) {
+    for (unsigned int i = 0; i < count; ++i) {
         ON_ModelComponentReference comp_ref = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
         if (comp_ref.IsEmpty())
             continue;
@@ -145,7 +149,7 @@ LayerTable::Iterator LayerTable::Begin() {
 }
 
 LayerTable::Iterator::Iterator(LayerTable* table, int index)
-    : m_table(table), m_index(index), m_count(table->Count()) {}
+    : m_table(table), m_index(index), m_count(table->MaxIndex()) {}
 
 bool LayerTable::Iterator::IsOver() const {
     return m_index >= m_count;

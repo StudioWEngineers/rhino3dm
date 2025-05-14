@@ -27,11 +27,22 @@ const int LayerTable::GetLayerIndex(std::wstring full_name) {
 }
 
 const ON_UUID LayerTable::GetLayerUUID(std::wstring full_name) {
-    for (unsigned int i = 0; i < LayerTable::Count(); ++i) {
-        if (full_name == LayerTable::GetByIndex(i)->GetFullPath()) {
-            return LayerTable::GetByIndex(i)->GetLayerId();
+    const int count = m_model->ActiveComponentCount(ON_ModelComponent::Type::Layer);
+
+    for (int i = 0; i < count; ++i) {
+        ON_ModelComponentReference comp_ref = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, i);
+        if (comp_ref.IsEmpty())
+            continue;
+
+        const ON_Layer* layer = ON_Layer::Cast(comp_ref.ModelComponent());
+        if (!layer)
+            continue;
+
+        if (full_name == std::wstring(layer->Name())) {
+            return layer->Id();
         }
     }
+
     return ON_nil_uuid;
 }
 

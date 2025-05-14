@@ -98,12 +98,11 @@ bool LayerTable::DeleteById(ON_UUID on_uuid) {
 }
 
 bool LayerTable::DeleteByName(std::wstring layer_name) {
-    const ON_UUID on_uuid = LayerTable::GetLayerUUID(layer_name);
-    return !m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, on_uuid).IsEmpty();
+    return LayerTable::DeleteById(LayerTable::GetLayerUUID(layer_name));
 }
 
 const LayerView* LayerTable::GetByName(std::wstring full_name) {
-    return GetByUUID(GetLayerUUID(full_name));
+    return LayerTable::GetByUUID(LayerTable::GetLayerUUID(full_name));
 }
 
 bool LayerTable::Has(std::wstring full_name) {

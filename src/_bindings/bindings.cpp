@@ -10,6 +10,6 @@ NB_MODULE(_rhino3dm, m) {
     ON::Begin();
     LayerBindings(m);
     LayerViewBindings(m);
-    initLayerTableBindings(m);
+    LayerTableBindings(m);
     ModelBindings(m);
 }

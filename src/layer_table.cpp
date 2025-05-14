@@ -105,7 +105,7 @@ const LayerView* LayerTable::GetByName(std::wstring full_name) {
 
 bool LayerTable::Has(std::wstring full_name) {
     const int num_layers = LayerTable::Count();
-    for (int i = 0; i <= num_layers; ++i) {
+    for (int i = 0; i < num_layers; ++i) {
         const std::wstring name = LayerTable::GetByIndex(i)->GetFullPath();
         if (full_name == name) {
             return true;

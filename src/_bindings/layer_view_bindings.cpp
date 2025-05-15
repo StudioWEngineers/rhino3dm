@@ -5,7 +5,7 @@
 
 namespace nb = nanobind;
 
-void LayerViewBindings(nb::module_ &m) {
+void LayerViewBindings(nb::module_& m) {
     nb::class_<LayerView>(m, "LayerView")
         .def("__repr__", &LayerView::ToString)
 

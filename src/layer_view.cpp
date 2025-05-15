@@ -153,7 +153,6 @@ const std::string LayerView::ToString() const {
     return output.str();
 }
 
-
 void LayerView::SetTrackedPointer(ON_Layer* layer, const ON_ModelComponentReference* comp_ref) {
     m_layer = layer;
 

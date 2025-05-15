@@ -211,3 +211,29 @@ class LayerTestSuite(TestCase):
 
         with self.subTest(msg="Layer render_material_index after assignment"):
             self.assertEqual(self.layer.render_material_index, 2)
+
+    def test_repr(self) -> None:
+        """Tests for the `__repr__` method.
+        """
+        expected_repr = (
+            "Layer with properties:\n"
+            "\tcolor = (0, 0, 0, 255)\n"
+            "\tfull_path = ''\n"
+            "\tiges_level = -1\n"
+            "\tindex = -2147483647\n"
+            "\tis_expanded = true\n"
+            "\tis_locked = false\n"
+            "\tis_visible = true\n"
+            f"\tlayer_uuid = {UUID(int=0)}\n"
+            "\tline_type_index = -1\n"
+            "\tname = ''\n"
+            f"\tparent_uuid = {UUID(int=0)}\n"
+            "\tpath separator = ::\n"
+            "\tpersistent_locking = false\n"
+            "\tpersistent_visibility = true\n"
+            "\tplot_color = (0, 0, 0, 255)\n"
+            "\tplot_weight = 0\n"
+            "\trender_material_index = -1\n"
+        )
+
+        self.assertEqual(str(self.layer), expected_repr)

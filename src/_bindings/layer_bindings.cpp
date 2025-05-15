@@ -14,12 +14,12 @@ void LayerBindings(nb::module_ &m) {
         .def("unset_persistent_visibility", &Layer::UnSetPersistentVisibility)
 
         .def_prop_ro("full_path", &Layer::GetFullPath)
+        .def_prop_ro("index", &Layer::GetIndex)
 
         .def_prop_ro_static("path_separator", &Layer::GetPathSeparator)
 
         .def_prop_rw("color", &Layer::GetColor, &Layer::SetColor)
         .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)
-        .def_prop_rw("index", &Layer::GetIndex, &Layer::SetIndex)
         .def_prop_rw("is_expanded", &Layer::GetIsExpanded, &Layer::SetIsExpanded)
         .def_prop_rw("is_locked", &Layer::GetIsLocked, &Layer::SetIsLocked)
         .def_prop_rw("is_visible", &Layer::GetIsVisible, &Layer::SetIsVisible)

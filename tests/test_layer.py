@@ -64,16 +64,10 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer iges_level after assignment"):
             self.assertEqual(self.layer.iges_level, 10)
 
-    def test_get_and_set_index(self) -> None:
+    def test_get_index(self) -> None:
         """Tests for the `index` property.
         """
-        with self.subTest(msg="Layer index before assignment"):
-            self.assertEqual(self.layer.index, -2147483647)
-
-        self.layer.index = 10
-
-        with self.subTest(msg="Layer index after assignment"):
-            self.assertEqual(self.layer.index, 10)
+        self.assertEqual(self.layer.index, -2147483647)
 
     def test_get_and_set_is_expanded(self) -> None:
         """Tests for the `is_expanded` property.

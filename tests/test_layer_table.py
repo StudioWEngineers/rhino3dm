@@ -8,7 +8,7 @@ class TestFile3dmLayerTable(TestCase):
 
     def test_createFileWithLayers(self) -> None:
 
-        file3dm = rhino3dm.File3dm()
+        file3dm = rhino3dm.Model()
 
         #create layers
         layer1 = rhino3dm.Layer()
@@ -25,7 +25,7 @@ class TestFile3dmLayerTable(TestCase):
 
         file3dm.write("test_createFileWithLayers.3dm")
 
-        file = rhino3dm.File3dm.Read('test_createFileWithLayers.3dm')
+        file = rhino3dm.Model.read('test_createFileWithLayers.3dm')
         qtyLayers2 = len(file.LayerTable)
 
         self.assertTrue(qtyLayers == 2 and qtyLayers2 == 2)
@@ -34,7 +34,7 @@ class TestFile3dmLayerTable(TestCase):
 
     #objective: to test creating file with layers and deleting a layer
     def test_deleteLayer(self) -> None:
-        file3dm = rhino3dm.File3dm()
+        file3dm = rhino3dm.Model()
 
         #create layers
         layer1 = rhino3dm.Layer()
@@ -60,7 +60,7 @@ class TestFile3dmLayerTable(TestCase):
     def test_Add(self) -> None:
         """Test for the Add method of File3dmLayerTable.
         """
-        file3dm = rhino3dm.File3dm()
+        file3dm = rhino3dm.Model()
 
         # create layer
         layer_index_0 = rhino3dm.Layer()
@@ -72,6 +72,6 @@ class TestFile3dmLayerTable(TestCase):
         self.assertEqual(l0.name, "Layer 01")
 
     def test_ReadFileWithLayers(self) -> None:
-        file = rhino3dm.File3dm.Read(dirname(__file__) + "/models/file3dm_stuff.3dm")
+        file = rhino3dm.Model.read(dirname(__file__) + "/models/file3dm_stuff.3dm")
         qtyLayers = len(file.LayerTable)
         self.assertTrue(qtyLayers == 6)

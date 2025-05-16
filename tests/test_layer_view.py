@@ -20,7 +20,7 @@ from unittest import TestCase
 from uuid import UUID
 
 # third party library imports
-from rhino3dm import File3dm, Layer
+from rhino3dm import Layer, Model
 
 # local library specific imports
 
@@ -29,7 +29,7 @@ class LayerViewTestSuite(TestCase):
     """Tests for the `LayerView` class.
     """
     def setUp(self) -> None:
-        self.model = File3dm()
+        self.model = Model()
 
         layer = Layer()
         layer.color = (1, 2, 3, 255)

@@ -5,7 +5,7 @@
 
 namespace nb = nanobind;
 
-void LayerTableBindings(nanobind::module_ &m) {
+void LayerTableBindings(nanobind::module_& m) {
     nb::class_<LayerTable::Iterator>(m, "__LayerTableIterator")
         .def("__iter__", [](LayerTable::Iterator &it) -> LayerTable::Iterator& {
             return it;

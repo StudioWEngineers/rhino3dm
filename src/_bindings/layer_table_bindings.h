@@ -2,4 +2,4 @@
 
 #pragma once
 
-void LayerTableBindings(nanobind::module_ &m);
+void LayerTableBindings(nanobind::module_& m);

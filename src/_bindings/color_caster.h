@@ -3,7 +3,7 @@
 #include "bindings.h"
 //#include "../lib/opennurbs/opennurbs_color.h"
 #include "opennurbs_color.h"
-namespace py = nanobind;
+namespace nb = nanobind;
 namespace nanobind::detail {
 
 template <>
@@ -13,9 +13,7 @@ public:
 
     // Python → C++
     bool from_python(handle src, uint8_t flags, cleanup_list* cleanup) noexcept {
-        //if (!isinstance<tuple>(src) || len(src) != 4)
-        if (!py::isinstance<py::tuple>(src) || py::len(src) != 4)
-        //if (!py::isinstance<py::tuple<>>(src) || py::len(src) != 4)
+        if (!nb::isinstance<nb::tuple>(src) || nb::len(src) != 4)
             return false;
 
         try {
@@ -38,7 +36,7 @@ public:
         int g = color.Green();
         int b = color.Blue();
         int a = 255 - color.Alpha();  // Invert alpha to match Python expectation
-        return py::make_tuple(r, g, b, a).release();
+        return nb::make_tuple(r, g, b, a).release();
     }
 };
 

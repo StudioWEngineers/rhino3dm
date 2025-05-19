@@ -5,7 +5,7 @@
 #include "opennurbs_uuid.h"
 
 
-namespace py = nanobind;
+namespace nb = nanobind;
 
 namespace nanobind::detail {
 
@@ -16,10 +16,10 @@ public:
 
     // Python → C++
     bool from_python(handle src, uint8_t flags, cleanup_list* cleanup) noexcept {
-        if (!src || !py::hasattr(src, "hex"))
+        if (!src || !nb::hasattr(src, "hex"))
             return false;
 
-        std::string hex = py::cast<std::string>(src.attr("hex"));
+        std::string hex = nb::cast<std::string>(src.attr("hex"));
         value = ON_UuidFromString(hex.c_str());
         return true;
     }
@@ -28,7 +28,7 @@ public:
     static handle from_cpp(const ON_UUID& uuid, rv_policy, cleanup_list*) noexcept {
         char s[37] = {0};
         ON_UuidToString(uuid, s);
-        static py::object uuid_ctor = py::module_::import_("uuid").attr("UUID");
+        static nb::object uuid_ctor = nb::module_::import_("uuid").attr("UUID");
         return uuid_ctor(s).release();
     }
 };

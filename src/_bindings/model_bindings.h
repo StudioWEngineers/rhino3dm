@@ -2,4 +2,6 @@
 
 #pragma once
 
-void ModelBindings(nanobind::module_& m);
+namespace nb = nanobind;
+
+void ModelBindings(nb::module_& m);

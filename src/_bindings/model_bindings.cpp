@@ -1,7 +1,7 @@
 #include "bindings.h"
+#include "model_bindings.h"
 #include "../model.h"
 
-namespace nb = nanobind;
 
 void ModelBindings(nb::module_& m) {
     nb::class_<Model>(m, "Model")

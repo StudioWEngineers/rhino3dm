@@ -2,7 +2,6 @@
 #include "../layer_table.h"
 #include "uuid_caster.h"
 
-namespace nb = nanobind;
 
 void LayerTableBindings(nb::module_& m) {
     nb::class_<LayerTable::Iterator>(m, "__LayerTableIterator")

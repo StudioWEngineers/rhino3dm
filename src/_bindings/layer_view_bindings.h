@@ -2,4 +2,6 @@
 
 #pragma once
 
-void LayerViewBindings(nanobind::module_& m);
+namespace nb = nanobind;
+
+void LayerViewBindings(nb::module_& m);

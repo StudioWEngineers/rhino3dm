@@ -3,7 +3,6 @@
 #include "layer_view_bindings.h"
 #include "uuid_caster.h"
 
-namespace nb = nanobind;
 
 void LayerViewBindings(nb::module_& m) {
     nb::class_<LayerView>(m, "LayerView")

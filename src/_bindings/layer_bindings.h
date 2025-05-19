@@ -10,4 +10,6 @@
 
 #include "bindings.h"
 
-void LayerBindings(nanobind::module_& m);
+namespace nb = nanobind;
+
+void LayerBindings(nb::module_& m);

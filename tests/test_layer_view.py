@@ -126,7 +126,7 @@ class LayerViewTestSuite(TestCase):
             "\tis_expanded = true\n"
             "\tis_locked = false\n"
             "\tis_visible = true\n"
-            f"\tlayer_uuid = {self.model.LayerTable.get_layer_uuid("my new layer")}\n"
+            f"\tlayer_uuid = {self.model.LayerTable.get_layer_uuid('my new layer')}\n"
             "\tline_type_index = -1\n"
             "\tname = 'my new layer'\n"
             f"\tparent_uuid = {UUID(int=0)}\n"

@@ -115,6 +115,23 @@ class LayerTableTestSuite(TestCase):
         with self.subTest(msg="Current number of layers"):
             self.assertEqual(model.LayerTable.count(), 1)
 
+    def test_getitem(self) -> None:
+        """Tests for the `__getitem__` method.
+        """
+        model = Model()
+
+        model.LayerTable.add(Layer())
+        model.LayerTable.add(Layer())
+
+        with self.subTest(msg="Negative index"):
+            self.assertIsNone(model.LayerTable[-1])
+
+        with self.subTest(msg="Not existing index"):
+            self.assertIsNone(model.LayerTable[3])
+
+        with self.subTest(msg="Existing index"):
+            self.assertEqual(model.LayerTable[1].name, "Layer 02")
+
     def test_get_by_index(self) -> None:
         """Tests for the `get_by_index` method.
         """
@@ -317,19 +334,3 @@ class LayerTableTestSuite(TestCase):
 
         with self.subTest(msg="has method"):
             self.assertTrue(model.LayerTable.has("New layer"))
-
-        # check all the properties of the replaced layer
-
-    def test_getitem(self) -> None:
-        """Tests for the `__getitem__` method.
-        """
-        model = Model()
-
-        model.LayerTable.add(Layer())
-        model.LayerTable.add(Layer())
-
-        with self.subTest(msg="Negative index"):
-            self.assertIsNone(model.LayerTable[-1])
-
-        with self.subTest(msg="Not existing index"):
-            self.assertIsNone(model.LayerTable[3])

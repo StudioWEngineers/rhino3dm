@@ -1,4 +1,25 @@
+"""
+Type hints
+----------
+
+
+__author__ = "Studio W Engineers"
+
+__version__ = "0.1.0"
+
+__maintainer__ = "Studio W Engineers"
+
+__email__ = "studio.w.engineers@gmail.com"
+
+__status__ "Release"
+"""
+# standard library imports
+from typing import Iterator
 from uuid import UUID
+
+# third party library imports
+
+# local library specific imports
 
 
 class Layer:
@@ -103,6 +124,9 @@ class LayerView:
     def iges_level(self) -> int: ...
 
     @property
+    def index(self) -> int: ...
+
+    @property
     def is_expanded(self) -> bool: ...
 
     @property
@@ -145,15 +169,17 @@ class LayerView:
 class LayerTable:
     def __getitem__(self, index: int) -> LayerView:...
 
-    def __iter__(self) -> LayerView: ...
+    def __iter__(self) -> Iterator[LayerView]: ...
 
     def __len__(self) -> int: ...
 
     def add(self, layer: Layer) -> int: ...
 
-    def delete_by_id(self, layer_uuid: UUID) -> bool: ...
+    def count(self) -> int: ...
 
     def delete_by_name(self, layer_name: str) -> bool: ...
+
+    def delete_by_uuid(self, layer_uuid: UUID) -> bool: ...
 
     def get_by_index(self, layer_index: int) -> LayerView: ...
 
@@ -161,7 +187,13 @@ class LayerTable:
 
     def get_by_uuid(self, layer_uuid: UUID) -> LayerView: ...
 
+    def get_layer_index(self, full_name: str) -> int: ...
+
+    def get_layer_uuid(self, full_name: str) -> UUID: ...
+
     def has(self, layer_name: str) -> bool: ...
+
+    def max_index(self) -> int: ...
 
     def replace(self, layer_to_be_replaced: str, new_layer: Layer) -> bool: ...
 

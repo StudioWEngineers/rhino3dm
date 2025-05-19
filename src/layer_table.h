@@ -1,6 +1,5 @@
 /*
-    src/layer.h: Implementation details related to Layer.
-    Rearranged from .../bnd_layer.h in https://github.com/mcneel/rhino3dm
+    src/layer_table.h: Implementation details related to LayerTable.
 
     Copyright (c) 2025 Studio W Engineers
 
@@ -20,19 +19,16 @@ public:
 
     int Add(const Layer& layer);
     int Count() const;
-    int MaxIndex() const;
-    bool DeleteById(ON_UUID id);
     bool DeleteByName(std::wstring full_name);
-    bool Has(std::wstring full_name);
-    bool Replace(std::wstring full_name, Layer& new_layer);
-    bool Replace2(std::wstring full_name, Layer& new_layer);
-
-    const int GetLayerIndex(std::wstring full_name);
-    const ON_UUID GetLayerUUID(std::wstring full_name);
-
-    const LayerView* GetByName(std::wstring full_name);
+    bool DeleteByUUID(ON_UUID id);
     const LayerView* GetByIndex(int index);
+    const LayerView* GetByName(std::wstring full_name);
     const LayerView* GetByUUID(ON_UUID on_uuid);
+    int GetLayerIndex(std::wstring full_name);
+    const ON_UUID GetLayerUUID(std::wstring full_name);
+    bool Has(std::wstring full_name);
+    int MaxIndex() const;
+    bool Replace(std::wstring full_name, Layer& new_layer);
 
     class Iterator {
     public:
@@ -44,8 +40,8 @@ public:
 
     private:
         LayerTable* m_table;
-        std::size_t m_index;
-        std::size_t m_count;
+        unsigned int m_index;
+        unsigned int m_count;
     };
 
     Iterator Begin();

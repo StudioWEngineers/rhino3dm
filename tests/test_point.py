@@ -31,8 +31,7 @@ class PointTestSuite(TestCase):
     def test_distance_to(self) -> None:
         """Tests for the `distance_to` method.
         """
-        point = Point(0, 0, 0)
-        self.assertEqual(point.distance_to(Point(1, 1, 1)), sqrt(3))
+        self.assertEqual(Point(0, 0, 0).distance_to(Point(1, 1, 1)), sqrt(3))
 
     def test_equal(self) -> None:
         """Tests for the `==` operator.
@@ -92,8 +91,7 @@ class PointTestSuite(TestCase):
     def test_is_coincident(self) -> None:
         """Tests for the `is_coincident` method.
         """
-        point = Point(1, 2, 3.1)
-        self.assertTrue(point.is_coincident(Point(1, 2, 3.1)))
+        self.assertTrue(Point(1, 2, 3.1).is_coincident(Point(1, 2, 3.1)))
 
     def test_multiplication(self) -> None:
         """Tests for the `*` operator.

@@ -212,6 +212,11 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer render_material_index after assignment"):
             self.assertEqual(self.layer.render_material_index, 2)
 
+    def test_get_path_separator(self) -> None:
+        """Tests for the `path_separator` read-only property.
+        """
+        self.assertEqual(self.layer.path_separator, "::")
+
     def test_repr(self) -> None:
         """Tests for the `__repr__` method.
         """

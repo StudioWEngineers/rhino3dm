@@ -20,7 +20,7 @@ public:
     int Add(const Layer& layer);
     int Count() const;
     bool DeleteByName(std::wstring full_name);
-    bool DeleteByUUID(ON_UUID id);
+    bool DeleteByUUID(ON_UUID on_uuid);
     const LayerView* GetByIndex(int index);
     const LayerView* GetByName(std::wstring full_name);
     const LayerView* GetByUUID(ON_UUID on_uuid);

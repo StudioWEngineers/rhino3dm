@@ -166,16 +166,23 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer persistent_locking after assignment"):
             self.assertTrue(self.layer.persistent_locking)
 
-    @expectedFailure
     def test_get_and_set_persistent_visibility(self) -> None:
         """Tests for the `persistent_visibility` property.
         """
         with self.subTest(msg="Layer persistent_visibility before assignment"):
             self.assertTrue(self.layer.persistent_visibility)
 
+        # NOTE: persistent_visibility has effect only if parent_uuid is not null and
+        # is_visible is False. In this case the following set has no effect and
+        # persistent_visibility is False
         self.layer.persistent_visibility = False
-
         with self.subTest(msg="Layer persistent_visibility after assignment"):
+            self.assertTrue(self.layer.persistent_visibility)
+
+        self.layer.parent_uuid = uuid4()
+        self.layer.is_visible = False
+        self.layer.persistent_visibility = False
+        with self.subTest(msg="Layer persistent_locking after assignment"):
             self.assertFalse(self.layer.persistent_visibility)
 
     def test_get_and_set_plot_color(self) -> None:

@@ -16,7 +16,7 @@ __email__ = "studio.w.engineers@gmail.com"
 __status__ "Release"
 """
 # standard library imports
-from unittest import TestCase, expectedFailure
+from unittest import TestCase
 from uuid import UUID, uuid4
 
 # third party library imports

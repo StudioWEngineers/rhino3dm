@@ -147,7 +147,6 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer parent_uuid after assignment"):
             self.assertEqual(self.layer.parent_uuid, UUID(int=3))
 
-    @expectedFailure
     def test_get_and_set_persistent_locking(self) -> None:
         """Tests for the `persistent_locking` property.
         """
@@ -162,7 +161,7 @@ class LayerTestSuite(TestCase):
             self.assertFalse(self.layer.persistent_locking)
 
         self.layer.parent_uuid = uuid4()
-        self.layer.layer_uuid = uuid4()
+        self.layer.is_locked = True
         self.layer.persistent_locking = True
         with self.subTest(msg="Layer persistent_locking after assignment"):
             self.assertTrue(self.layer.persistent_locking)

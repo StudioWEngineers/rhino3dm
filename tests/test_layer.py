@@ -153,10 +153,10 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer persistent_locking before assignment"):
             self.assertFalse(self.layer.persistent_locking)
 
-        # NOTE: persistent_locking has effect only if parent_uuid is not null. In this
-        # case the following set has no effect and persistent_locking is False
+        # NOTE: persistent_locking has effect only if parent_uuid is not null and
+        # is_locked is True. In this case the following set has no effect and
+        # persistent_locking is False
         self.layer.persistent_locking = True
-
         with self.subTest(msg="Layer persistent_locking after assignment"):
             self.assertFalse(self.layer.persistent_locking)
 

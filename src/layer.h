@@ -31,7 +31,7 @@ public:
     int GetLinetypeIndex() const;
     std::wstring GetName() const;
     ON_UUID GetParentLayerId() const;
-    static std::wstring GetPathSeparator();
+    static std::string GetPathSeparator();
     bool GetPersistentLocking() const;
     bool GetPersistentVisibility() const;
     ON_Color GetPlotColor() const;

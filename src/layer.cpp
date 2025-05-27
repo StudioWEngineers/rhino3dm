@@ -91,8 +91,11 @@ ON_UUID Layer::GetParentLayerId() const {
     return m_layer->ParentId();
 }
 
-std::wstring Layer::GetPathSeparator() {
-    return std::wstring(ON_ModelComponent::NamePathSeparator.Array());
+std::string Layer::GetPathSeparator() {
+    //const ON_wString& wsep = ON_ModelComponent::NamePathSeparator;
+    ON_String utf8_str(ON_ModelComponent::NamePathSeparator);
+    const char* utf8 = utf8_str.Array();
+    return utf8 ? std::string(utf8) : std::string();
 }
 
 bool Layer::GetPersistentLocking() const {
@@ -187,7 +190,6 @@ const std::string Layer::ToString() const {
     std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
     std::string name_str = convert.to_bytes(this->GetName());
     std::string full_name_str = convert.to_bytes(this->GetFullPath());
-    std::string path_separator_str = convert.to_bytes(this->GetPathSeparator());
 
     char p_uuid_str[37];
     char uuid_str[37];
@@ -215,7 +217,7 @@ const std::string Layer::ToString() const {
            << "\tline_type_index = " << this->GetLinetypeIndex() << "\n"
            << "\tname = '" << name_str << "'\n"
            << "\tparent_uuid = " << std::string(p_uuid_str) << "\n"
-           << "\tpath separator = " << path_separator_str << "\n"
+           << "\tpath separator = " << this->GetPathSeparator() << "\n"
            << "\tpersistent_locking = " << this->GetPersistentLocking() << "\n"
            << "\tpersistent_visibility = " << this->GetPersistentVisibility() << "\n"
            << "\tplot_color = " << p_color_stream.str() << "\n"

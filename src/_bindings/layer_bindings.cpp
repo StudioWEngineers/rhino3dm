@@ -15,7 +15,10 @@ void LayerBindings(nb::module_& m) {
         .def_prop_ro("full_path", &Layer::GetFullPath)
         .def_prop_ro("index", &Layer::GetIndex)
 
-        .def_prop_ro_static("path_separator", &Layer::GetPathSeparator)
+        .def_prop_ro_static("path_separator", [](nb::handle) -> std::string {
+            const ON_String utf8_str(ON_ModelComponent::NamePathSeparator);
+            return std::string(utf8_str.Array() ? utf8_str.Array() : "");
+        })
 
         .def_prop_rw("color", &Layer::GetColor, &Layer::SetColor)
         .def_prop_rw("iges_level", &Layer::GetIgesLevel, &Layer::SetIgesLevel)

@@ -3,5 +3,6 @@ from ._rhino3dm import (
     LayerView,
     LayerTable,
     Model,
-    Point
+    Point,
+    ONLayer
 )

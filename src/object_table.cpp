@@ -18,9 +18,9 @@ ON_UUID ObjectTable::Add(const double x, const double y, const double z) const {
         return ON_nil_uuid;
     }
 
-    ON_Point point_geometry(x, y, z);
     //const ON_3dmObjectAttributes* attr = attributes ? attributes->m_attributes : nullptr;
 
+    ON_Point point_geometry(x, y, z);
     ON_ModelComponentReference model_component_reference = m_model->AddModelGeometryComponent(&point_geometry, nullptr);
     return ON_ModelGeometryComponent::FromModelComponentRef(model_component_reference, &ON_ModelGeometryComponent::Unset)->Id();
 }

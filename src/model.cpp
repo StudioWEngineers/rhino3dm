@@ -81,6 +81,7 @@ std::wstring Model::GetStartSectionComments() const
   ON_wString comments = p_model->m_sStartSectionComments;
   return std::wstring(comments);
 }
+
 void Model::SetStartSectionComments(std::wstring comments)
 {
   ON_wString wcomments = comments.c_str();
@@ -228,6 +229,10 @@ void Model::SetRevision(int revision_number) {
 
 LayerTable Model::ModelLayerTable() {
     return LayerTable(p_model);
+}
+
+ObjectTable Model::ModelObjectTable() {
+    return ObjectTable(p_model);
 }
 
 // --------------------- Iterator helpers ------- //

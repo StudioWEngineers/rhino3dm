@@ -2,8 +2,9 @@
 #include "layer_bindings.h"
 #include "on_layer_bindings.h"
 #include "layer_view_bindings.h"
-#include "model_bindings.h"
 #include "layer_table_bindings.h"
+#include "model_bindings.h"
+#include "object_table_bindings.h"
 #include "point_bindings.h"
 
 NB_MODULE(_rhino3dm, m) {
@@ -15,5 +16,6 @@ NB_MODULE(_rhino3dm, m) {
     LayerViewBindings(m);
     LayerTableBindings(m);
     ModelBindings(m);
+    ObjectTableBindings(m);
     PointBindings(m);
 }

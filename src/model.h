@@ -1,5 +1,6 @@
 #include "opennurbs_includes.h"
 #include "layer_table.h"
+#include "object_table.h"
 
 #pragma once
 
@@ -51,4 +52,5 @@ public:
     int GetRevision() const;
     void SetRevision(int revision_number);
     LayerTable ModelLayerTable();
+    ObjectTable ModelObjectTable();
 };

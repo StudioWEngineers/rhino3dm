@@ -48,7 +48,6 @@ struct type_caster<std::unique_ptr<T, Deleter>> {
     static constexpr bool IsClass = true;
     using Value = std::unique_ptr<T, Deleter>;
     using Caster = make_caster<T>;
-    using Td = std::decay_t<T>;
 
     static constexpr bool IsDefaultDeleter =
         std::is_same_v<Deleter, std::default_delete<T>>;
@@ -117,18 +116,18 @@ struct type_caster<std::unique_ptr<T, Deleter>> {
         if constexpr (IsNanobindDeleter)
             cpp_delete = value.get_deleter().owned_by_cpp();
 
-        Td *ptr = (Td *) value.get();
-        const std::type_info *type = &typeid(Td);
+        T *ptr = value.get();
+        const std::type_info *type = &typeid(T);
         if (!ptr)
             return none().release();
 
         constexpr bool has_type_hook =
-            !std::is_base_of_v<std::false_type, type_hook<Td>>;
+            !std::is_base_of_v<std::false_type, type_hook<T>>;
         if constexpr (has_type_hook)
-            type = type_hook<Td>::get(ptr);
+            type = type_hook<T>::get(ptr);
 
         handle result;
-        if constexpr (!std::is_polymorphic_v<Td>) {
+        if constexpr (!std::is_polymorphic_v<T>) {
             result = nb_type_put_unique(type, ptr, cleanup, cpp_delete);
         } else {
             const std::type_info *type_p =
@@ -162,7 +161,7 @@ struct type_caster<std::unique_ptr<T, Deleter>> {
             !nb_type_relinquish_ownership(src.ptr(), IsDefaultDeleter))
             throw next_overload();
 
-        Td *p = caster.operator Td *();
+        T *p = caster.operator T *();
 
         Value value;
         if constexpr (IsNanobindDeleter)

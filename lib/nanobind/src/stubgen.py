@@ -56,7 +56,7 @@ specifically to simplify stub generation.
 import argparse
 import builtins
 import enum
-from inspect import Signature, Parameter, signature, ismodule
+from inspect import Signature, Parameter, signature, ismodule, getmembers
 import textwrap
 import importlib
 import importlib.machinery
@@ -90,8 +90,7 @@ SKIP_LIST = [
     "__cached__", "__path__", "__version__", "__spec__", "__loader__",
     "__package__", "__nb_signature__", "__class_getitem__", "__orig_bases__",
     "__file__", "__dict__", "__weakref__", "__format__", "__nb_enum__",
-    "__firstlineno__", "__static_attributes__", "__annotations__", "__annotate__",
-    "__annotate_func__"
+    "__firstlineno__", "__static_attributes__", "__annotations__", "__annotate__"
 ]
 # fmt: on
 
@@ -396,18 +395,18 @@ class StubGen:
             self.write_ln(f"{name} = {fn_name}\n")
             return
 
-        # Special handling for nanobind functions with overloads
-        if type(fn).__module__ == "nanobind":
-            fn = cast(NbFunction, fn)
-            self.put_nb_func(fn, name)
-            return
-
         if isinstance(fn, staticmethod):
             self.write_ln("@staticmethod")
             fn = fn.__func__
         elif isinstance(fn, classmethod):
             self.write_ln("@classmethod")
             fn = fn.__func__
+
+        # Special handling for nanobind functions with overloads
+        if type(fn).__module__ == "nanobind":
+            fn = cast(NbFunction, fn)
+            self.put_nb_func(fn, name)
+            return
 
         if name is None:
             name = fn.__name__
@@ -463,10 +462,7 @@ class StubGen:
     def put_nb_static_property(self, name: Optional[str], prop: NbStaticProperty):
         """Append a 'nb_static_property' object"""
         getter_sig = prop.fget.__nb_signature__[0][0]
-        pos = getter_sig.find("/) -> ")
-        if pos == -1:
-            raise RuntimeError(f"Static property '{name}' ({getter_sig}) has an invalid signature!")
-        getter_sig = getter_sig[pos + 6 :]
+        getter_sig = getter_sig[getter_sig.find("/) -> ") + 6 :]
         self.write_ln(f"{name}: {getter_sig} = ...")
         if prop.__doc__ and self.include_docstrings:
             self.put_docstr(prop.__doc__)
@@ -653,14 +649,8 @@ class StubGen:
         def process_general(m: Match[str]) -> str:
             def is_valid_module(module_name: str) -> bool:
                 try:
-                    importlib.util.find_spec(module_name)
-                    # If we get here, the module exists and has a valid spec.
-                    return True
-                except ValueError:
-                    # The module exists but has no spec, `find_spec` raises a
-                    # `ValueError`, so if we get here, the module does exist.
-                    return True
-                except ModuleNotFoundError:
+                    return importlib.util.find_spec(module_name) is not None
+                except (ModuleNotFoundError, ValueError):
                     return False
 
             full_name, mod_name, cls_name = m.group(0), m.group(1)[:-1], m.group(2)
@@ -686,7 +676,7 @@ class StubGen:
                         cls_name = search_cls_name
                         break
                     search_mod_name, _, symbol = search_mod_name.rpartition(".")
-                    search_cls_name = f"{symbol}.{search_cls_name}"
+                    search_cls_name = f"{search_cls_name}.{symbol}"
 
                 # Import the module and reference the contained class by name
                 self.import_object(mod_name, None)
@@ -846,9 +836,7 @@ class StubGen:
                     return
                 else:
                     self.apply_pattern(self.prefix + ".__prefix__", None)
-                    # using value.__dict__ rather than inspect.getmembers
-                    # to preserve insertion order
-                    for name, child in value.__dict__.items():
+                    for name, child in getmembers(value):
                         self.put(child, name=name, parent=value)
                     self.apply_pattern(self.prefix + ".__suffix__", None)
             elif self.is_function(tp):
@@ -860,7 +848,7 @@ class StubGen:
             elif tp_mod == "nanobind":
                 if tp_name == "nb_method":
                     value = cast(NbFunction, value)
-                    self.put_function(value, name)
+                    self.put_nb_func(value, name)
                 elif tp_name == "nb_static_property":
                     value = cast(NbStaticProperty, value)
                     self.put_nb_static_property(name, value)
@@ -1064,10 +1052,6 @@ class StubGen:
         if has_def:
             result += " = " if has_type else "="
             p_default_str = self.expr_str(p.default)
-            if p_default_str is None:
-                # self.expr_str(p.default) could return None in some rare cases, 
-                # e.g. p.default is a nanobind object. If so, use ellipsis as a placeholder.
-                p_default_str = "..."
             assert p_default_str
             result += p_default_str
         return result

@@ -60,7 +60,6 @@ NB_MODULE(test_typing_ext, m) {
     // Aliases to local functoins and types
     m.attr("FooAlias") = m.attr("Foo");
     m.attr("f_alias") = m.attr("f");
-    nb::type<Foo>().attr("lt_alias") = nb::type<Foo>().attr("__lt__");
 
     // Custom signature generation for classes and methods
     struct CustomSignature { int value; };

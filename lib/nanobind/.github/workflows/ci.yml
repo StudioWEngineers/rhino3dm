@@ -21,7 +21,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ['ubuntu-latest', 'windows-2022', 'macos-13']
-        python: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13', '3.14.0-alpha.7', 'pypy3.9-v7.3.16', 'pypy3.10-v7.3.17']
+        python: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13.0-rc.2', 'pypy3.9-v7.3.16', 'pypy3.10-v7.3.17']
 
     name: "Python ${{ matrix.python }} / ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
@@ -49,28 +49,16 @@ jobs:
         python -m pip install pytest pytest-github-actions-annotate-failures typing_extensions
 
     - name: Install NumPy
-      if: ${{ !startsWith(matrix.python, 'pypy') && !contains(matrix.python, 'alpha') }}
+      if: ${{ !startsWith(matrix.python, 'pypy') && !contains(matrix.python, 'rc.2') }}
       run: |
         python -m pip install numpy scipy
 
     - name: Configure
       run: >
-        cmake -S . -B build -DNB_TEST_STABLE_ABI=ON -DNB_TEST_SHARED_BUILD="$(python -c 'import sys; print(int(sys.version_info.minor>=11))')"
+        cmake -S . -B build -DNB_TEST_STABLE_ABI=ON -DNB_TEST_SHARED_BUILD="$(python3 -c 'import sys; print(int(sys.version_info.minor>=11))')"
 
     - name: Build C++
       run: cmake --build build -j 2
-
-    - name: Check ABI tag
-      if: ${{ !startsWith(matrix.os, 'windows')  }}
-      run: >
-        cd build/tests;
-        python -c 'import test_functions_ext as t; print(f"ABI tag is \"{ t.abi_tag() }\"")'
-
-    - name: Check ABI tag
-      if: ${{ startsWith(matrix.os, 'windows')  }}
-      run: >
-        cd build/tests/Debug;
-        python -c 'import test_functions_ext as t; print(f"ABI tag is \"{ t.abi_tag() }\"")'
 
     - name: Run tests
       run: >
@@ -97,18 +85,12 @@ jobs:
     - name: Build C++
       run: cmake --build build -j 2
 
-    - name: Check ABI tag
-      run: >
-        cd build/tests;
-        python3 -c 'import test_functions_ext as t; print(f"ABI tag is \"{ t.abi_tag() }\"")'
-
     - name: Run tests
       run: >
         cd build;
         python3 -m pytest
 
   old-compilers:
-    if: false # Disable for now, the CI is glitchy
     strategy:
       fail-fast: false
       matrix:
@@ -129,19 +111,17 @@ jobs:
             cxx: clang++-10
             apt: clang-10
 
-    runs-on: ubuntu-latest
-    container: ubuntu:20.04
+    runs-on: ubuntu-20.04
     name: "${{matrix.cc}} on Ubuntu 20.04"
     env:
       CC: ${{matrix.cc}}
       CXX: ${{matrix.cxx}}
-      DEBIAN_FRONTEND: noninteractive
 
     steps:
     - name: Install dependencies
       run: |
-        apt-get update
-        apt-get install -y python3-numpy python3-pip python3-pytest libeigen3-dev cmake git ${{matrix.apt}}
+        sudo apt-get update
+        sudo apt-get install python3-numpy python3-pytest libeigen3-dev ${{matrix.apt}}
         python3 -m pip install typing_extensions
 
     - uses: actions/checkout@v4
@@ -154,18 +134,13 @@ jobs:
     - name: Build C++
       run: cmake --build build -j 2
 
-    - name: Check ABI tag
-      run: >
-        cd build/tests;
-        python3 -c 'import test_functions_ext as t; print(f"ABI tag is \"{ t.abi_tag() }\"")'
-
     - name: Run tests
       run: >
         cd build;
-        python3 -m pytest
+        python -m pytest
 
   free-threaded:
-    name: "Python 3.14-dev / ubuntu.latest [free-threaded]"
+    name: "Python 3.13-dev / ubuntu.latest [free-threaded]"
     runs-on: ubuntu-latest
 
     steps:
@@ -175,7 +150,7 @@ jobs:
 
     - uses: deadsnakes/action@v3.1.0
       with:
-        python-version: 3.14-dev
+        python-version: 3.13-dev
         nogil: true
 
     - name: Install the latest CMake
@@ -190,13 +165,7 @@ jobs:
         cmake -S . -B build -DNB_TEST_FREE_THREADED=ON
 
     - name: Build C++
-      run: >
-        cmake --build build -j 2
-
-    - name: Check ABI tag
-      run: >
-        cd build/tests;
-        python -c 'import test_functions_ext as t; print(f"ABI tag is \"{ t.abi_tag() }\"")'
+      run: cmake --build build -j 2
 
     - name: Run tests
       run: >

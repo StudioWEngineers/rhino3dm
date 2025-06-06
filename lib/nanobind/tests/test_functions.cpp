@@ -138,11 +138,9 @@ NB_MODULE(test_functions_ext, m) {
         return std::make_pair(args.size(), kwargs.size());
     }, "a"_a, "b"_a, "myargs"_a, "mykwargs"_a);
 
-    /// Test successful/unsuccessful tuple conversion, with rich output types
-    m.def("test_tuple", []() -> nb::typed<nb::tuple, std::string, int> {
-        return nb::make_tuple("Hello", 123); });
-    m.def("test_bad_tuple", []() -> nb::typed<nb::object, std::pair<std::string, nb::object>> {
-        struct Foo{}; return nb::make_tuple("Hello", Foo()); });
+    /// Test successful/unsuccessful tuple conversion
+    m.def("test_tuple", []() { return nb::make_tuple("Hello", 123); });
+    m.def("test_bad_tuple", []() { struct Foo{}; return nb::make_tuple("Hello", Foo()); });
 
     /// Perform a Python function call from C++
     m.def("test_call_1", [](nb::typed<nb::object, std::function<int(int)>> o) {
@@ -195,7 +193,7 @@ NB_MODULE(test_functions_ext, m) {
 
     m.def("test_print", []{
         nb::print("Test 1");
-        nb::print("Test 2"_s);
+        nb::print(nb::str("Test 2"));
     });
 
     m.def("test_iter", [](nb::object in) {
@@ -237,7 +235,7 @@ NB_MODULE(test_functions_ext, m) {
     });
 
     m.def("test_10_contains", [](nb::dict d) {
-        return d.contains("foo"_s);
+        return d.contains(nb::str("foo"));
     });
 
     // Test implicit conversion of various types
@@ -320,7 +318,7 @@ NB_MODULE(test_functions_ext, m) {
         const char *name = "Foo";
 
         auto callback = [=]() {
-            return "Test {}"_s.format(name);
+            return nb::str("Test {}").format(name);
         };
 
         return nb::cpp_function(callback);
@@ -485,6 +483,4 @@ NB_MODULE(test_functions_ext, m) {
               auto ret = std::move(example_policy::calls);
               return ret;
           });
-
-    m.def("abi_tag", [](){ return nb::detail::abi_tag(); });
 }

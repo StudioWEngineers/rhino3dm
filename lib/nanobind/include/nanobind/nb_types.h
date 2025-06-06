@@ -183,7 +183,7 @@ public:
     NB_INLINE handle(const PyTypeObject *ptr) : m_ptr((PyObject *) ptr) { }
 
     const handle& inc_ref() const & noexcept {
-#if defined(NDEBUG)
+#if defined(NDEBUG) && !defined(Py_LIMITED_API)
         Py_XINCREF(m_ptr);
 #else
         detail::incref_checked(m_ptr);
@@ -192,7 +192,7 @@ public:
     }
 
     const handle& dec_ref() const & noexcept {
-#if defined(NDEBUG)
+#if defined(NDEBUG) && !defined(Py_LIMITED_API)
         Py_XDECREF(m_ptr);
 #else
         detail::decref_checked(m_ptr);
@@ -334,7 +334,7 @@ public:
 };
 
 class capsule : public object {
-    NB_OBJECT_DEFAULT(capsule, object, NB_TYPING_CAPSULE, PyCapsule_CheckExact)
+    NB_OBJECT_DEFAULT(capsule, object, "types.CapsuleType", PyCapsule_CheckExact)
 
     capsule(const void *ptr, void (*cleanup)(void *) noexcept = nullptr) {
         m_ptr = detail::capsule_new(ptr, nullptr, cleanup);
@@ -348,12 +348,6 @@ class capsule : public object {
     const char *name() const { return PyCapsule_GetName(m_ptr); }
 
     void *data() const { return PyCapsule_GetPointer(m_ptr, name()); }
-    void *data(const char *name) const {
-        void *p = PyCapsule_GetPointer(m_ptr, name);
-        if (!p && PyErr_Occurred())
-            raise_python_error();
-        return p;
-    }
 };
 
 class bool_ : public object {
@@ -451,12 +445,6 @@ class bytes : public object {
     size_t size() const { return (size_t) PyBytes_Size(m_ptr); }
 };
 
-NAMESPACE_BEGIN(literals)
-inline str operator"" _s(const char *s, size_t n) {
-    return str(s, n);
-}
-NAMESPACE_END(literals)
-
 class bytearray : public object {
     NB_OBJECT(bytearray, object, "bytearray", PyByteArray_Check)
 
@@ -500,7 +488,6 @@ class tuple : public object {
     detail::fast_iterator begin() const;
     detail::fast_iterator end() const;
 #endif
-    bool empty() const { return size() == 0; }
 };
 
 class type_object : public object {
@@ -544,7 +531,6 @@ class list : public object {
     detail::fast_iterator begin() const;
     detail::fast_iterator end() const;
 #endif
-    bool empty() const { return size() == 0; }
 };
 
 class dict : public object {
@@ -562,7 +548,6 @@ class dict : public object {
         if (PyDict_Update(m_ptr, h.ptr()))
             raise_python_error();
     }
-    bool empty() const { return size() == 0; }
 };
 
 class set : public object {
@@ -578,7 +563,6 @@ class set : public object {
             raise_python_error();
     }
     template <typename T> bool discard(T &&value);
-    bool empty() const { return size() == 0; }
 };
 
 class sequence : public object {
@@ -781,8 +765,6 @@ public:
     constexpr static bool nb_typed = true;
     using T::T;
     using T::operator=;
-    typed(const T& o) : T(o) {}
-    typed(T&& o) : T(std::move(o)) {}
 };
 
 template <typename T> struct pointer_and_handle {

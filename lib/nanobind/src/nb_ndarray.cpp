@@ -354,9 +354,6 @@ bool ndarray_check(PyObject *o) noexcept {
 
     PyTypeObject *tp = Py_TYPE(o);
 
-    if (tp == &PyCapsule_Type)
-        return true;
-
     PyObject *name = nb_type_name((PyObject *) tp);
     check(name, "Could not obtain type name! (1)");
 
@@ -724,7 +721,7 @@ PyObject *ndarray_export(ndarray_handle *th, int framework,
     bool copy;
     switch (policy) {
         case rv_policy::reference_internal:
-            if (cleanup && cleanup->self() != th->owner && !th->self) {
+            if (cleanup && cleanup->self() != th->owner) {
                 if (th->owner) {
                     PyErr_SetString(PyExc_RuntimeError,
                                     "nanobind::detail::ndarray_export(): "
@@ -806,12 +803,8 @@ PyObject *ndarray_export(ndarray_handle *th, int framework,
     }
 
     if (copy) {
-        const char* copy_str = "copy";
-        if (framework == pytorch::value)
-            copy_str = "clone";
-
         try {
-            o = o.attr(copy_str)();
+            o = o.attr("copy")();
         } catch (std::exception &e) {
             PyErr_Format(PyExc_RuntimeError,
                          "nanobind::detail::ndarray_export(): copy failed: %s",

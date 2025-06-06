@@ -47,21 +47,19 @@ for both nanobind and robin-map:
 
 The ``meson.build`` definition in your project root should look like:
 
-.. code-block:: meson
+.. code-block:: python
 
    project(
      'my_project_name',
      'cpp',
      version: '0.0.1',
-     meson_version: '>=1.0.0',
-     default_options: ['cpp_std=c++17', 'b_ndebug=if-release'],
    )
 
    py = import('python').find_installation()
-   nanobind_dep = dependency('nanobind')
+   nanobind_dep = dependency('nanobind', static: true)
    py.extension_module(
      'my_module_name',
-     sources: ['path_to_module.cpp'],
+     sources: ['path_to_module.cc'],
      dependencies: [nanobind_dep],
      install: true,
    )
@@ -70,10 +68,10 @@ With this configuration, you may then call:
 
 .. code-block:: sh
 
-   meson setup --buildtype release builddir
+   meson setup builddir
    meson compile -C builddir
 
-to compile the extension in the ``builddir`` folder.
+To compile the extension in the ``builddir`` folder.
 
 Alternatively, if you don't care to have a local build folder, you can use
 the Python build frontend of your choosing to install the package as an
@@ -91,26 +89,16 @@ Building against the stable ABI
 As in nanobind's CMake config, you can build bindings targeting Python's
 stable ABI, starting from version 3.12. To do this, specify the target
 version using the ``limited_api`` argument in your configuration. For example,
-to build extensions against the CPython 3.12 stable ABI, use:
+to build extensions against the CPython 3.12 stable ABI, you would use:
 
-.. code-block:: meson
+.. code-block:: python
 
-   project(
-     'my_project_name',
-     'cpp',
-     version: '0.0.1',
-     meson_version: '>=1.3.0',
-     default_options: ['cpp_std=c++17', 'b_ndebug=if-release'],
-   )
-
-   py = import('python').find_installation()
-   nanobind_dep = dependency('nanobind')
    py.extension_module(
      'my_module_name',
-     sources: ['path_to_module.cpp'],
+     sources: ['path_to_module.cc'],
      dependencies: [nanobind_dep],
      install: true,
      limited_api: '3.12',
    )
 
-as your ``meson.build`` file.
+In your ``meson.build`` file.

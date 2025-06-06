@@ -18,46 +18,46 @@ jobs:
       fail-fast: false
       matrix:
         os: ['windows-latest', 'macos-latest', 'ubuntu-latest']
-        python: ['3.13', '3.14.0-alpha.7', 'pypy3.10-v7.3.17']
+        python: ['3.13', '3.14.0-alpha.7','pypy3.10-v7.3.17']
 
     name: "Python ${{ matrix.python }} / ${{ matrix.os }}"
     runs-on: ${{ matrix.os }}
 
     steps:
-      - name: Checkout repository (with submodules)
-        uses: actions/checkout@v4.1.1
-        with:
-          submodules: recursive  # ✅ Ensures nanobind is included
+    - name: set up python ${{ matrix.python }}
+      uses: actions/setup-python@v5.4.0
+      with:
+        python-version: ${{ matrix.python }}
 
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v5.4.0
-        with:
-          python-version: ${{ matrix.python }}
+    - name: install the latest CMake
+      uses: lukka/get-cmake@latest
 
-      - name: Install the latest CMake
-        uses: lukka/get-cmake@latest
+    - name: install dependencies
+      run: python -m pip install --upgrade pip setuptools wheel build scikit-build-core nanobind
 
-      - name: Install dependencies
-        run: python -m pip install --upgrade pip setuptools wheel build scikit-build-core nanobind
+    - name: Install libuuid (dev headers and linker support)
+      if: runner.os == 'Linux'
+      run: sudo apt-get update && sudo apt-get install -y uuid-dev
 
-      - name: Install libuuid (dev headers and linker support)
-        if: runner.os == 'Linux'
-        run: sudo apt-get update && sudo apt-get install -y uuid-dev
+    - name: checkout
+      uses: actions/checkout@v4.1.1
+      with:
+        submodules: recursive
 
-      - name: Build ${{ matrix.python }} ${{ matrix.os }}
-        run: python -m build
+    - name: build ${{ matrix.python }} ${{ matrix.os }}
+      run: python -m build
 
-      - name: Install built package
-        run: |
-          cd dist
-          python -m pip install *.whl
-        shell: bash
+    - name: install package
+      run: |
+        cd dist
+        python -m pip install *.whl
+      shell: bash
 
-      - name: Run tests ${{ matrix.python }} ${{ matrix.os }}
-        run: |
-          cd tests
-          python -m unittest discover --verbose
-        shell: bash
+    - name: test ${{ matrix.python }} ${{ matrix.os }}
+      run: |
+        cd tests
+        python -m unittest discover --verbose
+      shell: bash
 
 
     # TODO: clean-up: try to remove update submodules

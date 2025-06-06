@@ -41,9 +41,8 @@ jobs:
 
     - name: checkout
       uses: actions/checkout@v4.1.1
-
-    - name: update submodules
-      run: git submodule update --init --recursive
+      with:
+        submodules: recursive
 
     - name: build ${{ matrix.python }} ${{ matrix.os }}
       run: python -m build

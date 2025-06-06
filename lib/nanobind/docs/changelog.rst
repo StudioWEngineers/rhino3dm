@@ -15,8 +15,142 @@ case, both modules must use the same nanobind ABI version, or they will be
 isolated from each other. Releases that don't explicitly mention an ABI version
 below inherit that of the preceding release.
 
-Version TBD (not yet released)
-------------------------------
+Version TBD (unreleased)
+------------------------
+
+- The ``nanobind::literals`` namespace now includes ``_s`` to create a Python string
+  from source code literals. (PR `#1051
+  <https://github.com/wjakob/nanobind/pull/1051>`__).
+
+- Nanobind now uses multi-phase (as opposed to single-phase) initialization API
+  when registering modules. However, multi-interpreter extensions remain
+  unsupported. (PR `#1059 <https://github.com/wjakob/nanobind/pull/1059>`__).
+
+- Added :cpp:func:`nb::dict::empty() <dict::empty>`,
+  :cpp:func:`nb::list::empty() <list::empty>`, :cpp:func:`nb::set::empty()
+  <set::empty>`, and :cpp:func:`nb::tuple::empty() <tuple::empty>` convenience
+  methods.
+
+- Nanobind now uses multi-phase (as opposed to single-phase) initialization API
+  when registering modules. However, multi-interpreter extensions remain
+  unsupported. (PR `#1059 <https://github.com/wjakob/nanobind/pull/1059>`__).
+
+- Miscellaneous fixes and improvements (
+  commits
+  `d4b245 <https://github.com/wjakob/nanobind/commit/d4b245ad69f729c3d2095be4c1cb5b94810dae26>`__,
+  `667451 <https://github.com/wjakob/nanobind/commit/667451fb4566dcd7151d64d81e118f9ba194a889>`__,
+  `62fc99 <https://github.com/wjakob/nanobind/commit/62fc996018d9ea4d51af9c86cf008c2562b4eeab>`__).
+
+
+Version 2.7.0 (Apr 18, 2025)
+----------------------------
+
+- nanobind now provides a zero-copy type caster for
+  ``Eigen::Map<Eigen::SparseMatrix>``. (PRs `#1003
+  <https://github.com/wjakob/nanobind/pull/1003>`__, `#782
+  <https://github.com/wjakob/nanobind/pull/782>`__).
+
+- Made handling of return value policies in Eigen type casters more consistent
+  with the rest of nanobind. (Issue `#971
+  <https://github.com/wjakob/nanobind/issues/971>`__, commit `5cdf59
+  <https://github.com/wjakob/nanobind/commit/5cdf58984e7a8b520935c3771029fe0e87edee73>`__).
+
+- The Eigen sparse matrix caster now correctly handles ``scipy.sparse`` objects
+  with unsorted indices. (PR `#981
+  <https://github.com/wjakob/nanobind/pull/981>`__).
+
+- Nanobind's CMake stub generation command :cmake:command:`nanobind_add_stub`
+  now detects when an extension uses sanitizers (TSAN, ASAN, UBSAN). It then
+  injects the sanitizer library into the Python process ahead of time so that
+  the extension can be loaded. Previously, stub generation failed in
+  such cases. (PR `#1000 <https://github.com/wjakob/nanobind/pull/1000>`__).
+
+- The entries of stub files are now sorted in their original definition order.
+  Previously, they were alphabetically sorted, which caused issues with
+  external tooling. (PR `#938
+  <https://github.com/wjakob/nanobind/pull/938>`__).
+
+- Fixed detection and handling of imports and types in external modules in
+  stubgen that could lead to incorrect declarations in some cases. (PRs `#939
+  <https://github.com/wjakob/nanobind/pull/939>`__, `#940
+  <https://github.com/wjakob/nanobind/pull/940>`__).
+
+- The stub generator now detects method aliases and preserves this information
+  instead of duplicating the definition. (PR `#735
+  <https://github.com/wjakob/nanobind/pull/735>`__).
+
+- Corrected a flaw in the recommended implementation of ``tp_traverse`` in
+  garbage-collected bindings. (PRs `#1015
+  <https://github.com/wjakob/nanobind/pull/1015>`__).
+
+- Added support for binding functions that accept a ``std::variant<...>`` that
+  is not default-constructible (because its first alternative isn't). (PR `#987
+  <https://github.com/wjakob/nanobind/pull/987>`__).
+
+- Added support for casting const-qualified ``std::unique_ptr<T>`` values. (PR
+  `#988 <https://github.com/wjakob/nanobind/pull/988>`__).
+
+- ``nb::typed<T, ...>`` now supports construction from ``T``, making it more
+  ergonomic to return values with type annotations. (PR `#1012
+  <https://github.com/wjakob/nanobind/pull/1012>`__
+
+- Miscellaneous fixes and improvements (PRs
+  `#1014 <https://github.com/wjakob/nanobind/pull/1014>`__,
+  `#1005 <https://github.com/wjakob/nanobind/pull/1005>`__,
+  `#1004 <https://github.com/wjakob/nanobind/pull/1004>`__,
+  `#990 <https://github.com/wjakob/nanobind/pull/990>`__,
+  `#997 <https://github.com/wjakob/nanobind/pull/997>`__, commits
+  `f2b08c <https://github.com/wjakob/nanobind/commit/f2b08c936ec4b1dd06d374fef2637d89daa905f4>`__,
+  `eef931 <https://github.com/wjakob/nanobind/commit/eef93122ad49ea6ef02d645497d426a4dfc303bd>`__,
+  `f1b2f5 <https://github.com/wjakob/nanobind/commit/f1b2f579adb538671c985c9c86a878f6e82de597>`__,
+  `dbd602 <https://github.com/wjakob/nanobind/commit/dbdb602cfa00d46600e048f992cd3f81540c777d>`__,
+  `2c83fb <https://github.com/wjakob/nanobind/commit/2c83fbbbed3b82edc6491efbdc83e56f98da0db2>`__,
+  `87de84 <https://github.com/wjakob/nanobind/commit/87de84d3afad270c02099af82132240b3216ac3b>`__).
+
+Version 2.6.1 (Mar 28, 2025)
+----------------------------
+
+- nanobind assigns an ABI tag to compiled extensions and uses it to isolate
+  incompatible extensions from each other. This tag was unnecessarily
+  fine-grained, often causing isolation where an actual ABI compatibility was
+  not present. This release updates the tagging scheme to address this
+  long-standing inconvenience. (PR `#778
+  <https://github.com/wjakob/nanobind/pull/778>`__).
+
+- Added specialized function dispatchers to accelerate calls to 0 and
+  1-argument functions. (PR `#944
+  <https://github.com/wjakob/nanobind/pull/944>`__).
+
+- Improved the efficiency of :cpp:func:`nb::getattr(obj, key,
+  default) <getattr>` in cases where ``obj[key]`` does not exist. (commit
+  `bb05f5
+  <https://github.com/wjakob/nanobind/commit/bb05f5503aef9b70498302bf30bf958e8cc605c7>`__).
+
+- ABI version 16.
+
+- Miscellaneous fixes and improvements (PRs `#913
+  <https://github.com/wjakob/nanobind/pull/913>`__, `#914
+  <https://github.com/wjakob/nanobind/pull/914>`__, `#916
+  <https://github.com/wjakob/nanobind/pull/916>`__, `#931
+  <https://github.com/wjakob/nanobind/pull/931>`__, `#978
+  <https://github.com/wjakob/nanobind/pull/978>`__, commit `1595d2
+  <https://github.com/wjakob/nanobind/commit/1595d2d40717d65835ed984b06cfc2b4da0e4858>`__).
+
+Version 2.6.0 (Mar 28, 2025)
+----------------------------
+
+- This release was yanked due to a regression.
+
+Version 2.5.0 (Feb 2, 2025)
+---------------------------
+
+- Added :cpp:class:`nb::def_visitor\<..\> <def_visitor>`, which can be used to
+  define your own binding logic that operates on a :cpp:class:`nb::class_\<..\>
+  <class_>` when an instance of the visitor object is passed to
+  :cpp:func:`class_::def()`. This generalizes the mechanism used by
+  :cpp:class:`init`, :cpp:class:`new_`, etc, so that you can create binding
+  abstractions that "feel like" the built-in ones. (PR `#884
+  <https://github.com/wjakob/nanobind/pull/884>`__)
 
 - Added some special forms for :cpp:class:`nb::typed\<T, Ts...\> <typed>`
   (PR `#835 <https://github.com/wjakob/nanobind/pull/835>`__):
@@ -29,26 +163,48 @@ Version TBD (not yet released)
     ``Callable[[Args...], R]``; similarly, ``nb::typed<nb::callable, R(...)>``
     (with a literal ellipsis) produces the Python ``Callable[..., R]``.
 
+- It is now possible to create Python subclasses of C++ classes that define
+  their constructor bindings using :cpp:struct:`nb::new_() <new_>`. Previously,
+  attempting to instantiate such a Python subclass would instead produce an
+  instance of the base C++ type. Note that it is still not possible to override
+  virtual methods in such a Python subclass, because the object returned by the
+  :cpp:struct:`new_() <new_>` constructor will generally not be an instance of
+  the alias/trampoline type. (PR `#859
+  <https://github.com/wjakob/nanobind/pull/859>`__)
+
 - Fixed the :cpp:class:`nb::int_ <int_>` constructor so that it casts to
   an integer when invoked with a floating point argument.
 
-- Fixed (benign) reference leads that could occur when ``std::shared_ptr<T>``
+- Multi-level inheritance (e.g., ``A → B → C``) previously did not work on Python
+  3.12+ when a base class (e.g., ``A``) provided a trampoline implementation.
+  This is now fixed. (commit `92d9cb
+  <https://github.com/wjakob/nanobind/commit/92d9cb3d62b743a9eca2d9d9d8e5fb14a1e00a2a>`__).
+
+- A new ``NB_SUPPRESS_WARNINGS`` parameter of
+  :cmake:command:`nanobind_add_module` that marks the nanobind and Python
+  include directories as
+  `SYSTEM <https://cmake.org/cmake/help/latest/command/include_directories.html>`__
+  include directories, which suppresses any potential warning messages
+  originating there. This is mainly of relevance for projects that artificially
+  raise the warning level using flags like ``-pedantic``, ``-Wcast-qual``,
+  ``-Wsign-conversion``. (PR `#868
+  <https://github.com/wjakob/nanobind/pull/868>`__).
+
+- Fixed (benign) reference leaks that could occur when ``std::shared_ptr<T>``
   instances were still alive at interpreter shutdown time. (commit `fb8157
   <https://github.com/wjakob/nanobind/commit/fb815762fdb8476cfd293e3717ca41c8bb890437>`__).
-
-- Fixed a race condition in free-threaded extensions that could occur when
-  :cpp:func:`nb::make_iterator <make_iterator>` was concurrently used by
-  multiple threads (PR `#832 <https://github.com/wjakob/nanobind/pull/832>`__).
-
-- Removed double-checked locking patterns in accesses to internal data
-  structures to ensure correct free-threaded behavior on architectures with
-  weak memory ordering such as ARM (PR `#819
-  <https://github.com/wjakob/nanobind/pull/819>`__).
 
 - The floating-point type caster now only performs value-changing narrowing
   conversions during the implicit conversion phase. They can be entirely
   avoided by passing the :cpp:func:`.noconvert() <arg::noconvert>` argument
-  annotation (PR `#829 <https://github.com/wjakob/nanobind/pull/829>`__).
+  annotation. (PR `#829 <https://github.com/wjakob/nanobind/pull/829>`__)
+
+- The ``std::complex`` type caster now only performs value-changing narrowing
+  conversions during the implicit conversion phase.  They can be entirely
+  avoided by passing the :cpp:func:`.noconvert() <arg::noconvert>` argument
+  annotation.  Also, during the implicit conversion phase, if the Python object
+  is not a complex number object but has a ``__complex__()`` method, it will be
+  called. (PR `#854 <https://github.com/wjakob/nanobind/pull/854>`__)
 
 - Fixed an overly strict check that could cause a function taking an
   :cpp:class:`nb::ndarray\<...\> <ndarray>` to refuse specific types of
@@ -56,22 +212,23 @@ Version TBD (not yet released)
   <https://github.com/wjakob/nanobind/pull/847>`__, commit `b95eb7
   <https://github.com/wjakob/nanobind/commit/b95eb755b5a651a40562002be9ca8a4c6bf0acb9>`__).
 
-- It is now possible to create Python subclasses of C++ classes that
-  define their constructor bindings using :cpp:struct:`nb::new_() <new_>`.
-  Previously, attempting to instantiate such a Python subclass would instead
-  produce an instance of the base C++ type. Note that it is still not possible
-  to override virtual methods in such a Python subclass, because the object
-  returned by the :cpp:struct:`new_() <new_>` constructor will generally
-  not be an instance of the alias/trampoline type.
-  (PR `#859 <https://github.com/wjakob/nanobind/pull/859>`__)
+Fixes for free-threaded builds
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-- Added :cpp:class:`nb::def_visitor\<..\> <def_visitor>`, which can be used to
-  define your own binding logic that operates on a :cpp:class:`nb::class_\<..\>
-  <class_>` when an instance of the visitor object is passed to
-  :cpp:func:`class_::def()`. This generalizes the mechanism used by
-  :cpp:class:`init`, :cpp:class:`new_`, etc, so that you can create
-  binding abstractions that "feel like" the built-in ones.
-  (PR `#884 <https://github.com/wjakob/nanobind/pull/884>`__)
+- Fixed a race condition in free-threaded extensions that could occur when
+  :cpp:func:`nb::make_iterator <make_iterator>` was concurrently used by
+  multiple threads. (PR `#832 <https://github.com/wjakob/nanobind/pull/832>`__).
+
+- Fixed a race condition in free-threaded extensions that could occur when
+  multiple threads access the Python object associated with the same C++
+  instance, which does not exist yet and therefore must be created. (issue
+  `#867 <https://github.com/wjakob/nanobind/issues/867>`__, PR `#887
+  <https://github.com/wjakob/nanobind/pull/887>`__).
+
+- Removed double-checked locking patterns in accesses to internal data
+  structures to ensure correct free-threaded behavior on architectures with
+  weak memory ordering such as ARM (PR `#819
+  <https://github.com/wjakob/nanobind/pull/819>`__).
 
 Version 2.4.0 (Dec 6, 2024)
 ---------------------------
@@ -128,6 +285,10 @@ Version 2.3.0
 -------------
 
 There is no version 2.3.0 due to a deployment mishap.
+
+- Added casters for `Eigen::Map<Eigen::SparseMatrix<...>` types from the `Eigen library
+  <https://eigen.tuxfamily.org/index.php?title=Main_Page>`__. (PR `#782
+  <https://github.com/wjakob/nanobind/pull/782>`_).
 
 Version 2.2.0 (October 3, 2024)
 -------------------------------
@@ -1389,7 +1550,7 @@ Version 0.0.5 (May 13, 2022)
 ----------------------------
 
 * Enumeration export.
-* Implicit number conversion for numpy scalars.
+* Implicit number conversion for NumPy scalars.
 * Various minor fixes and improvements.
 
 Version 0.0.4 (May 13, 2022)

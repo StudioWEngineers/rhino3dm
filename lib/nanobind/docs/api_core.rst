@@ -676,6 +676,10 @@ Wrapper classes
 
       Return the number of tuple elements.
 
+   .. cpp:function:: bool empty() const
+
+      Check whether the tuple is empty.
+
    .. cpp:function:: detail::fast_iterator begin() const
 
       Return a forward iterator analogous to ``iter()`` in Python. The function
@@ -718,6 +722,10 @@ Wrapper classes
    .. cpp:function:: size_t size() const
 
       Return the number of list elements.
+
+   .. cpp:function:: bool empty() const
+
+      Check whether the list is empty.
 
    .. cpp:function:: template <typename T> void append(T&& value)
 
@@ -784,6 +792,10 @@ Wrapper classes
 
       Return the number of dictionary elements.
 
+   .. cpp:function:: bool empty() const
+
+      Check whether the dictionary is empty.
+
    .. cpp:function:: template <typename T> bool contains(T&& key) const
 
       Check whether the dictionary contains a particular key. When `T` does not
@@ -838,6 +850,10 @@ Wrapper classes
    .. cpp:function:: size_t size() const
 
       Return the number of set elements.
+
+   .. cpp:function:: bool empty() const
+
+      Check whether the set is empty.
 
    .. cpp:function:: template <typename T> void add(T&& key)
 
@@ -943,6 +959,11 @@ Wrapper classes
 
       Return the pointer wrapped by the capsule.
 
+   .. cpp:function:: void * data(const char *name) const
+
+      Return the pointer wrapped by the capsule. Check that the
+      capsule name matches the specified value, or raise an exception.
+
 
 .. cpp:class:: bool_: public object
 
@@ -1015,6 +1036,12 @@ Wrapper classes
    .. cpp:function:: str(const char * s, size_t n)
 
       Convert a C-style string in UTF-8 encoding of length ``n`` bytes into a Python string.
+
+      There is a user-defined string literal ``_s`` accessible in the
+      ``nanobind::literals`` namespace::
+
+            using namespace nanobind::literals;
+            auto s = "Hello world!"_s; // equivalent to str("Hello world!")
 
    .. cpp:function:: const char * c_str() const
 
@@ -1998,14 +2025,14 @@ parameter of :cpp:func:`module_::def`, :cpp:func:`class_::def`,
           static void postcall(PyObject **args,
                                std::integral_constant<size_t, N>,
                                nb::handle ret) {
-              static_assert(I > 0 && I < N,
+              static_assert(I > 0 && I <= N,
                             "I in returns_references_to<I> must be in the "
                             "range [1, number of C++ function arguments]");
               if (!nb::isinstance<nb::sequence>(ret)) {
                   throw std::runtime_error("return value should be a sequence");
               }
               for (nb::handle nurse : ret) {
-                  nb::detail::keep_alive(nurse.ptr(), args[I]);
+                  nb::detail::keep_alive(nurse.ptr(), args[I - 1]);
               }
           }
       };

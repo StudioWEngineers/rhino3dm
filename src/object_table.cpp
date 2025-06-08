@@ -34,11 +34,25 @@ ObjectTable::Iterator::Iterator(ObjectTable* table)
     m_current = m_iterator.FirstComponentReference();
 }
 
+//std::shared_ptr<ON_Geometry> ObjectTable::Iterator::operator*() const {
+//    if (!m_current.IsEmpty()) {
+//        const ON_ModelGeometryComponent* geom = ON_ModelGeometryComponent::Cast(m_current.ModelComponent());
+//        if (geom && geom->Geometry(nullptr)) {
+//            return std::shared_ptr<ON_Geometry>(geom->Geometry(nullptr)->Duplicate());
+//        }
+//    }
+//    return nullptr;
+//}
 std::shared_ptr<ON_Geometry> ObjectTable::Iterator::operator*() const {
     if (!m_current.IsEmpty()) {
         const ON_ModelGeometryComponent* geom = ON_ModelGeometryComponent::Cast(m_current.ModelComponent());
-        if (geom && geom->Geometry(nullptr)) {
-            return std::shared_ptr<ON_Geometry>(geom->Geometry(nullptr)->Duplicate());
+        if (geom) {
+            const ON_Geometry* geometry = geom->Geometry(nullptr);
+            if (geometry) {
+                // Return raw pointer, no ownership transfer
+                // Use shared_ptr with no-op deleter if you must
+                return std::shared_ptr<ON_Geometry>(const_cast<ON_Geometry*>(geometry), [](ON_Geometry*){});
+            }
         }
     }
     return nullptr;

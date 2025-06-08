@@ -1,0 +1,9 @@
+[submodule "src/lib/opennurbs"]
+	path = src/lib/opennurbs
+	url = https://github.com/mcneel/opennurbs.git
+[submodule "src/lib/draco"]
+	path = src/lib/draco
+	url = https://github.com/mcneel/draco.git
+[submodule "src/lib/nanobind"]
+	path = src/lib/nanobind
+	url = https://github.com/wjakob/nanobind.git

@@ -41,6 +41,5 @@ __pycache__/
 *.vcxproj.user
 /build
 /dist
-/lib
 
 /src/.mypy_cache

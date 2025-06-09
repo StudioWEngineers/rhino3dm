@@ -6,7 +6,7 @@
 #include "layer_table_bindings.h"
 #include "model_bindings.h"
 #include "object_table_bindings.h"
-#include "point3d_bindings.h"
+#include "point_3d_bindings.h"
 
 NB_MODULE(_rhino3dm, m) {
     m.doc() = "OpenNURBS wrapper.";

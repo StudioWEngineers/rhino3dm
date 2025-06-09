@@ -216,6 +216,10 @@ class LayerTable:
     def replace(self, layer_to_be_replaced: str, new_layer: Layer) -> bool: ...
 
 
+class Line:
+    def __init__(self) -> None: ...
+
+
 class Model:
     def __init__(self) -> None: ...
 

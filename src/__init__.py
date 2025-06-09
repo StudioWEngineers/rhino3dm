@@ -3,6 +3,7 @@ from ._rhino3dm import (
     Layer,
     LayerView,
     LayerTable,
+    Line,
     ObjectTable,
     Model,
     PointGeometry,

@@ -321,6 +321,8 @@ class ONLayer:
 
 
 class Point3d:
+    """Python wrapper for the openNURBS `ON_3dPoint` class.
+    """
     def __add__(self, other: Point3d) -> Point3d: ...
 
     def __eq__(self, other: object) -> bool: ...

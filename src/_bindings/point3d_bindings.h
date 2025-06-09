@@ -12,4 +12,4 @@
 
 namespace nb = nanobind;
 
-void PointBindings(nb::module_& m);
+void Point3dBindings(nb::module_& m);

@@ -1,8 +1,8 @@
 """
-PointTestSuite
---------------
+Point3dTestSuite
+----------------
 
-Tests for the `Point` class.
+Tests for the `Point3d` class.
 
 
 __author__ = "Studio W Engineers"
@@ -20,39 +20,39 @@ from math import sqrt
 from unittest import TestCase
 
 # third party library imports
-from rhino3dm import Point
+from rhino3dm import Point3d
 
 # local library specific imports
 
 
-class PointTestSuite(TestCase):
-    """Tests for the `Point` class.
+class Point3dTestSuite(TestCase):
+    """Tests for the `Point3d` class.
     """
     def test_distance_to(self) -> None:
         """Tests for the `distance_to` method.
         """
-        self.assertEqual(Point(0, 0, 0).distance_to(Point(1, 1, 1)), sqrt(3))
+        self.assertEqual(Point3d(0, 0, 0).distance_to(Point3d(1, 1, 1)), sqrt(3))
 
     def test_equal(self) -> None:
         """Tests for the `==` operator.
         """
-        point_0 = Point(0, 0, 1.1)
-        point_1 = Point(0, 0, 1.1)
+        point_0 = Point3d(0, 0, 1.1)
+        point_1 = Point3d(0, 0, 1.1)
 
         self.assertTrue(point_0 == point_1)
 
     def test_equal_not(self) -> None:
         """Tests for the `!=` operator.
         """
-        point_0 = Point(0, 0, 1.1)
-        point_1 = Point(1, 0, 1.1)
+        point_0 = Point3d(0, 0, 1.1)
+        point_1 = Point3d(1, 0, 1.1)
 
         self.assertTrue(point_0 != point_1)
 
     def test_get_and_set_x_coordinate(self) -> None:
         """Tests for the `x`, `y` and `z` property.
         """
-        point = Point(0, 0, 0)
+        point = Point3d(0, 0, 0)
 
         with self.subTest(msg="Get x-coordinate"):
             self.assertEqual(point.x, 0)
@@ -65,7 +65,7 @@ class PointTestSuite(TestCase):
     def test_get_and_set_y_coordinate(self) -> None:
         """Tests for the `y` property.
         """
-        point = Point(0, 0, 0)
+        point = Point3d(0, 0, 0)
 
         with self.subTest(msg="Get y-coordinate"):
             self.assertEqual(point.y, 0)
@@ -78,7 +78,7 @@ class PointTestSuite(TestCase):
     def test_get_and_set_z_coordinate(self) -> None:
         """Tests for the `z` property.
         """
-        point = Point(0, 0, 1.1)
+        point = Point3d(0, 0, 1.1)
 
         with self.subTest(msg="Get z-coordinate"):
             self.assertEqual(point.z, 1.1)
@@ -91,12 +91,12 @@ class PointTestSuite(TestCase):
     def test_is_coincident(self) -> None:
         """Tests for the `is_coincident` method.
         """
-        self.assertTrue(Point(1, 2, 3.1).is_coincident(Point(1, 2, 3.1)))
+        self.assertTrue(Point3d(1, 2, 3.1).is_coincident(Point3d(1, 2, 3.1)))
 
     def test_multiplication(self) -> None:
         """Tests for the `*` operator.
         """
-        point = Point(0, 0, 1.1) * 2.1
+        point = Point3d(0, 0, 1.1) * 2.1
 
         with self.subTest(msg="x-coordinate"):
             self.assertEqual(point.x, 0)
@@ -110,7 +110,7 @@ class PointTestSuite(TestCase):
     def test_sum(self) -> None:
         """Tests for the `+` operator.
         """
-        point = Point(0, 0, 1.1) + Point(1, 2, 3)
+        point = Point3d(0, 0, 1.1) + Point3d(1, 2, 3)
 
         with self.subTest(msg="x-coordinate"):
             self.assertEqual(point.x, 1)

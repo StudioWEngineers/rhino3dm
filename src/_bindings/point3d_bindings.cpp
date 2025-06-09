@@ -1,8 +1,8 @@
-#include "point_bindings.h"
+#include "point3d_bindings.h"
 
 
-void PointBindings(nb::module_& m) {
-    nb::class_<ON_3dPoint>(m, "Point")
+void Point3dBindings(nb::module_& m) {
+    nb::class_<ON_3dPoint>(m, "Point3d")
         .def(nb::init<double, double, double>(), nb::arg("x"), nb::arg("y"), nb::arg("z"))
         //.def("__repr__", &Layer::ToString)
         .def_rw("x", &ON_3dPoint::x)

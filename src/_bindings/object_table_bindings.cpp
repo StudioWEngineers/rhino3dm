@@ -1,20 +1,9 @@
 #include "../object_table.h"
 #include "uuid_caster.h"
-#include <iostream>
+#include "point_geometry_bindings.h"
 
 
 void ObjectTableBindings(nb::module_& m) {
-    nb::class_<ON_Geometry>(m, "ON_Geometry")
-        .def("__repr__", [](const ON_Geometry& self) {
-            return "<ON_Geometry>";
-        })
-    ;
-    nb::class_<ON_Point, ON_Geometry>(m, "PointView")
-        .def("x", [](const ON_Point& pt) { return pt.point.x; })
-        .def("y", [](const ON_Point& pt) { return pt.point.y; })
-        .def("z", [](const ON_Point& pt) { return pt.point.z; })
-    ;
-
     nb::class_<ObjectTable::Iterator>(m, "__ObjectTableIterator")
         .def("__iter__", [](ObjectTable::Iterator& it) -> ObjectTable::Iterator& { return it; })
         .def("__next__", [](ObjectTable::Iterator& it) -> nb::object {
@@ -29,14 +18,12 @@ void ObjectTableBindings(nb::module_& m) {
 
             // Try raw pointer cast first with dynamic_cast manually
             if (ON_Point* pt = dynamic_cast<ON_Point*>(geom.get())) {
-                std::cout << "successfull cast" << std::endl;
                 return nb::cast(pt, nb::rv_policy::reference);
             }
 
             // Add more dynamic_casts for other known subclasses here...
 
             // Fallback, return base as borrowed reference
-            std::cout << "NOT successfull cast" << std::endl;
             return nb::cast(geom.get(), nb::rv_policy::reference);
         })
     ;

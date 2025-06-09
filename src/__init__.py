@@ -5,6 +5,7 @@ from ._rhino3dm import (
     LayerTable,
     ObjectTable,
     Model,
+    PointGeometry,
     Point3d,
     ONLayer
 )

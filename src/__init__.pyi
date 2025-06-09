@@ -320,6 +320,12 @@ class ONLayer:
     def render_material_index(self, index: int) -> None: ...
 
 
+class PointGeometry(Geometry):
+    """Python wrapper for the openNURBS `ON_Point` class.
+    """
+    def __init__(self) -> None: ...
+
+
 class Point3d:
     """Python wrapper for the openNURBS `ON_3dPoint` class.
     """

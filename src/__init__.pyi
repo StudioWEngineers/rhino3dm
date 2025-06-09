@@ -22,6 +22,24 @@ from uuid import UUID
 # local library specific imports
 
 
+class Geometry:
+    """Python wrapper for the openNURBS `ON_Geometry` class.
+    """
+    def __init__(self) -> None: ...
+
+    def clear_bounding_box(self) -> None: ...
+
+    def dimension(self) -> int: ...
+
+    def is_deformable(self) -> bool: ...
+
+    #def is_valid(self) -> bool: ...
+
+    def scale(self, scale_factor: float) -> bool: ...
+
+    def swap_coordinates(self, coord_index_i: int, coord_index_j: int) -> bool: ...
+
+
 class Layer:
     """Python wrapper for the openNURBS `ON_Layer` class.
     """

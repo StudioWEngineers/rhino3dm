@@ -1,4 +1,5 @@
 #include "bindings.h"
+#include "geometry_bindings.h"
 #include "layer_bindings.h"
 #include "on_layer_bindings.h"
 #include "layer_view_bindings.h"

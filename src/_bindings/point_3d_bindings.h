@@ -1,5 +1,5 @@
 /*
-    src/_bindings/point_bindings.h: Exposing ON_3dPoint to Python
+    src/_bindings/point_3d_bindings.h: Exposing ON_3dPoint to Python
 
     Copyright (c) 2025 Studio W Engineers
 

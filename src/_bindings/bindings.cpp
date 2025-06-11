@@ -1,8 +1,6 @@
 #include "bindings.h"
 #include "geometry_bindings.h"
 #include "layer_bindings.h"
-#include "on_layer_bindings.h"
-#include "layer_view_bindings.h"
 #include "layer_table_bindings.h"
 #include "line_bindings.h"
 #include "model_bindings.h"
@@ -16,8 +14,6 @@ NB_MODULE(_rhino3dm, m) {
     ON::Begin();
     GeometryBindings(m);
     LayerBindings(m);
-    ONLayerBindings(m);
-    LayerViewBindings(m);
     LayerTableBindings(m);
     LineBindings(m);
     ModelBindings(m);

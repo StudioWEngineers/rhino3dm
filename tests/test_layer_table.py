@@ -23,8 +23,8 @@ from uuid import UUID
 from rhino3dm import Layer, Model
 
 # local library specific imports
-
-
+import faulthandler
+faulthandler.enable()
 class LayerTableTestSuite(TestCase):
     """Tests for the `LayerTable` class.
     """
@@ -147,17 +147,17 @@ class LayerTableTestSuite(TestCase):
         index_layer_1 = model.LayerTable.add(layer_1)
         index_layer_2 = model.LayerTable.add(layer_2)
 
-        layer_view_1 = model.LayerTable.get_by_index(index_layer_1)
-        layer_view_2 = model.LayerTable.get_by_index(index_layer_2)
+        layer_1 = model.LayerTable.get_by_index(index_layer_1)
+        layer_2 = model.LayerTable.get_by_index(index_layer_2)
 
         with self.subTest(msg="Retrieving not existing layer"):
             self.assertIsNone(model.LayerTable.get_by_index(3))
 
         with self.subTest(msg="Name of 2nd layer"):
-            self.assertEqual(layer_view_2.name, "layer 2")
+            self.assertEqual(layer_2.name, "layer 2")
 
         with self.subTest(msg="Color of 1st layer"):
-            self.assertEqual(layer_view_1.color, (255, 0, 255, 255))
+            self.assertEqual(layer_1.color, (255, 0, 255, 255))
 
     def test_get_by_name(self) -> None:
         """Tests for the `get_by_name` method.
@@ -174,17 +174,17 @@ class LayerTableTestSuite(TestCase):
         model.LayerTable.add(layer_1)
         model.LayerTable.add(layer_2)
 
-        layer_view_1 = model.LayerTable.get_by_name("Layer A")
-        layer_view_2 = model.LayerTable.get_by_name("layer 2")
+        layer_1 = model.LayerTable.get_by_name("Layer A")
+        layer_2 = model.LayerTable.get_by_name("layer 2")
 
         with self.subTest(msg="Retrieving not existing layer"):
             self.assertIsNone(model.LayerTable.get_by_name("not existing"))
 
         with self.subTest(msg="Name of 2nd layer"):
-            self.assertEqual(layer_view_2.name, "layer 2")
+            self.assertEqual(layer_2.name, "layer 2")
 
         with self.subTest(msg="Color of 1st layer"):
-            self.assertEqual(layer_view_1.color, (255, 0, 255, 255))
+            self.assertEqual(layer_1.color, (255, 0, 255, 255))
 
     def test_get_by_uuid(self) -> None:
         """Tests for the `get_by_uuid` method.
@@ -201,21 +201,17 @@ class LayerTableTestSuite(TestCase):
         model.LayerTable.add(layer_1)
         model.LayerTable.add(layer_2)
 
-        layer_view_1 = model.LayerTable.get_by_uuid(
-            model.LayerTable.get_layer_uuid("Layer A")
-        )
-        layer_view_2 = model.LayerTable.get_by_uuid(
-            model.LayerTable.get_layer_uuid("layer 2")
-        )
+        layer_1 = model.LayerTable.get_by_uuid(model.LayerTable.get_layer_uuid("Layer A"))
+        layer_2 = model.LayerTable.get_by_uuid(model.LayerTable.get_layer_uuid("layer 2"))
 
         with self.subTest(msg="Retrieving not existing layer"):
             self.assertIsNone(model.LayerTable.get_by_uuid(UUID(int=0)))
 
         with self.subTest(msg="Name of 2nd layer"):
-            self.assertEqual(layer_view_2.name, "layer 2")
+            self.assertEqual(layer_2.name, "layer 2")
 
         with self.subTest(msg="Color of 1st layer"):
-            self.assertEqual(layer_view_1.color, (255, 0, 255, 255))
+            self.assertEqual(layer_1.color, (255, 0, 255, 255))
 
     def test_get_layer_index(self) -> None:
         """Tests for the `get_layer_index` method.
@@ -295,42 +291,3 @@ class LayerTableTestSuite(TestCase):
 
         with self.subTest(msg="max_index after adding layers to model"):
             self.assertEqual(model.LayerTable.max_index(), 2)
-
-    def test_replace(self) -> None:
-        """Tests for the `replace` method.
-        """
-        model = Model()
-
-        model.LayerTable.add(Layer())
-        model.LayerTable.add(Layer())
-
-        layer_1_index = model.LayerTable.get_layer_index("Layer 01")
-        layer_1_uuid = model.LayerTable.get_layer_uuid("Layer 01")
-
-        new_layer = Layer()
-        new_layer.name = "New layer"
-        new_layer.color = (1, 2, 3, 255)
-
-        with self.subTest(msg="Successfull replace"):
-            self.assertTrue(model.LayerTable.replace("Layer 01", new_layer))
-
-        # replacement operation preserves index, uuid and number of layers
-        with self.subTest(msg="Check uuid"):
-            self.assertEqual(model.LayerTable.get_layer_uuid("New layer"), layer_1_uuid)
-
-        with self.subTest(msg="Check index"):
-            self.assertEqual(model.LayerTable.get_layer_index("New layer"), layer_1_index)
-
-        with self.subTest(msg="Check number of layer"):
-            self.assertEqual(model.LayerTable.count(), 2)
-
-        # replacement operation does not preserve max_index
-        with self.subTest(msg="Check max_index"):
-            self.assertEqual(model.LayerTable.max_index(), 3)
-
-        # check has method implementation after replacement
-        with self.subTest(msg="has method"):
-            self.assertFalse(model.LayerTable.has("not existing"))
-
-        with self.subTest(msg="has method"):
-            self.assertTrue(model.LayerTable.has("New layer"))

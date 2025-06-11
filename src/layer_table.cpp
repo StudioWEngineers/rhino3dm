@@ -1,4 +1,3 @@
-#include "layer.h"
 #include "layer_table.h"
 
 
@@ -6,11 +5,10 @@ LayerTable::LayerTable(std::shared_ptr<ONX_Model> model) {
     m_model = model;
 }
 
-int LayerTable::Add(const Layer& layer) {
-    ON_ModelComponentReference mr = m_model->AddModelComponent(*layer.LayerHandle());
-    const ON_Layer *managed_layer = ON_Layer::FromModelComponentRef(mr, nullptr);
+int LayerTable::Add(const ON_Layer& layer) {
+    const ON_Layer* m_layer = ON_Layer::FromModelComponentRef(m_model->AddModelComponent(layer), nullptr);
 
-    return (nullptr != managed_layer) ? managed_layer->Index() : ON_UNSET_INT_INDEX;
+    return (nullptr != m_layer) ? m_layer->Index() : ON_UNSET_INT_INDEX;
 }
 
 int LayerTable::Count() const {
@@ -25,32 +23,51 @@ bool LayerTable::DeleteByUUID(ON_UUID on_uuid) {
     return !m_model->RemoveModelComponent(ON_ModelComponent::Type::Layer, on_uuid).IsEmpty();
 }
 
-const LayerView* LayerTable::GetByIndex(int index) {
+ON_Layer* LayerTable::GetByIndex(int index) {
     ON_ModelComponentReference comp_ref = m_model->ComponentFromIndex(ON_ModelComponent::Type::Layer, index);
     if (comp_ref.IsEmpty()) {
         return nullptr;
     }
+
     ON_Layer* layer = const_cast<ON_Layer*>(ON_Layer::Cast(comp_ref.ModelComponent()));
-    if (layer != nullptr) {
-        return new LayerView(layer, &comp_ref, m_model);
-    }
-    return nullptr;
+    return layer;
 }
 
-const LayerView* LayerTable::GetByName(std::wstring full_name) {
+ON_Layer* LayerTable::GetByName(std::wstring full_name) {
     return LayerTable::GetByUUID(LayerTable::GetLayerUUID(full_name));
 }
 
-const LayerView* LayerTable::GetByUUID(ON_UUID on_uuid) {
+ON_Layer* LayerTable::GetByUUID(ON_UUID on_uuid) {
     ON_ModelComponentReference comp_ref = m_model->ComponentFromId(ON_ModelComponent::Type::Layer, on_uuid);
     if (comp_ref.IsEmpty()) {
         return nullptr;
     }
+
     ON_Layer* layer = const_cast<ON_Layer*>(ON_Layer::Cast(comp_ref.ModelComponent()));
-    if (layer != nullptr) {
-        return new LayerView(layer, &comp_ref, m_model);
+    return layer;
+}
+
+const std::wstring LayerTable::GetFullPath(const ON_Layer* layer) const {
+    ONX_Model* model = m_model.get();
+    if (model == nullptr) {
+        return layer->NameAsPointer();
     }
-    return nullptr;
+
+    ON_wString full_name = layer->Name();
+    ON_UUID parent_id = layer->ParentId();
+    while (ON_UuidIsNotNil(parent_id)) {
+        ON_ModelComponentReference comp_ref = model->LayerFromId(parent_id);
+        const ON_Layer* layer = ON_Layer::Cast(comp_ref.ModelComponent());
+        if (layer == nullptr) {
+            break;
+        }
+
+        ON_wString parent_name = layer->Name();
+        full_name = parent_name + ON_ModelComponent::NamePathSeparator + full_name;
+        parent_id = layer->ParentId();
+    }
+
+    return std::wstring(full_name.Array());
 }
 
 int LayerTable::GetLayerIndex(std::wstring full_name) {
@@ -66,7 +83,7 @@ int LayerTable::GetLayerIndex(std::wstring full_name) {
             continue;
         }
 
-        if (full_name == LayerTable::GetByIndex(i)->GetFullPath()) {
+        if (full_name == LayerTable::GetFullPath(LayerTable::GetByIndex(i))) {
             return layer->Index();
         }
     }
@@ -138,46 +155,10 @@ int LayerTable::MaxIndex() const {
     return m_model->Manifest().ComponentIndexLimit(ON_ModelComponent::Type::Layer);
 }
 
-bool LayerTable::Replace(std::wstring layer_to_be_replaced, Layer& new_layer) {
-    ON_Layer* replacement_layer = new ON_Layer();
-    replacement_layer->SetColor(new_layer.GetColor());
-    replacement_layer->SetIgesLevel(new_layer.GetIgesLevel());
-    replacement_layer->m_bExpanded = new_layer.GetIsExpanded();
-    replacement_layer->SetLocked(new_layer.GetIsLocked());
-    replacement_layer->SetVisible(new_layer.GetIsVisible());
-    replacement_layer->SetLinetypeIndex(new_layer.GetLinetypeIndex());
-    replacement_layer->SetName(new_layer.GetName().c_str());
-    replacement_layer->SetPersistentLocking(new_layer.GetPersistentLocking());
-    replacement_layer->SetPersistentVisibility(new_layer.GetPersistentVisibility());
-    replacement_layer->SetPlotColor(new_layer.GetPlotColor());
-    replacement_layer->SetPlotWeight(new_layer.GetPlotWeight());
-    replacement_layer->SetRenderMaterialIndex(new_layer.GetRenderMaterialIndex());
-
-    if (!replacement_layer->SetId(LayerTable::GetLayerUUID(layer_to_be_replaced))) {
-        delete replacement_layer;
-        return false;
-    }
-
-    if (!replacement_layer->SetIndex(LayerTable::GetLayerIndex(layer_to_be_replaced))) {
-        delete replacement_layer;
-        return false;
-    }
-
-    if (!LayerTable::DeleteByName(layer_to_be_replaced)) {
-        delete replacement_layer;
-        return false;
-    }
-
-    ON_ModelComponent* mod_comp = ON_ModelComponent::Cast(replacement_layer);
-    ON_ModelComponentReference comp_ref = m_model->AddModelComponentForExperts(mod_comp, true, false, false);
-
-    return !comp_ref.IsEmpty();
-}
-
 LayerTable::Iterator::Iterator(LayerTable* table, int index)
     : m_table(table), m_index(index), m_count(table->MaxIndex()) {}
 
-const LayerView* LayerTable::Iterator::operator*() const {
+ON_Layer* LayerTable::Iterator::operator*() const {
     return m_table->GetByIndex(m_index);
 }
 

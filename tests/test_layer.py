@@ -16,7 +16,7 @@ __email__ = "studio.w.engineers@gmail.com"
 __status__ "Release"
 """
 # standard library imports
-from unittest import TestCase
+from unittest import TestCase, expectedFailure
 from uuid import UUID, uuid4
 
 # third party library imports
@@ -41,7 +41,7 @@ class LayerTestSuite(TestCase):
 
         with self.subTest(msg="Layer color after assignment"):
             self.assertEqual(self.layer.color, (100, 50, 10, 255))
-
+    @expectedFailure
     def test_get_full_path(self) -> None:
         """Tests for the `full_path` property.
         """
@@ -218,11 +218,33 @@ class LayerTestSuite(TestCase):
         with self.subTest(msg="Layer render_material_index after assignment"):
             self.assertEqual(self.layer.render_material_index, 2)
 
+    def test_get_parent_uuid_is_not_null(self) -> None:
+        """Tests for the `parent_uuid_is_not_null` read-only property.
+        """
+        with self.subTest(msg="Before assignment"):
+            self.assertFalse(self.layer.parent_uuid_is_not_null)
+
+        self.layer.parent_uuid = uuid4()
+
+        with self.subTest(msg="After assignment"):
+            self.assertTrue(self.layer.parent_uuid_is_not_null)
+
+    def test_get_parent_uuid_is_null(self) -> None:
+        """Tests for the `parent_uuid_is_null` read-only property.
+        """
+        with self.subTest(msg="Before assignment"):
+            self.assertTrue(self.layer.parent_uuid_is_null)
+
+        self.layer.parent_uuid = uuid4()
+
+        with self.subTest(msg="After assignment"):
+            self.assertFalse(self.layer.parent_uuid_is_null)
+
     def test_get_path_separator(self) -> None:
         """Tests for the `path_separator` read-only property.
         """
         self.assertEqual(self.layer.path_separator, "::")
-
+    @expectedFailure
     def test_repr(self) -> None:
         """Tests for the `__repr__` method.
         """

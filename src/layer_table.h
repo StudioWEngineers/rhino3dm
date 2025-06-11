@@ -9,32 +9,32 @@
 
 #pragma once
 
-#include "layer.h"
-#include "layer_view.h"
+#include <memory>
+#include "opennurbs_includes.h"
 
 
 class LayerTable {
 public:
     LayerTable(std::shared_ptr<ONX_Model> model);
 
-    int Add(const Layer& layer);
+    int Add(const ON_Layer& layer);
     int Count() const;
     bool DeleteByName(std::wstring full_name);
     bool DeleteByUUID(ON_UUID on_uuid);
-    const LayerView* GetByIndex(int index);
-    const LayerView* GetByName(std::wstring full_name);
-    const LayerView* GetByUUID(ON_UUID on_uuid);
+    ON_Layer* GetByIndex(int index);
+    ON_Layer* GetByName(std::wstring full_name);
+    ON_Layer* GetByUUID(ON_UUID on_uuid);
+    const std::wstring GetFullPath(const ON_Layer* layer) const;
     int GetLayerIndex(std::wstring full_name);
     const ON_UUID GetLayerUUID(std::wstring full_name);
     bool Has(std::wstring full_name);
     int MaxIndex() const;
-    bool Replace(std::wstring full_name, Layer& new_layer);
 
     class Iterator {
     public:
         Iterator(LayerTable* table, int index);
 
-        const LayerView* operator*() const;
+        ON_Layer* operator*() const;
         Iterator& operator++();
         bool IsOver() const;
 

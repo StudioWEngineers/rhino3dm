@@ -234,6 +234,11 @@ class LayerTestSuite(TestCase):
         """
         self.assertEqual(self.layer.path_separator, "::")
 
+    def test_is_valid(self) -> None:
+        """Tests for the `is_valid` method.
+        """
+        self.assertFalse(self.layer.is_valid())
+
     def test_repr(self) -> None:
         """Tests for the `__repr__` method.
         """
@@ -471,6 +476,11 @@ class ExistingLayerModificationTestSuite(TestCase):
         """Tests for the `path_separator` read-only property.
         """
         self.assertEqual(self.layer.path_separator, "::")
+
+    def test_is_valid(self) -> None:
+        """Tests for the `is_valid` method.
+        """
+        self.assertTrue(self.layer.is_valid())
 
     def test_repr(self) -> None:
         """Tests for the `__repr__` method.

@@ -97,6 +97,13 @@ void LayerBindings(nb::module_& m) {
         )
 
         /*other methods*/
+        .def(
+            "is_valid",
+            [](const ON_Layer& self) {
+                return self.IsValid(nullptr);
+            }
+        )
+
         .def("unset_persistent_locking", &ON_Layer::UnsetPersistentLocking)
 
         .def("unset_persistent_visibility", &ON_Layer::UnsetPersistentVisibility)

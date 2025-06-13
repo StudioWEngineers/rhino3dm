@@ -16,7 +16,7 @@ __email__ = "studio.w.engineers@gmail.com"
 __status__ "Release"
 """
 # standard library imports
-from unittest import TestCase, expectedFailure
+from unittest import TestCase
 from uuid import UUID, uuid4
 
 # third party library imports
@@ -41,17 +41,6 @@ class LayerTestSuite(TestCase):
 
         with self.subTest(msg="Layer color after assignment"):
             self.assertEqual(self.layer.color, (100, 50, 10, 255))
-    @expectedFailure
-    def test_get_full_path(self) -> None:
-        """Tests for the `full_path` property.
-        """
-        with self.subTest(msg="Layer full_path before assignment"):
-            self.assertEqual(self.layer.full_path, "")
-
-        self.layer.name = "My new layer"
-
-        with self.subTest(msg="Layer full_path after assignment"):
-            self.assertEqual(self.layer.full_path, "My new layer")
 
     def test_get_and_set_iges_level(self) -> None:
         """Tests for the `iges_level` property.
@@ -244,14 +233,13 @@ class LayerTestSuite(TestCase):
         """Tests for the `path_separator` read-only property.
         """
         self.assertEqual(self.layer.path_separator, "::")
-    @expectedFailure
+
     def test_repr(self) -> None:
         """Tests for the `__repr__` method.
         """
         expected_repr = (
             "Layer with properties:\n"
             "\tcolor = (0, 0, 0, 255)\n"
-            "\tfull_path = ''\n"
             "\tiges_level = -1\n"
             "\tindex = -2147483647\n"
             "\tis_expanded = true\n"

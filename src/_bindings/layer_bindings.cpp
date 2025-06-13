@@ -79,8 +79,8 @@ void LayerBindings(nb::module_& m) {
             [](const ON_Layer& self) {
                 return self.Index();
             },
-            [](ON_Layer& self, int i) {
-                self.SetIndex(i);
+            [](ON_Layer& self, int index) {
+                self.SetIndex(index);
             }
         )
 

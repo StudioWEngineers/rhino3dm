@@ -1,5 +1,5 @@
 /*
-    src/_bindings/geometry_bindings.h: Exposing Geometry to Python
+    src/_bindings/geometry_bindings.h: Exposing ON_Geometry to Python
 
     Copyright (c) 2025 Studio W Engineers
 

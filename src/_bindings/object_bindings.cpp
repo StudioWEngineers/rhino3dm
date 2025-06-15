@@ -7,7 +7,7 @@ void ObjectBindings(nb::module_& m) {
 
         .def(nb::init<>())
 
-        .def("is_corrupt", ON_Object::IsCorrupt)
+        .def("is_corrupt", &ON_Object::IsCorrupt)
 
         .def("is_valid", &ON_Object::IsValid)
 

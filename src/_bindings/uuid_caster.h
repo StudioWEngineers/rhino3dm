@@ -12,7 +12,7 @@ namespace nanobind::detail {
 template <>
 struct type_caster<ON_UUID> {
 public:
-    NB_TYPE_CASTER(ON_UUID, const_name("uuid.UUID"));
+    NB_TYPE_CASTER(ON_UUID, const_name("uuid.UUID"))
 
     // Python → C++
     bool from_python(handle src, uint8_t flags, cleanup_list* cleanup) noexcept {

@@ -9,7 +9,7 @@ namespace nanobind::detail {
 template <>
 struct type_caster<ON_Color> {
 public:
-    NB_TYPE_CASTER(ON_Color, const_name("tuple"));
+    NB_TYPE_CASTER(ON_Color, const_name("tuple"))
 
     // Python → C++
     bool from_python(handle src, uint8_t flags, cleanup_list* cleanup) noexcept {

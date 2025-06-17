@@ -1,5 +1,5 @@
 #include "../layer_table.h"
-#include "uuid_caster.h"
+#include "casters/uuid_caster.h"
 
 
 void LayerTableBindings(nb::module_& m) {

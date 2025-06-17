@@ -1,5 +1,5 @@
 #include "../object_table.h"
-#include "uuid_caster.h"
+#include "casters/uuid_caster.h"
 #include "point_geometry_bindings.h"
 
 

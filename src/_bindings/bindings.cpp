@@ -8,6 +8,7 @@
 #include "object_table_bindings.h"
 #include "point_geometry_bindings.h"
 #include "point_3d_bindings.h"
+#include "text_log_bindings.h"
 
 NB_MODULE(_rhino3dm, m) {
     m.doc() = "OpenNURBS wrapper.";
@@ -22,4 +23,5 @@ NB_MODULE(_rhino3dm, m) {
     ObjectTableBindings(m);
     PointGeometryBindings(m);
     Point3dBindings(m);
+    TextLogBindings(m);
 }

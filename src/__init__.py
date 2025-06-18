@@ -6,5 +6,6 @@ from ._rhino3dm import (
     ObjectTable,
     Model,
     PointGeometry,
-    Point3d
+    Point3d,
+    TextLog
 )

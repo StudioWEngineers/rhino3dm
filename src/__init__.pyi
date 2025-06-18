@@ -14,6 +14,7 @@ __email__ = "studio.w.engineers@gmail.com"
 __status__ "Release"
 """
 # standard library imports
+from enum import Enum
 from typing import Iterator
 from uuid import UUID
 
@@ -223,3 +224,67 @@ class Point3d:
     def distance_to(self, point: Point3d) -> float: ...
 
     def is_coincident(self, point: Point3d) -> bool: ...
+
+
+class TextLog:
+    """Python bindings for openNURBS `ON_TextLog` class.
+    """
+    def __init__(self) -> None: ...
+
+    def decrease_level_of_detail(self) -> LevelOfDetail:
+        """Decrease the level of detail.
+
+        Returns
+        -------
+        LevelOfDetail
+            Level of detail to restore when this scope of decreased detail is finished.
+        """
+        ...
+
+    def get_level_of_detail(self) -> LevelOfDetail:
+        """Returns the level of detail.
+
+        Returns
+        -------
+        LevelOfDetail
+            Level of detail to print.
+        """
+        ...
+
+    def increase_level_of_detail(self) -> LevelOfDetail:
+        """Increase the level of detail.
+
+        Returns
+        -------
+        LevelOfDetail
+            Level of detail to restore when this scope of increased detail is finished.
+        """
+        ...
+
+    def is_null(self) -> bool:
+        """Returns `True` if this `TextLog` is `ON_TextLog::Null`.
+        """
+        ...
+
+    def set_level_of_detail(self, level: LevelOfDetail) -> None:
+        """Sets the level of detail.
+        """
+        ...
+
+    @staticmethod
+    def null() -> TextLog:
+        """`ON_TextLog::Null` is a silent `TextLog` and can be used when no output is
+        desired but an `ON_TextLog` parameter is required.
+        """
+        ...
+
+    class LevelOfDetail(Enum):
+        """`ON_TextLog::LevelOfDetail` determines how much detail is printed. Functions
+        that have an `ON_TextLog` parameter, like the `dump` functions, may use the level
+        of detail to tailor their output.
+        """
+        Minimum = 0
+
+        Medium = 1
+
+        Maximum = 2

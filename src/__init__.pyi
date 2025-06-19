@@ -28,17 +28,25 @@ class Geometry:
     """
     def __init__(self) -> None: ...
 
-    def clear_bounding_box(self) -> None: ...
+    def dimension(self) -> int:
+        """Returns the dimension of the object.
 
-    def dimension(self) -> int: ...
+        Remarks:
+        The dimension is typically three. For parameter space trimming curves the
+        dimension is two. In rare cases the dimension can be one or greater than three.
+        """
+        ...
 
-    def is_deformable(self) -> bool: ...
+    def is_deformable(self) -> bool:
+        """Returns `True` if object can be accurately modified with "squishy"
+        transformations like projections, shears, an non-uniform scaling.
+        """
+        ...
 
-    #def is_valid(self) -> bool: ...
-
-    def scale(self, scale_factor: float) -> bool: ...
-
-    def swap_coordinates(self, coord_index_i: int, coord_index_j: int) -> bool: ...
+    def is_valid(self, text_log: TextLog | None = None) -> bool:
+        """The base implementation returns `False`.
+        """
+        ...
 
 
 class Layer:

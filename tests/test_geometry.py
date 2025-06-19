@@ -36,3 +36,8 @@ class GeometryTestSuite(TestCase):
         """Tests for the `is_deformable` method.
         """
         self.assertFalse(Geometry().is_deformable())
+
+    def test_is_valid(self) -> None:
+        """Tests for the `is_valid` method.
+        """
+        self.assertFalse(Geometry().is_valid())

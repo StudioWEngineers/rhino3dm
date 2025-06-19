@@ -5,6 +5,10 @@ void ObjectBindings(nb::module_& m) {
 
     nb::class_<ON_Object>(m, "OpenNURBSObject")
 
+        /*magic methods*/
+        .def(nb::init<>())
+
+        /*other methods*/
         .def("is_corrupt", &ON_Object::IsCorrupt)
 
         .def("is_valid", &ON_Object::IsValid)

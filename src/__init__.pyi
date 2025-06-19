@@ -201,6 +201,49 @@ class Model:
     def read_notes(path: str) -> str: ...
 
 
+class OpenNURBSObject:
+    """Python bindings for the openNURBS `ON_Object` class.
+
+    `ON_Object`: pure virtual base class for all classes that must provide runtime class
+    id or support object level 3DM serialization.
+    """
+    def is_corrupt(self, repair: bool, silent_error: bool, text_log: TextLog) -> bool:
+        """Check for corrupt data values that are likely to cause crashes.
+
+        Returns
+        -------
+        repair: bool
+        If true, const_cast<> will be used to change the corrupt data so that crashes are
+        less likely.
+
+        silent_error: bool
+        If true, ON_ERROR will not be called when corruption is detected.
+
+        text_log: TextLog
+        If text_log is not null, then a description of corruption is printed using
+        text_log.
+
+        Remarks:
+        Ideally, IsCorrupt() would be a virtual function on ON_Object,
+        but doing that at this point would break the public SDK.
+        """
+        ...
+
+    #.def("is_valid", &ON_Object::IsValid)
+
+    #.def("get_user_string", &ON_Object::GetUserString)
+
+    #.def("get_user_string_keys", &ON_Object::GetUserStringKeys)
+
+    #.def("get_user_strings", &ON_Object::GetUserStrings)
+
+    #.def("set_user_string", &ON_Object::SetUserString)
+
+    #.def("set_user_strings", &ON_Object::SetUserStrings)
+
+    #.def("user_string_count", &ON_Object::UserStringCount)
+
+
 class PointGeometry(Geometry):
     """Python wrapper for the openNURBS `ON_Point` class.
     """

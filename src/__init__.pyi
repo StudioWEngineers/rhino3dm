@@ -166,7 +166,13 @@ class LayerTable:
 
 
 class Line:
+    """Python bindings for openNURBS `ON_Line` class.
+    """
+    def __getitem__(self, index: int) -> Point3d: ...
+
     def __init__(self) -> None: ...
+
+    def __setitem__(self, index: int, value: Point3d) -> None: ...
 
 
 class Model:

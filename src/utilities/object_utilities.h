@@ -1,5 +1,5 @@
 /*
-    src/_utilities/object_utilities.h: Helper functions for the ON_Object class.
+    src/utilities/object_utilities.h: Helper functions for the ON_Object class.
 
     Copyright (c) 2025 Studio W Engineers
 

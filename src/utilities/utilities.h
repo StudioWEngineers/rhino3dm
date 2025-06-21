@@ -1,5 +1,5 @@
 /*
-    src/_utilities/utilities.h: Helper functions to be used across the project.
+    src/utilities/utilities.h: Helper functions to be used across the project.
 
     Copyright (c) 2025 Studio W Engineers
 
@@ -9,8 +9,6 @@
 #pragma once
 
 #include <string>
-
-//#include "../opennurbs_includes.h"
 
 
 namespace Utilities {

@@ -1,5 +1,5 @@
 /*
-    src/_utilities/layer_utilities.h: Helper functions for the ON_layer class.
+    src/utilities/layer_utilities.h: Helper functions for the ON_layer class.
 
     Copyright (c) 2025 Studio W Engineers
 

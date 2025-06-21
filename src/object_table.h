@@ -6,34 +6,10 @@
     All rights reserved. Use of this source code is governed by a
     BSD-style license that can be found in the LICENSE file.
 */
-
 #pragma once
 
 #include <memory>
 #include "opennurbs_includes.h"
-
-
-class ObjectView {
-public:
-    virtual ~ObjectView() = default;
-    virtual std::string TypeName() const = 0;
-};
-
-class PointView : public ObjectView {
-public:
-    ON_3dPoint point;
-
-    PointView(const ON_Point* pt) : point(pt->point) {}
-    std::string TypeName() const override { return "Point"; }
-};
-
-class CurveView : public ObjectView {
-public:
-    const ON_Curve* curve;
-
-    CurveView(const ON_Curve* c) : curve(c) {}
-    std::string TypeName() const override { return "Curve"; }
-};
 
 
 class ObjectTable {

@@ -15,7 +15,7 @@ __status__ "Release"
 """
 # standard library imports
 from enum import Enum
-from typing import Iterator
+from typing import Iterator, overload
 from uuid import UUID
 
 # third party library imports
@@ -174,13 +174,60 @@ class LayerTable:
 
 
 class Line:
-    """Python bindings for openNURBS `ON_Line` class.
+    """Python bindings for the openNURBS `ON_Line` class.
     """
+    def __eq__(self, other: object) -> bool: ...
+
     def __getitem__(self, index: int) -> Point3d: ...
 
+    @overload
     def __init__(self) -> None: ...
 
+    @overload
+    def __init__(self, start: Point3d, end: Point3d) -> None: ...
+
+    def __ne__(self, other: object) -> bool: ...
+
     def __setitem__(self, index: int, value: Point3d) -> None: ...
+
+    def create(self, start: Point3d, end: Point3d) -> bool:
+        """Create a line from two points.
+
+        Parameters
+        ----------
+        start: `Point3d`
+            Point at the start of line segment
+
+        end: `Point3d`
+            Point at end of line segment
+
+        Returns
+        -------
+        `True` if `start` and `end` are distinct points.
+        """
+        ...
+
+    def distance_to(self, test_point: Point3d) -> float:
+        """Returns the distance from the point on the line that is closest to the
+        `test_point`.
+        """
+        ...
+
+    def is_valid(self) -> bool:
+        """Returns `True` if start `!=` end and both start and end are valid points.
+        """
+        ...
+
+    def length(self) -> float:
+        """Returns the length of the line.
+        """
+        ...
+
+    def point_at(self, parameter: float) -> Point3d:
+        """Returns a point on the (infinite) line, calculated as:
+        `(1 - parameter) * line.start + parameter * line.end`.
+        """
+        ...
 
 
 class Model:

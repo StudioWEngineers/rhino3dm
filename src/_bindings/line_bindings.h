@@ -1,5 +1,5 @@
 /*
-    src/_bindings/line_bindings.h: Exposing ON_LineCurve and ON_line to Python
+    src/_bindings/line_bindings.h: Exposing ON_line to Python
 
     Copyright (c) 2025 Studio W Engineers
 

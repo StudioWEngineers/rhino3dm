@@ -4,6 +4,7 @@
 
 #include "layer_utilities.h"
 
+
 namespace LayerUtilities {
 
 std::string GetName(const ON_Layer& layer) {

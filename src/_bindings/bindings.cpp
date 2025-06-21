@@ -14,12 +14,13 @@ NB_MODULE(_rhino3dm, m) {
     m.doc() = "OpenNURBS wrapper.";
 
     ON::Begin();
+    ObjectBindings(m);
+
     GeometryBindings(m);
     LayerBindings(m);
     LayerTableBindings(m);
     LineBindings(m);
     ModelBindings(m);
-    ObjectBindings(m);
     ObjectTableBindings(m);
     PointGeometryBindings(m);
     Point3dBindings(m);

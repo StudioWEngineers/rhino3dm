@@ -3,7 +3,7 @@
 
 void GeometryBindings(nb::module_& m) {
 
-    nb::class_<ON_Geometry>(m, "Geometry")
+    nb::class_<ON_Geometry, ON_Object>(m, "Geometry")
 
         /*magic methods*/
         .def(nb::init<>())

@@ -23,7 +23,7 @@ from uuid import UUID
 # local library specific imports
 
 
-class Geometry:
+class Geometry(OpenNURBSObject):
     """Python wrapper for the openNURBS `ON_Geometry` class.
     """
     def __init__(self) -> None: ...

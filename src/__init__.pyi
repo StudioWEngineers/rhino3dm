@@ -265,12 +265,6 @@ class OpenNURBSObject:
         """
         ...
 
-
-
-    #.def("get_user_string_keys", &ON_Object::GetUserStringKeys)
-
-    #.def("get_user_strings", &ON_Object::GetUserStrings)
-
     def remove_user_string(self, key: str) -> bool:
         """Remove a user string in the form of a `key`-`value` string pair from the
         object.
@@ -303,8 +297,6 @@ class OpenNURBSObject:
         `True` if successful.
         """
         ...
-
-    #.def("set_user_strings", &ON_Object::SetUserStrings)
 
     def user_string_count(self) -> int:
         """Returns the number of user strings on the object.

@@ -205,43 +205,111 @@ class OpenNURBSObject:
     """Python bindings for the openNURBS `ON_Object` class.
 
     `ON_Object`: pure virtual base class for all classes that must provide runtime class
-    id or support object level 3DM serialization.
+    id or support object level 3DM serialization. Returns
     """
-    def is_corrupt(self, repair: bool, silent_error: bool, text_log: TextLog) -> bool:
-        """Check for corrupt data values that are likely to cause crashes.
+    def get_user_string(self, key: str) -> str:
+        """Get the user string from the object.
+
+        Parameters
+        ----------
+        key: `str`
+            the key used to retrieve the user string.
 
         Returns
         -------
-        repair: bool
-        If true, const_cast<> will be used to change the corrupt data so that crashes are
-        less likely.
-
-        silent_error: bool
-        If true, ON_ERROR will not be called when corruption is detected.
-
-        text_log: TextLog
-        If text_log is not null, then a description of corruption is printed using
-        text_log.
-
-        Remarks:
-        Ideally, IsCorrupt() would be a virtual function on ON_Object,
-        but doing that at this point would break the public SDK.
+        value: `str`
+            the `str` to be returned if the `key` has been found. Empty `str` is returned
+            otherwise.
         """
         ...
 
-    #.def("is_valid", &ON_Object::IsValid)
+    def is_corrupt(self, repair: bool, silent_error: bool, text_log: TextLog) -> bool:
+        """Check for corrupt data values that are likely to cause crashes.
 
-    #.def("get_user_string", &ON_Object::GetUserString)
+        Parameters
+        ----------
+        repair: `bool`
+            If `True`, `const_cast<>` will be used to change the corrupt data so that
+            crashes are less likely.
+
+        silent_error: `bool`
+            If `True`, ON_ERROR will not be called when corruption is detected.
+
+        text_log: `TextLog`
+            If text_log is not null, then a description of corruption is printed using
+            text_log.
+
+        Notes
+        -----
+        Ideally, `is_corrupt` would be a virtual function on `ON_Object`, but doing that
+        at this point would break the public SDK.
+        """
+        ...
+
+    def is_valid(self, text_log: TextLog | None = None) -> bool:
+        """Tests an object to see if its data members are correctly initialized.
+
+        Parameters
+        ----------
+        text_log: `TextLog`, optional
+            If the object is not valid and `text_log` is not `None`, then a brief english
+            description of the reason the object is not valid is appended to the log.
+            The information appended to `text_log` is suitable for low-level debugging
+            purposes by programmers and is not intended to be useful as a high level user
+            interface tool.
+
+        Returns
+        -------
+        `True` if the object is valid or `False` if the object is invalid, uninitialized,
+        etc.
+        """
+        ...
+
+
 
     #.def("get_user_string_keys", &ON_Object::GetUserStringKeys)
 
     #.def("get_user_strings", &ON_Object::GetUserStrings)
 
-    #.def("set_user_string", &ON_Object::SetUserString)
+    def remove_user_string(self, key: str) -> bool:
+        """Remove a user string in the form of a `key`-`value` string pair from the
+        object.
+
+        Parameters
+        ----------
+        key: `str`
+            key component of the string pair.
+
+        Returns
+        -------
+        `True` if successful.
+        """
+        ...
+
+    def set_user_string(self, key: str, value: str) -> bool:
+        """Attach a user string in the form of a `key`-`value` string pair to the object.
+        This information will persist through copy construction, operator `=`, and file IO.
+
+        Parameters
+        ----------
+        key: `str`
+            key component of the string pair.
+
+        value: `str`
+            value component of the string pair.
+
+        Returns
+        -------
+        `True` if successful.
+        """
+        ...
 
     #.def("set_user_strings", &ON_Object::SetUserStrings)
 
-    #.def("user_string_count", &ON_Object::UserStringCount)
+    def user_string_count(self) -> int:
+        """Returns the number of user strings on the object.
+        """
+        ...
 
 
 class PointGeometry(Geometry):

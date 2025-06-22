@@ -13,7 +13,7 @@ void ModelBindings(nb::module_& m) {
         /*other methods*/
         .def("read", &Model::Read)
         .def("reset", &Model::Reset)
-        .def("write", &Model::Write, nb::arg("path"), nb::arg("version") = 7)
+        .def("write", &Model::Write, nb::arg("path_to_file"), nb::arg("version") = 7)
 
         /*read-write properties*/
         .def_prop_rw("application_details", &Model::GetApplicationDetails, &Model::SetApplicationDetails)

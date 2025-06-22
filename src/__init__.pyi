@@ -231,21 +231,91 @@ class Line:
 
 
 class Model:
+    """Python bindings for the openNURBS `ONX_Model` class, via helper class `Model`.
+
+    `ONX_Model`: pedagogical example of all the things in an OpenNURBS 3dm archive. The
+    openNURBS examples use ONX_Model to store the information read from 3dm archives.
+    """
     def __init__(self) -> None: ...
 
-    def write(self, path: str, version: int = 7) -> bool: ...
+    def read(self, path_to_file: str) -> bool:
+        """Reads an openNURBS archive and saves the information in this model.
+
+        Parameters
+        ----------
+        path_to_file: `str`
+            Path to 3dm file, including file name and extension.
+
+        Returns
+        -------
+        bool
+            `True` if the archive is read without errors, `False` otherwise.
+        """
+        ...
+
+    def reset(self) -> None:
+        """Resets the current model.
+        """
+        ...
+
+    def write(self, path_to_file: str, version: int = 7) -> bool:
+        """Writes contents of this model to an openNURBS archive.
+
+        Parameters
+        ----------
+        path_to_file: `str`
+            Path to 3dm file, including file name and extension.
+
+        version: `int`, optional default to `7`
+            Rhinoceros major varsion.
+
+        Returns
+        -------
+        bool
+            `True` if the archive is written without errors, `False` otherwise.
+        """
+        ...
+
+    @property
+    def application_details(self) -> str: ...
+    @application_details.setter
+    def application_details(self, details: str) -> None: ...
+
+    @property
+    def application_name(self) -> str: ...
+    @application_name.setter
+    def application_name(self, name: str) -> None: ...
+
+    @property
+    def application_url(self) -> str: ...
+    @application_url.setter
+    def application_url(self, url: str) -> None: ...
+
+    @property
+    def archive_version(self) -> int: ...
+    @archive_version.setter
+    def archive_version(self, version: int) -> None: ...
+
+    @property
+    def created_by(self) -> str: ...
+    @created_by.setter
+    def created_by(self, author: str) -> None: ...
+
+    @property
+    def last_edited_by(self) -> str: ...
+    @last_edited_by.setter
+    def last_edited_by(self, author: str) -> None: ...
+
+    @property
+    def revision(self) -> int: ...
+    @revision.setter
+    def revision(self, revision: int) -> None: ...
 
     @property
     def LayerTable(self) -> LayerTable: ...
 
-    @staticmethod
-    def read(path: str) -> Model: ...
-
-    @staticmethod
-    def read_archive_version(path: str) -> int: ...
-
-    @staticmethod
-    def read_notes(path: str) -> str: ...
+    @property
+    def ObjectTable(self) -> ObjectTable: ...
 
 
 class OpenNURBSObject:

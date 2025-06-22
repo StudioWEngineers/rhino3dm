@@ -46,7 +46,10 @@ std::wstring Model::GetApplicationUrl() const {
 }
 
 int Model::GetArchiveVersion() const {
-    return p_model->m_3dm_file_version;
+    if (p_model.get() != nullptr) {
+        return p_model->m_3dm_file_version;
+    }
+    return 0;
 }
 
 std::wstring Model::GetCreatedBy() const {

@@ -72,21 +72,21 @@ int Model::GetRevision() const {
 }
 
 
-void Model::SetApplicationDetails(std::wstring s) {
+void Model::SetApplicationDetails(std::wstring details) {
     if (p_model.get() != nullptr) {
-        p_model->m_properties.m_Application.m_application_details = s.c_str();
+        p_model->m_properties.m_Application.m_application_details = details.c_str();
     }
 }
 
-void Model::SetApplicationName(std::wstring comments) {
+void Model::SetApplicationName(std::wstring name) {
     if (p_model.get() != nullptr) {
-        p_model->m_properties.m_Application.m_application_name = comments.c_str();
+        p_model->m_properties.m_Application.m_application_name = name.c_str();
     }
 }
 
-void Model::SetApplicationUrl(std::wstring s) {
+void Model::SetApplicationUrl(std::wstring url) {
     if (p_model.get() != nullptr) {
-        p_model->m_properties.m_Application.m_application_URL = s.c_str();
+        p_model->m_properties.m_Application.m_application_URL = url.c_str();
     }
 }
 

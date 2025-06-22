@@ -1,5 +1,5 @@
 /*
-    src/model.h: Helper class for managing the openNURBS ONX_Model.
+    src/model.h: Helper class for managing the openNURBS ONX_Model class.
 
     Copyright (c) 2025 Studio W Engineers
 

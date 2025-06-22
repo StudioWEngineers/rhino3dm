@@ -4,28 +4,33 @@
 
 
 void ObjectTableBindings(nb::module_& m) {
+
     nb::class_<ObjectTable::Iterator>(m, "__ObjectTableIterator")
+
         .def("__iter__", [](ObjectTable::Iterator& it) -> ObjectTable::Iterator& { return it; })
+
         .def("__next__", [](ObjectTable::Iterator& it) -> nb::object {
-            if (it.IsOver())
-                throw nb::stop_iteration();
+                if (it.IsOver()) {
+                    throw nb::stop_iteration();
+                }
 
-            auto geom = *it;
-            ++it;
+                auto geom = *it;
+                ++it;
 
-            if (!geom)
-                throw nb::stop_iteration();
+                if (!geom) // do I need this?
+                    throw nb::stop_iteration();
 
-            // Try raw pointer cast first with dynamic_cast manually
-            if (ON_Point* pt = dynamic_cast<ON_Point*>(geom.get())) {
-                return nb::cast(pt, nb::rv_policy::reference);
+                // Try raw pointer cast first with dynamic_cast manually
+                if (ON_Point* pt = dynamic_cast<ON_Point*>(geom.get())) {
+                    return nb::cast(pt, nb::rv_policy::reference);
+                }
+
+                // Add more dynamic_casts for other known subclasses here...
+
+                // Fallback, return base as borrowed reference
+                return nb::cast(geom.get(), nb::rv_policy::reference);
             }
-
-            // Add more dynamic_casts for other known subclasses here...
-
-            // Fallback, return base as borrowed reference
-            return nb::cast(geom.get(), nb::rv_policy::reference);
-        })
+        )
     ;
 
     nb::class_<ObjectTable>(m, "ObjectTable")

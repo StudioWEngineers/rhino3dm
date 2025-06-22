@@ -21,8 +21,9 @@ ON_UUID ObjectTable::Add(const double x, const double y, const double z) const {
     //const ON_3dmObjectAttributes* attr = attributes ? attributes->m_attributes : nullptr;
 
     ON_Point point_geometry(x, y, z);
-    ON_ModelComponentReference model_component_reference = m_model->AddModelGeometryComponent(&point_geometry, nullptr);
-    return ON_ModelGeometryComponent::FromModelComponentRef(model_component_reference, &ON_ModelGeometryComponent::Unset)->Id();
+    ON_ModelComponentReference on_mcr = m_model->AddModelGeometryComponent(&point_geometry, nullptr);
+    //on_mcr.ModelComponent()->Id()
+    return ON_ModelGeometryComponent::FromModelComponentRef(on_mcr, &ON_ModelGeometryComponent::Unset)->Id();
 }
 
 
@@ -34,23 +35,13 @@ ObjectTable::Iterator::Iterator(ObjectTable* table)
     m_current = m_iterator.FirstComponentReference();
 }
 
-//std::shared_ptr<ON_Geometry> ObjectTable::Iterator::operator*() const {
-//    if (!m_current.IsEmpty()) {
-//        const ON_ModelGeometryComponent* geom = ON_ModelGeometryComponent::Cast(m_current.ModelComponent());
-//        if (geom && geom->Geometry(nullptr)) {
-//            return std::shared_ptr<ON_Geometry>(geom->Geometry(nullptr)->Duplicate());
-//        }
-//    }
-//    return nullptr;
-//}
 std::shared_ptr<ON_Geometry> ObjectTable::Iterator::operator*() const {
     if (!m_current.IsEmpty()) {
         const ON_ModelGeometryComponent* geom = ON_ModelGeometryComponent::Cast(m_current.ModelComponent());
         if (geom) {
             const ON_Geometry* geometry = geom->Geometry(nullptr);
             if (geometry) {
-                // Return raw pointer, no ownership transfer
-                // Use shared_ptr with no-op deleter if you must
+
                 return std::shared_ptr<ON_Geometry>(const_cast<ON_Geometry*>(geometry), [](ON_Geometry*){});
             }
         }

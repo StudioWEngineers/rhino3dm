@@ -1,17 +1,31 @@
+#include "../model.h"
 #include "bindings.h"
 #include "model_bindings.h"
-#include "../model.h"
 
 
 void ModelBindings(nb::module_& m) {
+
     nb::class_<Model>(m, "Model")
+
+        /*magic methods*/
         .def(nb::init<>())
 
-        .def("write", &Model::Write, nb::arg("path"), nb::arg("version")=7)
+        /*other methods*/
+        .def("read", &Model::Read)
+        .def("reset", &Model::Reset)
+        .def("write", &Model::Write, nb::arg("path"), nb::arg("version") = 7)
 
+        /*read-write properties*/
+        .def_prop_rw("application_details", &Model::GetApplicationDetails, &Model::SetApplicationDetails)
+        .def_prop_rw("application_name", &Model::GetApplicationName, &Model::SetApplicationName)
+        .def_prop_rw("application_url", &Model::GetApplicationUrl, &Model::SetApplicationUrl)
+        .def_prop_rw("archive_version", &Model::GetArchiveVersion, &Model::SetArchiveVersion)
+        .def_prop_rw("created_by", &Model::GetCreatedBy, &Model::SetCreatedBy)
+        .def_prop_rw("last_edited_by", &Model::GetLastEditedBy, &Model::SetLastEditedBy)
+        .def_prop_rw("revision", &Model::GetRevision, &Model::SetRevision)
+
+        /*read-only properties*/
         .def_prop_ro("LayerTable", &Model::ModelLayerTable)
         .def_prop_ro("ObjectTable", &Model::ModelObjectTable)
-
-        .def("read", &Model::Read, nb::arg("path"))
     ;
 }

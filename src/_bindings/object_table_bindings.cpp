@@ -2,7 +2,15 @@
 #include "casters/uuid_caster.h"
 #include "point_geometry_bindings.h"
 
-
+//switch (geom->ObjectType()) {
+//    case ON::point_object:
+//        return nb::cast(static_cast<ON_Point*>(geom), nb::rv_policy::reference);
+//    case ON::curve_object:
+//        return nb::cast(static_cast<ON_Curve*>(geom), nb::rv_policy::reference);
+//    // ...
+//    default:
+//        return nb::cast(geom, nb::rv_policy::reference);
+//}
 void ObjectTableBindings(nb::module_& m) {
 
     nb::class_<ObjectTable::Iterator>(m, "__ObjectTableIterator")

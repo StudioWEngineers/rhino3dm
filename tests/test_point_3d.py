@@ -33,6 +33,20 @@ class Point3dTestSuite(TestCase):
         """
         self.assertEqual(Point3d(0, 0, 0).distance_to(Point3d(1, 1, 1)), sqrt(3))
 
+    def test_division(self) -> None:
+        """Tests for the `/` operator.
+        """
+        point = Point3d(0, 0, 1.1) / 2.1
+
+        with self.subTest(msg="x-coordinate"):
+            self.assertEqual(point.x, 0)
+
+        with self.subTest(msg="y-coordinate"):
+            self.assertEqual(point.y, 0)
+
+        with self.subTest(msg="z-coordinate"):
+            self.assertEqual(point.z, 1.1 / 2.1)
+
     def test_equal(self) -> None:
         """Tests for the `==` operator.
         """

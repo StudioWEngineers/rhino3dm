@@ -443,9 +443,11 @@ class Point3d:
 
     def __init__(self, x: float, y: float, z: float) -> None: ...
 
-    def __mul__(self, other: float) -> Point3d: ...
+    def __mul__(self, value: float) -> Point3d: ...
 
     def __ne__(self, other: object) -> bool: ...
+
+    def __truediv__(self, value: float) -> Point3d: ...
 
     @property
     def x(self) -> float: ...
@@ -462,9 +464,21 @@ class Point3d:
     @z.setter
     def z(self, value: float) -> None: ...
 
-    def distance_to(self, point: Point3d) -> float: ...
+    def distance_to(self, point: Point3d) -> float:
+        """Returns the distance between the two points.
+        """
+        ...
 
-    def is_coincident(self, point: Point3d) -> bool: ...
+    def is_coincident(self, point: Point3d) -> bool:
+        """In openNURBS points within `ON_ZERO_TOLERANCE` are generally considered to be
+        the same.
+
+        Returns
+        -------
+        `True` if for each coordinate pair `|a - b| <= ON_ZERO_TOLERANCE` or
+        `|a - b| <= (abs(a) + abs(b)) * ON_RELATIVE_TOLERANCE`.
+        """
+        ...
 
 
 class TextLog:

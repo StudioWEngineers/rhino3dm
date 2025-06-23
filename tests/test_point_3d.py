@@ -29,7 +29,7 @@ class Point3dTestSuite(TestCase):
     """Tests for the `Point3d` class.
     """
     def test_distance_to(self) -> None:
-        """Tests for the `distance_to` method.
+        """Test for the `distance_to` method.
         """
         self.assertEqual(Point3d(0, 0, 0).distance_to(Point3d(1, 1, 1)), sqrt(3))
 
@@ -48,20 +48,14 @@ class Point3dTestSuite(TestCase):
             self.assertEqual(point.z, 1.1 / 2.1)
 
     def test_equal(self) -> None:
-        """Tests for the `==` operator.
+        """Test for the `==` operator.
         """
-        point_0 = Point3d(0, 0, 1.1)
-        point_1 = Point3d(0, 0, 1.1)
-
-        self.assertTrue(point_0 == point_1)
+        self.assertTrue(Point3d(0, 0, 1.1) == Point3d(0, 0, 1.1))
 
     def test_equal_not(self) -> None:
-        """Tests for the `!=` operator.
+        """Test for the `!=` operator.
         """
-        point_0 = Point3d(0, 0, 1.1)
-        point_1 = Point3d(1, 0, 1.1)
-
-        self.assertTrue(point_0 != point_1)
+        self.assertTrue(Point3d(0, 0, 1.1) != Point3d(1, 0, 1.1))
 
     def test_get_and_set_x_coordinate(self) -> None:
         """Tests for the `x`, `y` and `z` property.
@@ -103,7 +97,7 @@ class Point3dTestSuite(TestCase):
             self.assertEqual(point.z, 3.1)
 
     def test_is_coincident(self) -> None:
-        """Tests for the `is_coincident` method.
+        """Test for the `is_coincident` method.
         """
         self.assertTrue(Point3d(1, 2, 3.1).is_coincident(Point3d(1, 2, 3.1)))
 

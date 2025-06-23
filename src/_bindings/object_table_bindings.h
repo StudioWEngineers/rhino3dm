@@ -12,4 +12,6 @@
 
 namespace nb = nanobind;
 
+nb::object GeometryObjectWrapper(const std::shared_ptr<ON_Object>& geom);
+
 void ObjectTableBindings(nb::module_& m);

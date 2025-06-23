@@ -2,15 +2,26 @@
 #include "casters/uuid_caster.h"
 #include "point_geometry_bindings.h"
 
-//switch (geom->ObjectType()) {
-//    case ON::point_object:
-//        return nb::cast(static_cast<ON_Point*>(geom), nb::rv_policy::reference);
-//    case ON::curve_object:
-//        return nb::cast(static_cast<ON_Curve*>(geom), nb::rv_policy::reference);
-//    // ...
-//    default:
-//        return nb::cast(geom, nb::rv_policy::reference);
-//}
+
+nb::object GeometryObjectWrapper(const std::shared_ptr<ON_Object>& geom) {
+    if (!geom) {
+        throw nb::stop_iteration();
+    }
+
+    // Try raw pointer cast first with dynamic_cast manually
+    if (ON_Point* pt = dynamic_cast<ON_Point*>(geom.get())) {
+        return nb::cast(pt, nb::rv_policy::reference);
+    }
+
+    // Add more subclasses as needed
+    // if (ON_Curve* crv = dynamic_cast<ON_Curve*>(geom.get())) {
+    //     return nb::cast(crv, nb::rv_policy::reference);
+    // }
+
+    // Fallback to base
+    return nb::cast(geom.get(), nb::rv_policy::reference);
+}
+
 void ObjectTableBindings(nb::module_& m) {
 
     nb::class_<ObjectTable::Iterator>(m, "__ObjectTableIterator")
@@ -25,18 +36,7 @@ void ObjectTableBindings(nb::module_& m) {
                 auto geom = *it;
                 ++it;
 
-                if (!geom) // do I need this?
-                    throw nb::stop_iteration();
-
-                // Try raw pointer cast first with dynamic_cast manually
-                if (ON_Point* pt = dynamic_cast<ON_Point*>(geom.get())) {
-                    return nb::cast(pt, nb::rv_policy::reference);
-                }
-
-                // Add more dynamic_casts for other known subclasses here...
-
-                // Fallback, return base as borrowed reference
-                return nb::cast(geom.get(), nb::rv_policy::reference);
+                return GeometryObjectWrapper(geom);
             }
         )
     ;

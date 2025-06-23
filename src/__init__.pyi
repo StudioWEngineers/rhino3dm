@@ -431,7 +431,21 @@ class OpenNURBSObject:
 class PointGeometry(Geometry):
     """Python wrapper for the openNURBS `ON_Point` class.
     """
+    point: Point3d
+
+    @overload
     def __init__(self) -> None: ...
+
+    @overload
+    def __init__(self, x: float, y: float, z: float) -> None: ...
+
+    @overload
+    def __init__(self, point3d: Point3d) -> None: ...
+
+    def is_valid(self, text_log: TextLog | None = None) -> bool:
+        """Returns `False` if any coordinate is infinite, a nan, or `ON_UNSET_VALUE`.
+        """
+        ...
 
 
 class Point3d:

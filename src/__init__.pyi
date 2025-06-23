@@ -238,6 +238,11 @@ class Model:
     """
     def __init__(self) -> None: ...
 
+    def new_revision(self) -> int:
+        """Returns the updated revision count.
+        """
+        ...
+
     def read(self, path_to_file: str) -> bool:
         """Reads an openNURBS archive and saves the information in this model.
 
@@ -307,15 +312,13 @@ class Model:
     def last_edited_by(self, author: str) -> None: ...
 
     @property
-    def revision(self) -> int: ...
-    @revision.setter
-    def revision(self, revision: int) -> None: ...
-
-    @property
     def LayerTable(self) -> LayerTable: ...
 
     @property
     def ObjectTable(self) -> ObjectTable: ...
+
+    @property
+    def revision(self) -> int: ...
 
 
 class OpenNURBSObject:

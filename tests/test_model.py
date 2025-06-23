@@ -102,7 +102,8 @@ class NewModelTestSuite(TestCase):
         with self.subTest(msg="Before assignment"):
             self.assertEqual(self.model.revision, 0)
 
-        self.model.revision = 1
+        with self.subTest(msg="Assignment"):
+            self.assertEqual(self.model.new_revision(), 1)
 
         with self.subTest(msg="After assignment"):
             self.assertEqual(self.model.revision, 1)

@@ -75,6 +75,13 @@ int Model::GetRevision() const {
 }
 
 
+int Model::NewRevision() {
+    if (p_model.get() != nullptr) {
+        return p_model->m_properties.m_RevisionHistory.NewRevision();
+    }
+    return 0;
+}
+
 void Model::SetApplicationDetails(std::wstring details) {
     if (p_model.get() != nullptr) {
         p_model->m_properties.m_Application.m_application_details = details.c_str();
@@ -106,12 +113,6 @@ void Model::SetCreatedBy(std::wstring author) {
 void Model::SetLastEditedBy(std::wstring author) {
     if (p_model.get() != nullptr) {
         p_model->m_properties.m_RevisionHistory.m_sLastEditedBy = author.c_str();
-    }
-}
-
-void Model::SetRevision(int revision_number) {
-    if (p_model.get() != nullptr) {
-        p_model->m_properties.m_RevisionHistory.m_revision_count = revision_number;
     }
 }
 

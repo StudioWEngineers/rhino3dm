@@ -20,11 +20,11 @@ void ModelBindings(nb::module_& m) {
         .def_prop_rw("application_details", &Model::GetApplicationDetails, &Model::SetApplicationDetails)
         .def_prop_rw("application_name", &Model::GetApplicationName, &Model::SetApplicationName)
         .def_prop_rw("application_url", &Model::GetApplicationUrl, &Model::SetApplicationUrl)
-        .def_prop_rw("archive_version", &Model::GetArchiveVersion, &Model::SetArchiveVersion)
         .def_prop_rw("created_by", &Model::GetCreatedBy, &Model::SetCreatedBy)
         .def_prop_rw("last_edited_by", &Model::GetLastEditedBy, &Model::SetLastEditedBy)
 
         /*read-only properties*/
+        .def_prop_ro("archive_version", &Model::GetArchiveVersion)
         .def_prop_ro("LayerTable", &Model::ModelLayerTable)
         .def_prop_ro("ObjectTable", &Model::ModelObjectTable)
         .def_prop_ro("revision", &Model::GetRevision)

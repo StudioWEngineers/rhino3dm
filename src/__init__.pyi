@@ -240,6 +240,12 @@ class Model:
 
     def new_revision(self) -> int:
         """Returns the updated revision count.
+
+        Notes
+        -----
+        If the current revision is set to `0`, `ON_3dmRevisionHistory` is set to empty,
+        overriding the current settings. Refer to `../tests/test_model.py` to
+        understand the proper setup order.
         """
         ...
 
@@ -297,11 +303,6 @@ class Model:
     def application_url(self, url: str) -> None: ...
 
     @property
-    def archive_version(self) -> int: ...
-    @archive_version.setter
-    def archive_version(self, version: int) -> None: ...
-
-    @property
     def created_by(self) -> str: ...
     @created_by.setter
     def created_by(self, author: str) -> None: ...
@@ -310,6 +311,9 @@ class Model:
     def last_edited_by(self) -> str: ...
     @last_edited_by.setter
     def last_edited_by(self, author: str) -> None: ...
+
+    @property
+    def archive_version(self) -> int: ...
 
     @property
     def LayerTable(self) -> LayerTable: ...

@@ -100,10 +100,6 @@ void Model::SetApplicationUrl(std::wstring url) {
     }
 }
 
-void Model::SetArchiveVersion(int archive_version) {
-    p_model->m_3dm_file_version = archive_version;
-}
-
 void Model::SetCreatedBy(std::wstring author) {
     if (p_model.get() != nullptr) {
         p_model->m_properties.m_RevisionHistory.m_sCreatedBy = author.c_str();

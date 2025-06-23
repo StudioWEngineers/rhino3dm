@@ -33,7 +33,6 @@ public:
     void SetApplicationDetails(std::wstring details);
     void SetApplicationName(std::wstring name);
     void SetApplicationUrl(std::wstring url);
-    void SetArchiveVersion(int archive_version);
     void SetCreatedBy(std::wstring author);
     void SetLastEditedBy(std::wstring author);
 

@@ -1,4 +1,4 @@
-#include "point_3d_bindings.h"
+#include "point3d_bindings.h"
 
 
 void Point3dBindings(nb::module_& m) {

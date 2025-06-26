@@ -7,7 +7,7 @@
 #include "object_bindings.h"
 #include "object_table_bindings.h"
 #include "point_geometry_bindings.h"
-#include "point_3d_bindings.h"
+#include "point3d_bindings.h"
 #include "text_log_bindings.h"
 
 

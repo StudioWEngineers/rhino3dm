@@ -325,6 +325,14 @@ class Model:
     def revision(self) -> int: ...
 
 
+class ObjectTable:
+    def __getitem__(self, index: int) -> Layer:...
+
+    def __iter__(self) -> Iterator[Layer]: ...
+
+    def __len__(self) -> int: ...
+
+
 class OpenNURBSObject:
     """Python bindings for the openNURBS `ON_Object` class.
 

@@ -230,6 +230,81 @@ class Line:
         ...
 
 
+class LineCurve(Geometry):
+    """Python bindings for the openNURBS `ON_LineCurve` class.
+    """
+    line: Line
+
+    @overload
+    def __init__(self) -> None: ...
+
+    @overload
+    def __init__(self, line: Line) -> None: ...
+
+    @overload
+    def __init__(self, start: Point3d, end: Point3d) -> None: ...
+
+    def dimension(self) -> int:
+        """Returns `2` or `3` (`2` so `ON_LineCurve` can be uses as a trimming curve).
+        """
+        ...
+
+    def is_valid(self, text_log: TextLog | None = None) -> bool:
+        """Returns `True` if start `!=` end and both start and end are valid points.
+        """
+        ...
+
+    def reverse(self) -> bool:
+        """Reverses the parameterization. Domain changes from `[a, b]` to `[-b, -a]`.
+        """
+        ...
+
+    def set_end_point(self, new_end: Point3d) -> bool:
+        """Forces the curve to end at a specified point.
+
+        Parameters
+        ----------
+        new_end: Point3d
+            The new end point.
+
+        Returns
+        -------
+        `True` if successful, `False` otherwise.
+
+        Notes
+        -----
+        Some end points cannot be moved. Be sure to check return code.
+        """
+        ...
+
+    def set_start_point(self, new_end: Point3d) -> bool:
+        """Forces the curve to start at a specified point.
+
+        Parameters
+        ----------
+        new_start: Point3d
+            The new start point.
+
+        Returns
+        -------
+        `True` if successful, `False` otherwise.
+
+        Notes
+        -----
+        Some start points cannot be moved. Be sure to check return code.
+        """
+        ...
+
+    def swap_coordinates(self, index_i: int, index_j: int) -> bool:
+        """Swaps the coordinates of the given indices.
+
+        Returns
+        -------
+        `True` if successful, `False` otherwise.
+        """
+        ...
+
+
 class Model:
     """Python bindings for the openNURBS `ONX_Model` class, via helper class `Model`.
 

@@ -3,6 +3,7 @@
 #include "layer_bindings.h"
 #include "layer_table_bindings.h"
 #include "line_bindings.h"
+#include "line_curve_bindings.h"
 #include "model_bindings.h"
 #include "object_bindings.h"
 #include "object_table_bindings.h"
@@ -18,11 +19,12 @@ NB_MODULE(_rhino3dm, m) {
     ObjectBindings(m);
 
     Point3dBindings(m);
+    LineBindings(m);
 
     GeometryBindings(m);
     LayerBindings(m);
     LayerTableBindings(m);
-    LineBindings(m);
+    LineCurveBindings(m);
     ModelBindings(m);
     ObjectTableBindings(m);
     PointGeometryBindings(m);

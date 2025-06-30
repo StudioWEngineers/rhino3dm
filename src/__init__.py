@@ -3,6 +3,7 @@ from ._rhino3dm import (
     Layer,
     LayerTable,
     Line,
+    LineCurve,
     ObjectTable,
     OpenNURBSObject,
     Model,

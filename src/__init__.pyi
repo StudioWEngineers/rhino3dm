@@ -400,6 +400,17 @@ class Model:
     def revision(self) -> int: ...
 
 
+class Attributes(OpenNURBSObject):
+    """Python bindings for the openNURBS `ON_3dmObjectAttributes` class.
+
+    `ON_3dmObjectAttributes`: Top level OpenNURBS objects have geometry and attributes.
+    The geometry is stored in some class derived from `ON_Geometry` and the attributes are
+    stored in an `ON_3dmObjectAttributes` class. Examples of attributes are object name,
+    object id, display attributes, group membership, layer membership, and so on.
+    """
+    def __init__(self) -> None: ...
+
+
 class ObjectTable:
     def __getitem__(self, index: int) -> Layer:...
 

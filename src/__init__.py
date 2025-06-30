@@ -4,6 +4,7 @@ from ._rhino3dm import (
     LayerTable,
     Line,
     LineCurve,
+    ObjectAttributes,
     ObjectTable,
     OpenNURBSObject,
     Model,

@@ -410,6 +410,24 @@ class Attributes(OpenNURBSObject):
     """
     def __init__(self) -> None: ...
 
+class ObjectColorSource(Enum):
+    """Object display color.
+    """
+    from_layer = 0
+    from_object = 1
+    from_material = 2
+    from_parent = 3
+
+
+class ObjectMode(Enum):
+    """Object mode.
+    """
+    normal = 0
+    hidden = 1
+    locked = 2
+    idef = 3
+    mode_count = 4
+
 
 class ObjectTable:
     def __getitem__(self, index: int) -> Layer:...
@@ -520,6 +538,15 @@ class OpenNURBSObject:
         """Returns the number of user strings on the object.
         """
         ...
+
+
+class PlotColorSource(Enum):
+    """Object plot color.
+    """
+    from_layer = 0
+    from_object = 1
+    from_material = 2
+    from_parent = 3
 
 
 class PointGeometry(Geometry):

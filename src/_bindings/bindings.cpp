@@ -1,4 +1,5 @@
 #include "bindings.h"
+#include "enumerators_bindings.h"
 #include "geometry_bindings.h"
 #include "layer_bindings.h"
 #include "layer_table_bindings.h"
@@ -17,6 +18,9 @@ NB_MODULE(_rhino3dm, m) {
     m.doc() = "OpenNURBS wrapper.";
 
     ON::Begin();
+
+    EnumeratorsBindings(m);
+
     ObjectBindings(m);
     ObjectAttributesBindings(m);
 
